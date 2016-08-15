@@ -1,0 +1,27 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_empty="true">
+        <layer-list>
+            <item
+                android:left="245dp"
+                android:right="251dp"
+                android:top="20dp"
+                android:bottom="21dp"
+                android:drawable="@android:drawable/arrow_up_float">
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_expanded="true">
+        <layer-list>
+            <item
+                android:left="245dp"
+                android:right="251dp"
+                android:top="20dp"
+                android:bottom="21dp"
+                android:drawable="@android:drawable/arrow_down_float"
+                >
+            </item>
+        </layer-list>
+    </item>
+    <item android:drawable="@android:drawable/arrow_up_float" />
+</selector>

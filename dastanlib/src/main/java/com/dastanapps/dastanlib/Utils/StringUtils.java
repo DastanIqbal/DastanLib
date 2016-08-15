@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
@@ -8,7 +8,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mebelkart.app.MkartApp;
 
 /**
  * Created by MEBELKART on 13-01-2016.
@@ -104,7 +103,7 @@ public class StringUtils {
     }
 
     public static String stringFromXml(Context ctxt, int resId) {
-        return String.valueOf(MkartApp.getInstance().getText(resId));
+        return String.valueOf(ctxt.getText(resId));
     }
 
     public static boolean nameValidation(EditText editText) {

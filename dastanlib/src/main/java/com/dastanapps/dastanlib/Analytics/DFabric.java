@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Analytics;
+package com.dastanapps.dastanlib.analytics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;

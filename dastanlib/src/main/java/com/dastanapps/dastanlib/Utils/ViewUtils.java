@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,8 +17,8 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.mebelkart.app.MkartApp;
-import com.mebelkart.app.R;
+import com.dastanapps.dastanlib.R;
+
 
 /**
  * *@author : Dastan Iqbal
@@ -112,7 +112,7 @@ public class ViewUtils {
     public static void showToast(Context ctxt, String msg) {
         if (mToast != null)
             mToast.cancel();
-        mToast = Toast.makeText(MkartApp.getInstance(), msg, Toast.LENGTH_LONG);
+        mToast = Toast.makeText(ctxt, msg, Toast.LENGTH_LONG);
         mToast.show();
     }
 

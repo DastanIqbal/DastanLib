@@ -1,19 +1,24 @@
-package com.dastanapps.dastanlib.Network;
+package com.dastanapps.dastanlib.network;
+
+import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.mebelkart.app.Log.Logger;
-import com.mebelkart.app.MkartApp;
+import com.android.volley.toolbox.Volley;
+import com.dastanapps.dastanlib.log.Logger;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by DANISH on 10/7/2015.
@@ -21,6 +26,7 @@ import java.util.Map;
 public class VolleyRequest {
 
     private static final String TAG = "VolleyRequest";
+    private static RequestQueue mRequestQueue;
 
     public static void getJsonObj(String url, final int reqId, final IRestRequest restReq) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, "",
@@ -42,7 +48,7 @@ public class VolleyRequest {
                 2,          //Retry
                 1));        //Backoff multiplier
         //time=(time+(timeout*multi)
-        MkartApp.getInstance().addToRequestQueue(jsonObjectRequest, url);
+        addToRequestQueue(jsonObjectRequest, url);
     }
 
     public static void getString(String url, final int reqId, final IRestRequest restReq) {
@@ -68,7 +74,7 @@ public class VolleyRequest {
                 0,          //Retry don't change this value it will affect on cart page
                 0));        //Backoff multiplier
         //time=(time+(timeout*multi)
-        MkartApp.getInstance().addToRequestQueue(jsonObjectRequest, url);
+        addToRequestQueue(jsonObjectRequest, url);
     }
 
     public static void getPostJsonObject(String url, final HashMap<String, String> postParams, final int reqId, final IRestRequest restReq) {
@@ -106,8 +112,35 @@ public class VolleyRequest {
                 2,          //Retry
                 1));        //Backoff multiplier
         //time=(time+(timeout*multi)
-        MkartApp.getInstance().addToRequestQueue(jsonObjectRequest, url);
+        addToRequestQueue(jsonObjectRequest, url);
     }
+
+    public static <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        getRequestQueue().add(req);
+    }
+
+    public <T> void addToRequestQueue(Request<T> req) {
+        req.setTag(TAG);
+        getRequestQueue().add(req);
+    }
+
+    public static RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext(), new OkHttpStack());
+        }
+
+        return mRequestQueue;
+    }
+
+    public void cancelPendingRequests(Object tag) {
+        if (mRequestQueue != null) {
+            mRequestQueue.cancelAll(tag);
+        }
+    }
+
+
 
 //    public static void getAppConfigJson(String url, final int reqId, final IRestRequest iRestRequest) {
 //        StringRequest objectRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {

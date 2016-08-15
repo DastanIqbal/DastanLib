@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Image;
+package com.dastanapps.dastanlib.image;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,15 +7,19 @@ import android.widget.ImageView;
 import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.mebelkart.app.MkartApp;
-import com.mebelkart.app.R;
+import com.dastanapps.dastanlib.R;
 
 import java.util.concurrent.ExecutionException;
+
+import static com.dastanapps.dastanlib.network.VolleyRequest.getRequestQueue;
 
 /**
  * Created by IQBAL-MEBELKART on 10/23/2015.
  */
 public class MkartImage {
+
+    private static final String TAG = MkartImage.class.getSimpleName();
+    private static ImageLoader mImageLoader;
 
     public static void loadImage(Context ctxt, String url, ImageView imv) {
         Glide.with(ctxt)
@@ -46,8 +50,17 @@ public class MkartImage {
         return null;
     }
 
+    public static ImageLoader getImageLoader() {
+        if (mImageLoader == null) {
+            mImageLoader = new ImageLoader(getRequestQueue(),
+                    new LruBitmapCache());
+        }
+        return mImageLoader;
+    }
+
+
     public static void loadVolleyImage(String url, ImageView imv) {
-        ImageLoader imageLoader = MkartApp.getInstance().getImageLoader();
+        ImageLoader imageLoader = getImageLoader();
         imageLoader.get(url, ImageLoader.getImageListener(
                 imv, R.drawable.common_placeholder, R.drawable.common_placeholder),600,600);
     }

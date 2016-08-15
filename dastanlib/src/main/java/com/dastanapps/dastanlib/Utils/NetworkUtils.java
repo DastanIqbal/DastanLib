@@ -1,10 +1,8 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.mebelkart.app.MkartApp;
 
 /**
  * Created by Iqbal Ahmed on 10/8/2015.
@@ -12,7 +10,7 @@ import com.mebelkart.app.MkartApp;
 public class NetworkUtils {
 
     public static boolean isConnectingToInternet(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) MkartApp.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
             if (info != null)

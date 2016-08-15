@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dastanapps.dastanlib.Push;
+package com.dastanapps.dastanlib.push;
 
 public class QuickstartPreferences {
 

@@ -1,11 +1,12 @@
-package com.dastanapps.dastanlib.Analytics;
+package com.dastanapps.dastanlib.analytics;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
-import com.dastanapps.dastanlib.Analytics.google.GAnalytics;
-import com.dastanapps.dastanlib.Analytics.google.GEcommerceTracking;
+import com.dastanapps.dastanlib.analytics.google.GAnalytics;
+import com.dastanapps.dastanlib.analytics.google.GEcommerceTracking;
 
 import org.json.JSONObject;
 
@@ -27,22 +28,22 @@ public class DAnalytics {
     }
 
 
-    public DAnalytics getInstance() {
-        checkTrackerNull();
+    public DAnalytics getInstance(Context ctxt, int trackerId) {
+        checkTrackerNull(ctxt, trackerId);
         return this;
     }
 
-    public DAnalytics getGEInstance() {
-        checkGETrackerNull();
+    public DAnalytics getGEInstance(Context ctxt, int trackerId) {
+        checkGETrackerNull(ctxt, trackerId);
         return this;
     }
 
-    private synchronized void checkTrackerNull() {
-        GAnalytics.checkTrackerNull();
+    private synchronized void checkTrackerNull(Context ctxt, int trackerId) {
+        GAnalytics.checkTrackerNull(ctxt, trackerId);
     }
 
-    private synchronized void checkGETrackerNull() {
-        GEcommerceTracking.checkTrackerNull();
+    private synchronized void checkGETrackerNull(Context ctxt, int trackerId) {
+        GEcommerceTracking.checkTrackerNull(ctxt, trackerId);
     }
 
     // For Adobe collecting lifecycle data
@@ -61,8 +62,8 @@ public class DAnalytics {
         return this;
     }
 
-    public DAnalytics sendEvent(String cat, String action) {
-        GAnalytics.sendEvent(cat, action);
+    public DAnalytics sendEvent(Context ctxt, String cat, String action) {
+        GAnalytics.sendEvent(ctxt, cat, action);
         return this;
     }
 
@@ -75,10 +76,9 @@ public class DAnalytics {
     }
 
 
-
-    public void sendSearch(String searchValues) {
-        sendEvent("HotSearch", "Searching:" + searchValues);
-        DFabric.logSearch(searchValues);
+    public void sendSearch(Context ctxt, String searchValues) {
+        sendEvent(ctxt, "HotSearch", "Searching:" + searchValues);
+        //DFabric.logSearch(searchValues);
     }
 
     public enum VisitorIDAuthenticationState {

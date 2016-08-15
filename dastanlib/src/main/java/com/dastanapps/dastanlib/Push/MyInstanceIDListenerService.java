@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.dastanapps.dastanlib.Push;
-
-import android.content.Intent;
+package com.dastanapps.dastanlib.push;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
 
@@ -33,8 +31,8 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
+       // Intent intent = new Intent(this, RegistrationIntentService.class);
+        //startService(intent);
     }
     // [END refresh_token]
 }

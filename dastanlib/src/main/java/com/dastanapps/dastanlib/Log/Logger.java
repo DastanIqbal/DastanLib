@@ -1,17 +1,18 @@
-package com.dastanapps.dastanlib.Log;
+package com.dastanapps.dastanlib.log;
 
 import android.util.Log;
 
-import com.dastanapps.dastanlib.Analytics.DFabric;
 import com.dastanapps.dastanlib.BuildConfig;
+import com.dastanapps.dastanlib.analytics.DFabric;
 
 /**
  * Created by Iqbal Ahmed on 10/8/2015.
  */
 public class Logger {
-    private static String checkNull(String log){
+    private static String checkNull(String log) {
         return null == log ? "Null" : log;
     }
+
     public static void i(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.d("Test", checkNull(log));

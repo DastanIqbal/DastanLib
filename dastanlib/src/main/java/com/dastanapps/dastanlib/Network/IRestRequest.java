@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Network;
+package com.dastanapps.dastanlib.network;
 
 /**
  * Created by Iqbal Ahmed on 10/13/2015.

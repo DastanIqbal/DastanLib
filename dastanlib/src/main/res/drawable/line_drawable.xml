@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    android:shape="line"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <solid
+        android:color="@color/itemcost_color" />
+    <size android:height="1dp" android:width="100dp"/>
+</shape>

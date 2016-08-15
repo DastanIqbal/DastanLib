@@ -1,0 +1,37 @@
+<resources>
+    <dimen name="textSizeSmall">9sp</dimen>
+    <dimen name="textSizeSmaller">12sp</dimen>
+    <dimen name="textSizeXSmaller">14sp</dimen>
+    <dimen name="textSizeMed">15sp</dimen>
+    <dimen name="textSizeMedium">14sp</dimen>
+    <dimen name="textSizeXMedium">17sp</dimen>
+    <dimen name="textSizeLarg">18sp</dimen>
+    <dimen name="textSizeLarger">20sp</dimen>
+    <dimen name="textSizeXLarger">22sp</dimen>
+
+    <dimen name="titleCard">24sp</dimen>
+    <dimen name="title">20sp</dimen>
+    <dimen name="subHeading">16sp</dimen>
+    <dimen name="body">14sp</dimen>
+    <dimen name="caption">12sp</dimen>
+    <dimen name="menu_item_spacing">10dp</dimen>
+
+
+    <!--Fast Scroller-->
+    <!--<dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>-->
+    <dimen name="fastscroller_handle_corner">20dp</dimen>
+    <dimen name="fastscroller_handle_size">50dp</dimen>
+    <dimen name="fastscroller_reack_corner">3dp</dimen>
+    <dimen name="fastscroller_track_height">30dp</dimen>
+    <dimen name="fastscroller_track_width">6dp</dimen>
+    <dimen name="fastscroller_track_padding">2dp</dimen>
+
+    <dimen name="dimen8">8dp</dimen>
+    <dimen name="dimen16">16dp</dimen>
+    <dimen name="dimen24">24dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+</resources>

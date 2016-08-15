@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Analytics.google;
+package com.dastanapps.dastanlib.analytics.google;
 
 import android.content.Context;
 

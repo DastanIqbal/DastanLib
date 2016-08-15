@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Social;
+package com.dastanapps.dastanlib.social;
 
 public interface ISMessageResponse {
 

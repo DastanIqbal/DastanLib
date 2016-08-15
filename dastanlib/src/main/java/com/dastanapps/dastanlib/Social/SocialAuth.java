@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Social;//package com.mebelkart.app.Social;
+package com.dastanapps.dastanlib.social;//package com.mebelkart.app.Social;
 //
 //import android.content.Context;
 //import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Image;
+package com.dastanapps.dastanlib.image;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;

@@ -1,11 +1,11 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import com.mebelkart.app.MkartApp;
-import com.mebelkart.app.R;
+import com.dastanapps.dastanlib.R;
+
 
 /**
  * Created by IQBAL-MEBELKART on 12/23/2015.
@@ -18,9 +18,9 @@ public class FontUtils {
      * Setting Robot Light Font
      * @param tv
      */
-    public static void setRobotoLight(TextView...tv) {
-        tf = Typeface.createFromAsset(MkartApp.getInstance().getAssets(),
-                MkartApp.getInstance().getResources().getString(R.string.robotoLight));
+    public static void setRobotoLight(Context ctxt,TextView...tv) {
+        tf = Typeface.createFromAsset(ctxt.getAssets(),
+                ctxt.getResources().getString(R.string.robotoLight));
         for(TextView tview:tv) {
             tview.setTypeface(tf);
         }
@@ -30,9 +30,9 @@ public class FontUtils {
      * Setting Robot Medium Font
      * @param tv
      */
-    public static void setRobotoMedium(TextView...tv) {
-        tf = Typeface.createFromAsset(MkartApp.getInstance().getAssets(),
-                MkartApp.getInstance().getResources().getString(R.string.robotoMedium));
+    public static void setRobotoMedium(Context ctxt,TextView...tv) {
+        tf = Typeface.createFromAsset(ctxt.getAssets(),
+                ctxt.getResources().getString(R.string.robotoMedium));
         for(TextView tview:tv) {
             tview.setTypeface(tf);
         }
@@ -42,9 +42,9 @@ public class FontUtils {
      * Setting Robot Regular Font
      * @param tv
      */
-    public static void setRobotoRegular(TextView...tv) {
-        tf = Typeface.createFromAsset(MkartApp.getInstance().getAssets(),
-                MkartApp.getInstance().getResources().getString(R.string.robotoRegular));
+    public static void setRobotoRegular(Context ctxt,TextView...tv) {
+        tf = Typeface.createFromAsset(ctxt.getAssets(),
+                ctxt.getResources().getString(R.string.robotoRegular));
         for(TextView tview:tv) {
             tview.setTypeface(tf);
         }
@@ -54,9 +54,9 @@ public class FontUtils {
      * Setting Robot Thin Font
      * @param tv
      */
-    public static void setRobotoThin(TextView...tv) {
-        tf = Typeface.createFromAsset(MkartApp.getInstance().getAssets(),
-                MkartApp.getInstance().getResources().getString(R.string.robotoThin));
+    public static void setRobotoThin(Context ctxt,TextView...tv) {
+        tf = Typeface.createFromAsset(ctxt.getAssets(),
+                ctxt.getResources().getString(R.string.robotoThin));
         for(TextView tview:tv) {
             tview.setTypeface(tf);
         }

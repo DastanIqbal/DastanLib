@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Social;
+package com.dastanapps.dastanlib.social;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,6 +14,8 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.dastanapps.dastanlib.log.Logger;
+import com.dastanapps.dastanlib.utils.ViewUtils;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -25,8 +27,6 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.mebelkart.app.Log.Logger;
-import com.mebelkart.app.Utils.ViewUtils;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Network;
+package com.dastanapps.dastanlib.network;
 
 /**
  * Created by DANISH on 10/7/2015.

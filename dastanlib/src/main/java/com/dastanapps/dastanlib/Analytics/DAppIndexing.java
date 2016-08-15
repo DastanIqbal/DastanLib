@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Analytics;
+package com.dastanapps.dastanlib.analytics;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Social;
+package com.dastanapps.dastanlib.social;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 
+import com.dastanapps.dastanlib.log.Logger;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,7 +23,6 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.mebelkart.app.Log.Logger;
 
 import org.json.JSONObject;
 

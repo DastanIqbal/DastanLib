@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package com.dastanapps.dastanlib.Push;
 
@@ -27,102 +28,93 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.dastanapps.dastanlib.Image.MkartImage;
+import com.dastanapps.dastanlib.R;
 import com.google.android.gms.gcm.GcmListenerService;
-import com.mebelkart.app.Activity.MainActivity;
-import com.mebelkart.app.Activity.ProductDetailsA;
-import com.mebelkart.app.Activity.ProductListA;
-import com.mebelkart.app.AppConstant;
-import com.mebelkart.app.Beans.PushB;
-import com.mebelkart.app.Image.MkartImage;
-import com.mebelkart.app.MkartApp;
-import com.mebelkart.app.Network.RestResponse;
-import com.mebelkart.app.R;
-import com.mebelkart.app.Utils.MkUtils;
+
+import static android.R.id.message;
 
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
 
-    /**
+    */
+/**
      * Called when message is received.
      *
      * @param from SenderID of the sender.
      * @param data Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
-     */
+     *//*
+
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("data");
 
-        /**
+        */
+/**
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
-         */
+         *//*
+
         sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
 
-    /**
+    */
+/**
      * Create and show a simple notification containing the received GCM message.
      *
      * @param message GCM message received.
-     */
-    private void sendNotification(String message) {
-        PushB pushB = RestResponse.paresePush(message);
-        if (pushB != null) {
-            MkartApp.getMkartAnalytics().getInstance().sendEvent("PushListener", "Got Push :" + pushB.getTitle() + " : " + pushB.getMsgTitle());
-            Intent intent = null;
-            if (pushB.getType().equals("category")) {
-                intent = new Intent(this, ProductListA.class);
-                intent.putExtra(AppConstant.CAT_ID, pushB.getId());
-                intent.putExtra(AppConstant.CAT_NAME, pushB.getTitle());
-            } else if (pushB.getType().equals("product")) {
-                intent = new Intent(this, ProductDetailsA.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                intent.putExtra(AppConstant.PROD_TYPE, "featured");
-                intent.putExtra(AppConstant.CAT_NAME, pushB.getTitle());
-                intent.putExtra(AppConstant.PROD_DETAILS, pushB.getId());
-            } else {
-                intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            }
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                    PendingIntent.FLAG_ONE_SHOT);
+     *//*
 
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Bitmap bigBitmap = MkartImage.loadBitmap(this, pushB.getImage_url());
-            Bitmap largBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+    private void sendNotification(Intent intent, String title, String msgTitle, String image_url) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 */
+/* Request code *//*
+, intent,
+                PendingIntent.FLAG_ONE_SHOT);
 
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(MkUtils.getNotificationIcon())
-                    .setContentTitle(pushB.getTitle())
-                    .setContentText(pushB.getMsgTitle())
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent);
-            if (bigBitmap != null) {
-                notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bigBitmap)
-                        .setBigContentTitle(pushB.getTitle())
-                        .setSummaryText(pushB.getMsgTitle()));
-            }
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Bitmap bigBitmap = MkartImage.loadBitmap(this, image_url);
+        Bitmap largBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
-            if (bigBitmap != null) {
-                notificationBuilder.setLargeIcon(largBitmap);
-            }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(getNotificationIcon())
+                .setContentTitle(title)
+                .setContentText(msgTitle)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+        if (bigBitmap != null) {
+            notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(bigBitmap)
+                    .setBigContentTitle(title)
+                    .setSummaryText(msgTitle));
+        }
+
+        if (bigBitmap != null) {
+            notificationBuilder.setLargeIcon(largBitmap);
+        }
 
 
-       //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+        //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         //    }
 
 
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-        }
+        notificationManager.notify(0 */
+/* ID of notification *//*
+, notificationBuilder.build());
+    }
+
+    public static int getNotificationIcon() {
+        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return useWhiteIcon ? R.mipmap.ic_stat_transparent_notif : R.mipmap.ic_stat_launcher;
     }
 }
+*/

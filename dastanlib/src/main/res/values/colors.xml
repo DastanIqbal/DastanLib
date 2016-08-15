@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="color_pressed_gray">#879497</drawable>
+
+    <color name="listItemColorRobotoMedium">#212121</color>
+    <color name="subHeaderColorRobotoMedium">#757575</color>
+
+    <color name="colorPrimary">#FFC107</color>
+    <color name="colorPrimaryDark">#ffa407</color>
+    <color name="colorAccent">#ffab00</color>
+
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="itemname_color">#C0C0C0</color>
+    <color name="itemcost_color">#595959</color>
+    <color name="cat_item_transparent">#CC333333</color>
+    <color name="offer_color">#85DB96</color>
+    <color name="blue_selectd_color">#3d92cc</color>
+    <color name="blue_normal">#3498DB</color>
+    <color name="spanable_blue_normal">#333498DB</color>
+    <color name="bg_gray">#ACACAC</color>
+    <color name="checkout_bg">#F2F2F2</color>
+    <color name="foreground_material_light">#a61212</color>
+    <color name="black">#996c10</color>
+    <color name="dialogBg">#f2f2f2</color>
+    <color name="rippleColor">#585858</color>
+    <color name="modular_kitchen_bg">#383838</color>
+    <color name="offer_bgcolor">#73CA6C</color>
+    <drawable name="color_normal_gray">#87949C</drawable>
+
+</resources>

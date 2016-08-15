@@ -1,9 +1,9 @@
-package com.dastanapps.dastanlib.Analytics.google;
+package com.dastanapps.dastanlib.analytics.google;
 
 import android.content.Context;
 
 import com.dastanapps.dastanlib.BuildConfig;
-import com.dastanapps.dastanlib.Log.Logger;
+import com.dastanapps.dastanlib.log.Logger;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;

@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package com.dastanapps.dastanlib.Push;
 
@@ -21,17 +22,13 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.adobe.mobile.Config;
+import com.dastanapps.dastanlib.Network.IRestRequest;
+import com.dastanapps.dastanlib.Network.MkartRest;
+import com.dastanapps.dastanlib.R;
+import com.dastanapps.dastanlib.Utils.SPUtils;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.mebelkart.app.MkartApp;
-import com.mebelkart.app.Network.IRestRequest;
-import com.mebelkart.app.Network.MkartRest;
-import com.mebelkart.app.Network.RestRequest;
-import com.mebelkart.app.Network.URLConstant;
-import com.mebelkart.app.R;
-import com.mebelkart.app.Utils.SPUtils;
 
 import java.io.IOException;
 
@@ -62,9 +59,6 @@ public class RegistrationIntentService extends IntentService {
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
-            // Subscribe to topic channels
-            //subscribeTopics(token);
-            Config.setPushIdentifier(token);
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
             // otherwise your server should have already received the token.
@@ -81,14 +75,16 @@ public class RegistrationIntentService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
-    /**
+    */
+/**
      * Persist registration to third-party servers.
      * <p/>
      * Modify this method to associate the user's GCM registration token with any server-side account
      * maintained by your application.
      *
      * @param token The new token.
-     */
+     *//*
+
     private void sendRegistrationToServer(final String token) {
         // Add custom implementation, as needed.
         String paramJson = RestRequest.addPushId(token);
@@ -108,12 +104,14 @@ public class RegistrationIntentService extends IntentService {
         });
     }
 
-    /**
+    */
+/**
      * Subscribe to any GCM topics of interest, as defined by the TOPICS constant.
      *
      * @param token GCM token
      * @throws IOException if unable to reach the GCM PubSub service
-     */
+     *//*
+
     // [START subscribe_topics]
     private void subscribeTopics(String token) throws IOException {
         GcmPubSub pubSub = GcmPubSub.getInstance(this);
@@ -124,3 +122,4 @@ public class RegistrationIntentService extends IntentService {
     // [END subscribe_topics]
 
 }
+*/

@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.text.TextUtils;

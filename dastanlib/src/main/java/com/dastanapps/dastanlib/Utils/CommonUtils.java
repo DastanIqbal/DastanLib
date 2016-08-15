@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib.Utils;
+package com.dastanapps.dastanlib.utils;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -23,8 +23,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.mebelkart.app.Log.Logger;
-import com.mebelkart.app.R;
+import com.dastanapps.dastanlib.log.Logger;
+import com.dastanapps.dastanlib.R;
 
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
@@ -102,13 +102,13 @@ public class CommonUtils {
         return blackSpannable;
     }
 
-    public static void makePhoneCall(Context ctxt, int resId) {
+    public static void makePhoneCall(Context ctxt, String phoneNo) {
         Intent intentCall = new Intent(Intent.ACTION_CALL);
-        intentCall.setData(Uri.parse("tel:" + String.valueOf(ctxt.getText(resId))));
+        intentCall.setData(Uri.parse("tel:" + phoneNo));
         ctxt.startActivity(intentCall);
     }
 
-    public static void askCallPermission(Context ctxt) {
+    public static void askCallPermission(Context ctxt,String phone_no) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt!=null) {
             int hasWriteContactsPermission = ctxt.checkSelfPermission(android.Manifest.permission.CALL_PHONE);
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
@@ -117,10 +117,10 @@ public class CommonUtils {
                         REQUEST_CODE_ASK_PERMISSIONS);
                 return;
             } else {
-                makePhoneCall(ctxt, R.string.phone_no);
+                makePhoneCall(ctxt, phone_no);
             }
         } else {
-            makePhoneCall(ctxt, R.string.phone_no);
+            makePhoneCall(ctxt, phone_no);
         }
     }
 
