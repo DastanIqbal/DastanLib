@@ -1,12 +1,15 @@
+/*
 package com.dastanapps.dastanlib.analytics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.SearchEvent;
 
+*/
 /**
  * Created by IQBAL-MEBELKART on 5/20/2016.
- */
+ *//*
+
 public class DFabric {
 
     public static void logUser(String user, String email, String userName) {
@@ -25,3 +28,4 @@ public class DFabric {
                 .putCustomAttribute("Search:", searchTerm));
     }
 }
+*/

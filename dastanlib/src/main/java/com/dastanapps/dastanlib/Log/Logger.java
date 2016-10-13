@@ -3,7 +3,6 @@ package com.dastanapps.dastanlib.log;
 import android.util.Log;
 
 import com.dastanapps.dastanlib.BuildConfig;
-import com.dastanapps.dastanlib.analytics.DFabric;
 
 /**
  * Created by Iqbal Ahmed on 10/8/2015.
@@ -16,30 +15,30 @@ public class Logger {
     public static void i(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.d("Test", checkNull(log));
-        DFabric.log(tag, checkNull(log));
+//        DFabric.log(tag, checkNull(log));
     }
 
     public static void w(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.w("Test", checkNull(log));
-        DFabric.log(tag, checkNull(log));
+//        DFabric.log(tag, checkNull(log));
     }
 
     public static void d(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.d("Test", checkNull(log));
-        DFabric.log(tag, checkNull(log));
+//        DFabric.log(tag, checkNull(log));
     }
 
     public static void e(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.e("Test", checkNull(log));
-        DFabric.log(tag, checkNull(log));
+//        DFabric.log(tag, checkNull(log));
     }
 
     public static void v(String tag, String log) {
         if (BuildConfig.DEBUG)
             Log.v("Test", log);
-        DFabric.log(tag, log);
+//        DFabric.log(tag, log);
     }
 }
