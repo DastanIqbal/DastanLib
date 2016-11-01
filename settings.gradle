@@ -1,1 +1,3 @@
-include ':app', ':dastanlib'
+include ':dastanlib'
+include ':app'
+

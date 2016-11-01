@@ -1,0 +1,10 @@
+def version = "24.2.1";
+compile "com.android.support:appcompat-v7:$version"
+compile "com.android.support:design:$version"
+compile "com.android.support:recyclerview-v7:$version"
+compile "com.android.support:cardview-v7:$version"
+compile "com.android.support:support-v4:$version"
+compile "com.android.support:appcompat-v7:$version"
+compile "com.android.support:appcompat-v7:$version"
+
+compile 'com.android.support:multidex:1.0.1'

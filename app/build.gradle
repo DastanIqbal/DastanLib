@@ -36,7 +36,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':dastanlib')
+    compile 'com.dastanapps.dastanlib:dastanlib:0.1'
 
     //Crash Libraries
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {

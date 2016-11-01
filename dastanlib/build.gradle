@@ -1,11 +1,15 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-
-
+//apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.github.dcendents.android-maven'
 
 // This is the library version used when deploying the artifact
-version = "1.0.1"
+version = "0.1"
+
+ext {
+    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
+    PUBLISH_ARTIFACT_ID = 'dastanlib'
+    PUBLISH_VERSION = "$version"
+}
 
 android {
     compileSdkVersion 24
@@ -14,8 +18,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -26,6 +28,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -35,29 +41,10 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.14.0'
 
     //Android Libraries
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:recyclerview-v7:21.0.+'
-    compile 'com.android.support:cardview-v7:23.0.1'
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:multidex:1.0.1'
-
+    apply from:"android-support.gradle", to: dependencies
 
     //Google Service Libraries
-    compile 'com.google.android.gms:play-services-plus:8.3.0'
-    compile 'com.google.android.gms:play-services-gcm:8.3.0'
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
-    compile 'com.google.android.gms:play-services-appindexing:8.3.0'
-    //compile 'com.google.android.gms:play-services-location:8.3.0'
-    //compile 'com.google.android.gms:play-services:8.3.0'
-
-    //Firebase
-    //compile 'com.google.firebase:firebase-core:9.2.1'
-    //compile 'com.google.firebase:firebase-crash:9.2.1'
-    //compile 'com.google.firebase:firebase-auth:9.2.1'
-    //compile 'com.google.firebase:firebase-messaging:9.2.1'
-    //compile 'com.google.firebase:firebase-invites:9.2.1'
+    apply from:"google-service.gradle", to: dependencies
 
     //3-Party SquareUP Libraries
     compile 'com.squareup.okhttp:okhttp:2.5.0'
@@ -70,85 +57,86 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.1.1'
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
 
 def siteUrl = 'https://dastanApps.com'
 def gitUrl = 'https://gitlab.com/dastanIqbal/DastanLib.git'
 group = "com.dastanApps.dastanlib"
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-
-                // Add your description here
-                name 'Its a library which have common methods for Network Request, Common Utils Package,Push Notification,Google Analytics, and Image Library Glide'
-                url siteUrl
-
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'ask2iqbal'
-                        name 'Iqbal Ahmed'
-                        email 'ask2iqbal@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-//    options.encoding = 'UTF-8'
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "dastanLib"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//
+//                // Add your description here
+//                name 'Its a library which have common methods for Network Request, Common Utils Package,Push Notification,Google Analytics, and Image Library Glide'
+//                url siteUrl
+//
+//                // Set your license
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'ask2iqbal'
+//                        name 'Iqbal Ahmed'
+//                        email 'ask2iqbal@gmail.com'
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+////    options.encoding = 'UTF-8'
+//}
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+//
+//
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//
+//bintray {
+//    user = properties.getProperty("bintray.user")
+//    key = properties.getProperty("bintray.apikey")
+//
+//    configurations = ['archives']
+//    pkg {
+//        repo = "maven"
+//        name = "dastanLib"
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = ["Apache-2.0"]
+//        publish = true
+//    }
+//}

@@ -1,0 +1,17 @@
+def version="9.2.1"
+
+compile "com.google.android.gms:play-services-plus:$version"
+compile "com.google.android.gms:play-services-gcm:$version"
+compile "com.google.android.gms:play-services-analytics:$version"
+compile "com.google.android.gms:play-services-appindexing:$version"
+compile "com.google.android.gms:play-services-auth:$version"
+//compile "com.google.android.gms:play-services-location:$version"
+//compile "com.google.android.gms:play-services:$version"
+
+//Firebase
+//compile "com.google.firebase:firebase-core:$version"
+//compile "com.google.firebase:firebase-crash:$version"
+compile "com.google.firebase:firebase-auth:$version"
+//compile "com.google.firebase:firebase-messaging:$version"
+//compile "com.google.firebase:firebase-invites:$version"
+
