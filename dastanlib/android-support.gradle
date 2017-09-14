@@ -1,4 +1,4 @@
-def version = "24.2.1";
+def version = "25.1.0"
 compile "com.android.support:appcompat-v7:$version"
 compile "com.android.support:design:$version"
 compile "com.android.support:recyclerview-v7:$version"

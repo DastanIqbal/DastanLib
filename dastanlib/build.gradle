@@ -12,14 +12,14 @@ ext {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+       // testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -32,6 +32,11 @@ android {
     lintOptions {
         abortOnError false
     }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
 }
 
 dependencies {
@@ -47,96 +52,23 @@ dependencies {
     apply from:"google-service.gradle", to: dependencies
 
     //3-Party SquareUP Libraries
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'it.neokree:MaterialTabs:0.11'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.code.gson:gson:2.7'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
+
+    apply from: "xmpp.gradle", to: dependencies
 }
-
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
-
-def siteUrl = 'https://dastanApps.com'
-def gitUrl = 'https://gitlab.com/dastanIqbal/DastanLib.git'
 group = "com.dastanApps.dastanlib"
-
-//install {
-//    repositories.mavenInstaller {
-//        // This generates POM.xml with proper parameters
-//        pom {
-//            project {
-//                packaging 'aar'
-//
-//                // Add your description here
-//                name 'Its a library which have common methods for Network Request, Common Utils Package,Push Notification,Google Analytics, and Image Library Glide'
-//                url siteUrl
-//
-//                // Set your license
-//                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    }
-//                }
-//                developers {
-//                    developer {
-//                        id 'ask2iqbal'
-//                        name 'Iqbal Ahmed'
-//                        email 'ask2iqbal@gmail.com'
-//                    }
-//                }
-//                scm {
-//                    connection gitUrl
-//                    developerConnection gitUrl
-//                    url siteUrl
-//
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//task sourcesJar(type: Jar) {
-//    from android.sourceSets.main.java.srcDirs
-//    classifier = 'sources'
-//}
-//
-//task javadoc(type: Javadoc) {
-//    source = android.sourceSets.main.java.srcDirs
-//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//}
-//
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
-////    options.encoding = 'UTF-8'
-//}
-//artifacts {
-//    archives javadocJar
-//    archives sourcesJar
-//}
-//
-//
-//Properties properties = new Properties()
-//properties.load(project.rootProject.file('local.properties').newDataInputStream())
-//
-//bintray {
-//    user = properties.getProperty("bintray.user")
-//    key = properties.getProperty("bintray.apikey")
-//
-//    configurations = ['archives']
-//    pkg {
-//        repo = "maven"
-//        name = "dastanLib"
-//        websiteUrl = siteUrl
-//        vcsUrl = gitUrl
-//        licenses = ["Apache-2.0"]
-//        publish = true
-//    }
-//}
+configurations {
+    all*.exclude group: 'xpp3', module: 'xpp3'
+}

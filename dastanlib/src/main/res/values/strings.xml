@@ -2,4 +2,5 @@
     <string name="app_name">dastanlib</string>
     <string name="app_link">market://details?id=%s</string>
     <string name="no_internet">No Internet Connection.</string>
+    <string name="gcm_defaultSenderId">889742075578</string>
 </resources>

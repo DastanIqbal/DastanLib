@@ -1,7 +1,6 @@
 package com.dastanapps.dastanlib.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,6 +8,8 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +18,14 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.dastanapps.dastanlib.DastanApp;
 import com.dastanapps.dastanlib.R;
 
 
 /**
  * *@author : Dastan Iqbal
  *
- * @email : iqbal.ahmed@mebelkart.com
+ * @email : ask2iqbal@gmail.com
  */
 public class ViewUtils {
 
@@ -112,7 +114,7 @@ public class ViewUtils {
     public static void showToast(Context ctxt, String msg) {
         if (mToast != null)
             mToast.cancel();
-        mToast = Toast.makeText(ctxt, msg, Toast.LENGTH_LONG);
+        mToast = Toast.makeText(DastanApp.getInstance(), msg, Toast.LENGTH_LONG);
         mToast.show();
     }
 
@@ -169,11 +171,12 @@ public class ViewUtils {
     public static View inflateLayout(Context ctxt, int resId) {
         return LayoutInflater.from(ctxt).inflate(resId, null);
     }
+
     public static View inflateLayout(Context ctxt, int resId, ViewGroup parent) {
-        return LayoutInflater.from(ctxt).inflate(resId,parent,false);
+        return LayoutInflater.from(ctxt).inflate(resId, parent, false);
     }
 
-    public static Dialog getMKDialog(Context ctxt, int reslayout) {
+    public static Dialog getDDialog(Context ctxt, int reslayout) {
         Dialog d = new Dialog(ctxt);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.getWindow().setBackgroundDrawableResource(R.color.transparent);
@@ -182,9 +185,9 @@ public class ViewUtils {
         return d;
     }
 
-    public static Dialog getMKDialogOK(Context ctxt, String title, String msg,
-                                       String positiveText, String negativeText, DialogInterface.OnClickListener okInterface,
-                                       DialogInterface.OnClickListener cancelInterface) {
+    public static Dialog getDDialogOK(Context ctxt, String title, String msg,
+                                      String positiveText, String negativeText, DialogInterface.OnClickListener okInterface,
+                                      DialogInterface.OnClickListener cancelInterface) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ctxt);
         builder.setTitle(title);
         builder.setMessage(msg);
@@ -194,16 +197,28 @@ public class ViewUtils {
         return alertDialog;
     }
 
-    public static Dialog getMKDialogOK(Context ctxt, String title, String msg,
-                                       String positiveText, DialogInterface.OnClickListener okInterface) {
+    public static AlertDialog getDDialogOK(Context ctxt, String title, String msg,
+                                           String positiveText, DialogInterface.OnClickListener okInterface, boolean isCancelable) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ctxt);
         builder.setTitle(title);
         builder.setMessage(msg);
+        builder.setCancelable(isCancelable);
         builder.setPositiveButton(positiveText, okInterface);
+
         AlertDialog alertDialog = builder.create();
         return alertDialog;
     }
 
+    public static AlertDialog getCustomDDialogOK(Context ctxt, String title, String msg,
+                                                 String positiveText, DialogInterface.OnClickListener okInterface, boolean isCancelable) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ctxt, R.style.AlertDialogCustom));
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setCancelable(isCancelable);
+        builder.setPositiveButton(positiveText, okInterface);
+        AlertDialog alertDialog = builder.create();
+        return alertDialog;
+    }
 
     /**
      * used to support all versions of OS
