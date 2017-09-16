@@ -33,7 +33,7 @@ import java.util.Arrays;
 /**
  * *@author : Dastan Iqbal
  *
- * @email : iqbal.ahmed@mebelkart.com
+ * @email : ask2iqbal@gmail.com
  */
 public class FB {
     private final Activity activity;

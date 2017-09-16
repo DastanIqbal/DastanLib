@@ -5,5 +5,5 @@ package com.dastanapps.dastanlib.network;
  */
 public interface IRestRequest {
     void onResponse(int reqID, String resp);
-    void onError(String error);
+    void onError(int reqId, String error);
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -18,4 +19,39 @@ public class DateTimeUtils {
         return DateFormat.getDateInstance().format(dt).toString();
     }
 
+    public static String currentTimeStampInDateTime(String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date date = new Date(System.currentTimeMillis());
+        return sdf.format(date);
+    }
+
+    public static String currentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        Date date = new Date(System.currentTimeMillis());
+        return sdf.format(date);
+    }
+
+    public static String currentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa");
+        Date date = new Date(System.currentTimeMillis());
+        return sdf.format(date);
+    }
+
+    public static String getTime(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa");
+        Date date = new Date(timestamp);
+        return sdf.format(date);
+    }
+
+    public static String getDate(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy");
+        Date date = new Date(timestamp);
+        return sdf.format(date);
+    }
+
+    public static String getDate(String fmt,long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat(fmt);
+        Date date = new Date(timestamp);
+        return sdf.format(date);
+    }
 }

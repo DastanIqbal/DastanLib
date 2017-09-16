@@ -1,0 +1,10 @@
+<<<<<<< HEAD
+#Thu Sep 14 14:50:50 MYT 2017
+=======
+#Thu Sep 14 23:51:34 MYT 2017
+>>>>>>> 3faac579f2caed2fa3c0c196d0c03c4efe380da2
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-4.1-all.zip

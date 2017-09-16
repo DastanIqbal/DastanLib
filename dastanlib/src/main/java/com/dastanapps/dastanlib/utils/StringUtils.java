@@ -2,6 +2,8 @@ package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -14,6 +16,33 @@ import android.widget.TextView;
  */
 public class StringUtils {
     private static final String TAG = StringUtils.class.getSimpleName();
+    private static String blockCharacterSet = "@#_+-()/\"\':;?`{}[]%<>.,~#^|$%&*!";
+
+    public static InputFilter SPECIAL_CHAR_FILTERS = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
+
+    public static InputFilter LETTERS_N_DIGITS_FILTERS = new InputFilter() {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; i++) {
+                if (source.charAt(i) == '.' || source.charAt(i) == ' ') {
+                    return source.charAt(i) + "";
+                } else if (!Character.isLetterOrDigit(source.charAt(i))) {
+                    return "";
+                }
+            }
+            return null;
+        }
+    };
+
 
     public static boolean stringLengthValidation(String string, int len) {
         //returns true if valid
@@ -27,6 +56,28 @@ public class StringUtils {
         //returns true if valid
         if ((!TextUtils.isEmpty(string)) && string.length() < len) {
             return true;
+        } else
+            return false;
+    }
+
+    public static boolean stringLengthMinMax(String string, int min, int max) {
+        //returns true if valid
+        if ((!TextUtils.isEmpty(string)) && string.length() >= min && string.length() <= max) {
+            return true;
+        } else
+            return false;
+    }
+
+    public static boolean stringNumericShouldbeLessthan(String string, int min, int max) {
+        //returns true if valid
+//        Integer.parseInt(edtConsultFee.getText().toString()) < 0 ||
+//                Integer.parseInt(edtConsultFee.getText().toString()) > 2000
+        if ((!TextUtils.isEmpty(string)) && string.length() != 0 && TextUtils.isDigitsOnly(string)) {
+            int value = Integer.parseInt(string);
+            if (value >= min && value <= max) {
+                return true;
+            }
+            return false;
         } else
             return false;
     }
@@ -81,9 +132,9 @@ public class StringUtils {
 
         if (TextUtils.isEmpty(noBlank)) {
             textInputLayout.setError("Please Enter " + stringName);
-        }else if(!stringLengthShouldbeLessthan(noBlank,256)){
+        } else if (!stringLengthShouldbeLessthan(noBlank, 256)) {
             textInputLayout.setError("Input text should be less than 256 character");
-        }else {
+        } else {
             textInputLayout.setError(null);
             return true;
         }
@@ -91,10 +142,18 @@ public class StringUtils {
     }
 
     public static boolean validatePhoneNumber(EditText editText) {
-        if (!TextUtils.isEmpty(editText.getText().toString())) {
+        String number = editText.getText().toString();
+        if (stringLengthMinMax(number, 10, 11) && TextUtils.isDigitsOnly(number)) {
             String initChar = String.valueOf(editText.getText().toString().charAt(0));
             if (initChar.equals("7") || initChar.equals("8") || initChar.equals("9")) {
-                return true;
+                return stringLengthShouldbeLessthan(number, 11);
+            } else if (initChar.equals("0")) {
+                String initChar2 = String.valueOf(editText.getText().toString().charAt(1));
+                if (initChar2.equals("7") || initChar2.equals("8") || initChar2.equals("9")) {
+                    return stringLengthShouldbeLessthan(number, 12);
+                } else {
+                    return false;
+                }
             } else {
             }
             return false;
@@ -121,4 +180,9 @@ public class StringUtils {
         String cityName = editText.getText().toString();
         return (cityName.matches("^[a-zA-Z ]+$"));
     }
+
+    public static boolean validateIFSCCode(String str) {
+        return (str.matches("^[a-zA-Z]{4}[0][0-9]{6}$"));
+    }
+
 }

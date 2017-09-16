@@ -26,6 +26,7 @@
     <color name="rippleColor">#585858</color>
     <color name="modular_kitchen_bg">#383838</color>
     <color name="offer_bgcolor">#73CA6C</color>
+    <color name="green_stick_color">#FF39B44A</color>
     <drawable name="color_normal_gray">#87949C</drawable>
 
 </resources>

@@ -1,3 +1,4 @@
+package com.dastanapps.dastanlib.push;
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  * <p/>
@@ -12,10 +13,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *//*
+ */
 
-
-package com.dastanapps.dastanlib.Push;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,58 +26,62 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
-import com.dastanapps.dastanlib.Image.MkartImage;
+import com.dastanapps.dastanlib.DastanApp;
 import com.dastanapps.dastanlib.R;
+import com.dastanapps.dastanlib.chat.service.XMPPService;
+import com.dastanapps.dastanlib.image.MkartImage;
 import com.google.android.gms.gcm.GcmListenerService;
-
-import static android.R.id.message;
 
 public class MyGcmListenerService extends GcmListenerService {
 
     private static final String TAG = "MyGcmListenerService";
 
-    */
-/**
+
+    /**
      * Called when message is received.
      *
      * @param from SenderID of the sender.
      * @param data Data bundle containing message data as key/value pairs.
      *             For Set of keys use data.keySet().
-     *//*
+     */
 
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("data");
 
-        */
-/**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         *//*
+        Intent intent = new Intent(DastanApp.GCM_MESSAGE);
+        intent.putExtra("msg", message);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
 
-        sendNotification(message);
+        XMPPService.runService(this);
+
+/**
+ * In some cases it may be useful to show a notification indicating to the user
+ * that a message was received.
+ */
+
+        //sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
 
-    */
-/**
-     * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
-     *//*
 
-    private void sendNotification(Intent intent, String title, String msgTitle, String image_url) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 */
-/* Request code *//*
-, intent,
+    /**
+     * Create and show a simple notification containing the received GCM message.
+     */
+
+    private void sendNotification(Intent intent, String title, String msgTitle, String image_url, int resId) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0
+/* Request code */
+                , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Bitmap bigBitmap = MkartImage.loadBitmap(this, image_url);
-        Bitmap largBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap largBitmap = BitmapFactory.decodeResource(getResources(), resId);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(getNotificationIcon())
@@ -102,14 +105,12 @@ public class MyGcmListenerService extends GcmListenerService {
         //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         //    }
-
-
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 */
-/* ID of notification *//*
-, notificationBuilder.build());
+        notificationManager.notify(0
+/* ID of notification */
+                , notificationBuilder.build());
     }
 
     public static int getNotificationIcon() {
@@ -117,4 +118,4 @@ public class MyGcmListenerService extends GcmListenerService {
         return useWhiteIcon ? R.mipmap.ic_stat_transparent_notif : R.mipmap.ic_stat_launcher;
     }
 }
-*/
+
