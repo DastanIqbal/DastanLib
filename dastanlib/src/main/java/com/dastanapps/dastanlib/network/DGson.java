@@ -1,4 +1,4 @@
-package com.dastanapps.dastanlib;
+package com.dastanapps.dastanlib.network;
 
 import com.dastanapps.dastanlib.log.Logger;
 import com.google.gson.Gson;

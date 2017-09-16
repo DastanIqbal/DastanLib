@@ -5,7 +5,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 // This is the library version used when deploying the artifact
-version = "0.3"
+version = "0.4"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -42,14 +42,4 @@ android {
 
 apply from: 'deploy.gradle'
 
-dependencies {
-    implementation files('libs/applovin-sdk-6.4.2.jar')
-    implementation files('libs/StartAppInApp-3.5.6.jar')
-    //Analytics
-    implementation 'com.flurry.android:analytics:6.4.2'
-    //Crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true
-    }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-}
+dependencies {}

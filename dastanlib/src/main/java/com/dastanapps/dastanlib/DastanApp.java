@@ -109,4 +109,8 @@ public class DastanApp extends Application {
         return marvelAds;
     }
 
+    public void setPushURL(String pushURL) {
+        SPUtils.writeString(SPConstant.PUSH_URL_CONSTANT, pushURL);
+    }
+
 }

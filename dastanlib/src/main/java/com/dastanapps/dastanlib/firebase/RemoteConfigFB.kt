@@ -1,15 +1,14 @@
 package com.videoeditor.kruso.lib.firebase
 
 import android.text.TextUtils
+import com.dastanapps.dastanlib.BuildConfig
+import com.dastanapps.dastanlib.DastanApp
+import com.dastanapps.dastanlib.analytics.DAnalytics
+import com.dastanapps.dastanlib.log.Logger
+import com.dastanapps.dastanlib.services.MarvelService
+import com.dastanapps.dastanlib.utils.SPUtils
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.videoeditor.kruso.lib.BuildConfig
-import com.videoeditor.kruso.lib.MarvelApp
-import com.videoeditor.kruso.lib.analytics.MarvelAnalytics
-import com.videoeditor.kruso.lib.log.Logger
-import com.videoeditor.kruso.lib.services.MarvelService
-import com.videoeditor.kruso.lib.utils.SPUtils
-
 /**
  * Created by dastaniqbal on 17/08/2017.
  * dastanIqbal@marvelmedia.com
@@ -33,18 +32,18 @@ class RemoteConfigFB {
                     mFirebaseRemoteConfig.activateFetched()
                     val url = mFirebaseRemoteConfig.getString(key)
                     if (!TextUtils.isEmpty(url)) {
-                        MarvelApp.getAppInstance().setPushURL(url)
+                        DastanApp.getAppInstance().setPushURL(url)
                         MarvelService.getInstance().sendtoken()
                     }
                     Logger.d(TAG, url)
-                    MarvelAnalytics.getInstance().sendLogs("config", "success")
+                    DAnalytics.getInstance().sendLogs("config", "success")
                 } else {
                     Logger.d(TAG, "Fetch Failed")
-                    MarvelAnalytics.getInstance().sendLogs("config", "failed")
+                    DAnalytics.getInstance().sendLogs("config", "failed")
                 }
             }.addOnFailureListener {
                 Logger.d(TAG, "Fetch failure")
-                MarvelAnalytics.getInstance().sendLogs("config", "failure")
+                DAnalytics.getInstance().sendLogs("config", "failure")
             }
         }
 
@@ -66,14 +65,14 @@ class RemoteConfigFB {
                         SPUtils.writeString(key, value)
                     }
                     Logger.d(TAG, value)
-                    MarvelAnalytics.getInstance().sendLogs("config", "success")
+                    DAnalytics.getInstance().sendLogs("config", "success")
                 } else {
                     Logger.d(TAG, "Fetch Failed")
-                    MarvelAnalytics.getInstance().sendLogs("config", "failed")
+                    DAnalytics.getInstance().sendLogs("config", "failed")
                 }
             }.addOnFailureListener {
                 Logger.d(TAG, "Fetch failure")
-                MarvelAnalytics.getInstance().sendLogs("config", "failure")
+                DAnalytics.getInstance().sendLogs("config", "failure")
             }
         }
     }

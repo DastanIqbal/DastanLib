@@ -12,7 +12,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.videoeditor.kruso.lib.log.Logger;
+import com.dastanapps.dastanlib.log.Logger;
+
 
 /**
  * Created by DastanIqbal on 23/5/2017.

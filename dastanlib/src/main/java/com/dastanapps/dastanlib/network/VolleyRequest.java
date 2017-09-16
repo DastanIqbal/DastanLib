@@ -423,7 +423,7 @@ public class VolleyRequest {
         getRequestQueue().add(req);
     }
 
-    private static RequestQueue getRequestQueue() {
+    public static RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(DastanApp.getInstance());
         }
