@@ -16,11 +16,10 @@
 
 package com.dastanapps.dastanlib.push;
 
-import android.content.Intent;
+import com.dastanapps.dastanlib.services.MarvelService;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import com.google.android.gms.iid.InstanceIDListenerService;
-
-public class MyInstanceIDListenerService extends InstanceIDListenerService {
+public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyInstanceIDLS";
 
@@ -33,8 +32,9 @@ public class MyInstanceIDListenerService extends InstanceIDListenerService {
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        Intent intent = new Intent(this, GCMRegistrationIntentService.class);
-        startService(intent);
+        if (MarvelService.getInstance() != null) {
+            MarvelService.getInstance().sendtoken();
+        }
     }
     // [END refresh_token]
 }

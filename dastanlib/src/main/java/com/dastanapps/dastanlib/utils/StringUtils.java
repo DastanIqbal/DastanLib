@@ -43,43 +43,37 @@ public class StringUtils {
         }
     };
 
-
+    /**
+     *
+     * @param string
+     * @param len
+     * @return  true if valid
+     */
     public static boolean stringLengthValidation(String string, int len) {
-        //returns true if valid
-        if ((!TextUtils.isEmpty(string)) && string.length() == len) {
-            return true;
-        } else
-            return false;
+        return (!TextUtils.isEmpty(string)) && string.length() == len;
     }
 
+    /**
+     *
+     * @param string
+     * @param len
+     * @return  true if valid
+     */
     public static boolean stringLengthShouldbeLessthan(String string, int len) {
         //returns true if valid
-        if ((!TextUtils.isEmpty(string)) && string.length() < len) {
-            return true;
-        } else
-            return false;
+        return (!TextUtils.isEmpty(string)) && string.length() < len;
     }
 
+    /**
+     *
+     * @param string
+     * @param min
+     * @param max
+     * @return true if valid
+     */
     public static boolean stringLengthMinMax(String string, int min, int max) {
         //returns true if valid
-        if ((!TextUtils.isEmpty(string)) && string.length() >= min && string.length() <= max) {
-            return true;
-        } else
-            return false;
-    }
-
-    public static boolean stringNumericShouldbeLessthan(String string, int min, int max) {
-        //returns true if valid
-//        Integer.parseInt(edtConsultFee.getText().toString()) < 0 ||
-//                Integer.parseInt(edtConsultFee.getText().toString()) > 2000
-        if ((!TextUtils.isEmpty(string)) && string.length() != 0 && TextUtils.isDigitsOnly(string)) {
-            int value = Integer.parseInt(string);
-            if (value >= min && value <= max) {
-                return true;
-            }
-            return false;
-        } else
-            return false;
+        return (!TextUtils.isEmpty(string)) && string.length() >= min && string.length() <= max;
     }
 
     public static boolean validateEmail(String email) {

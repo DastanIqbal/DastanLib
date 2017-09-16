@@ -86,7 +86,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Facebook
-    implementation 'com.facebook.android:facebook-android-sdk:4.14.0'
+    implementation 'com.facebook.android:audience-network-sdk:4.+'
 
     //Android Libraries
     apply from:"android-support.gradle", to: dependencies
@@ -96,6 +96,7 @@ dependencies {
 
     //3-Party SquareUP Libraries
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.0'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:+'
     implementation 'it.neokree:MaterialTabs:0.11'
     implementation 'com.mcxiaoke.volley:library:1.0.19'

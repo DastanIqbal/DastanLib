@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import com.dastanapps.dastanlib.DastanApp;
+
 /**
  * Created by devarajahe on 16/2/16.
  */
@@ -43,5 +45,25 @@ public class DisplayUtils {
             default:
                 return "Unknown";
         }
+    }
+
+    public static float convertSpToPx(float scaledPixels) {
+        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        return scaledPixels * scaledDensity;
+    }
+
+    public static int convertToPx(float scaledPixels) {
+        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (scaledPixels * scaledDensity);
+    }
+
+    public static float convertPxToSp(float scaledPixels) {
+        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        return scaledPixels / scaledDensity;
+    }
+
+    public static float convertToDp(float scaledPixels) {
+        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().density;
+        return scaledPixels * scaledDensity;
     }
 }

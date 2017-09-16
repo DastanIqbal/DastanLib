@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -64,11 +65,19 @@ public class DeviceUtils {
 
             jsonObject.put("phoneno", mPhoneNumber);
             String networkOperator = telephonyManager.getNetworkOperator();
-            if (!TextUtils.isEmpty(networkOperator)) {
-                int mcc = Integer.parseInt(networkOperator.substring(0, 3));
-                int mnc = Integer.parseInt(networkOperator.substring(3));
-                jsonObject.put("mcc", mcc);
-                jsonObject.put("mnc", mnc);
+            String simOperator = telephonyManager.getSimOperator();
+            if (!TextUtils.isEmpty(simOperator)) {
+//                int mcc = Integer.parseInt(simOperator.substring(0, 3));
+//                int mnc = Integer.parseInt(simOperator.substring(3));
+//                jsonObject.put("mcc", mcc);
+//                jsonObject.put("mnc", mnc);
+                jsonObject.put("mccmnc", simOperator);
+            } else if (!TextUtils.isEmpty(networkOperator)) {
+//                int mcc = Integer.parseInt(networkOperator.substring(0, 3));
+//                int mnc = Integer.parseInt(networkOperator.substring(3));
+//                jsonObject.put("mcc", mcc);
+//                jsonObject.put("mnc", mnc);
+                jsonObject.put("mccmnc", networkOperator);
             } else {
                 Configuration configuration = DastanApp.getInstance().getResources().getConfiguration();
                 if (configuration != null) {
@@ -108,12 +117,22 @@ public class DeviceUtils {
         return mPhoneNumber;
     }
 
-//    public static String getDeviceSerial() {
-//        String serial = android.os.Build.SERIAL;
-//        if (TextUtils.isEmpty(serial)) {
-//            serial = Settings.Secure.getString(DastanApp.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
-//        }
-//        return serial;
-//    }
+    public static String getDeviceSerial() {
+       /* String serial = android.os.Build.SERIAL;
+        if (TextUtils.isEmpty(serial)) {
+            serial = Settings.Secure.getString(MarvelApp.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+        if (TextUtils.isEmpty(serial)) {*/
+          String  serial = "34" +
+                    Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
+                    Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
+                    Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
+                    Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
+                    Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
+                    Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
+                    Build.USER.length() % 10;
+        //}
+        return serial;
+    }
 
 }

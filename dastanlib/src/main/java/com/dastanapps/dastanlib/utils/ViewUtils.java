@@ -5,11 +5,14 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,11 +162,11 @@ public class ViewUtils {
         snack.show();
     }
 
-    public static void showSnack(String msg, View snackView) {
+    public static void showSnack(String msg, View snackView, int gravity) {
         Snackbar snack = Snackbar.make(snackView, msg, Snackbar.LENGTH_LONG);
         View view = snack.getView();
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-        params.gravity = Gravity.TOP;
+        params.gravity = gravity;
         view.setLayoutParams(params);
         snack.show();
     }
@@ -232,6 +235,17 @@ public class ViewUtils {
             return ctxt.getResources().getDrawable(res, ctxt.getTheme());
         } else {
             return ctxt.getResources().getDrawable(res);
+        }
+    }
+
+    public static void changeEditTextBottomColor(AppCompatEditText tvText, int color) {
+        Drawable drawable = tvText.getBackground(); // get current EditText drawable
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP); // change the drawable color
+
+        if (Build.VERSION.SDK_INT > 16) {
+            tvText.setBackground(drawable); // set the new drawable to EditText
+        } else {
+            tvText.setBackgroundDrawable(drawable); // use setBackgroundDrawable because setBackground required API 16
         }
     }
 }

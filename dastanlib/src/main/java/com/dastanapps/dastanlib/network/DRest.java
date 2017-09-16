@@ -6,6 +6,8 @@ import com.dastanapps.dastanlib.utils.NetworkUtils;
 import com.dastanapps.dastanlib.utils.StringUtils;
 import com.dastanapps.dastanlib.utils.ViewUtils;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +21,13 @@ import static android.util.Log.i;
  */
 public class DRest {
 
-    private static final String TAG = "DRest";
+    private static final String TAG = DRest.class.getSimpleName();
 
     public static synchronized void sendPostRequest(String postUrl, HashMap<String, String> postParams, int reqId, IRestRequest iRestRequest) {
         if (NetworkUtils.isConnectingToInternet(DastanApp.getInstance())) {
             VolleyRequest.getPostJsonObject(postUrl, postParams, reqId, iRestRequest);
         } else {
-            i(TAG, "No internet connection");
+            i(TAG, DastanApp.getInstance().getString(R.string.no_internet));
             ViewUtils.showToast(DastanApp.getInstance(), StringUtils.stringFromXml(DastanApp.getInstance(), R.string.no_internet));
             iRestRequest.onError(reqId, "No internet Connection");
         }
@@ -40,6 +42,27 @@ public class DRest {
             iRestRequest.onError(reqId, "No internet Connection");
         }
     }
+
+    public static synchronized void sendPatchBodyRequest(String postUrl, String bodyPost, int reqId, IRestRequest iRestRequest, Map<String, String> headers) {
+        if (NetworkUtils.isConnectingToInternet(DastanApp.getInstance())) {
+            VolleyRequest.getPatchBodyJsonObject(postUrl, bodyPost, reqId, iRestRequest, headers);
+        } else {
+            i(TAG, DastanApp.getInstance().getString(R.string.no_internet));
+            ViewUtils.showToast(DastanApp.getInstance(), StringUtils.stringFromXml(DastanApp.getInstance(), R.string.no_internet));
+            iRestRequest.onError(reqId, DastanApp.getInstance().getString(R.string.no_internet));
+        }
+    }
+
+    public static synchronized void sendJPostBodyRequest(String postUrl, JSONObject bodyPost, int reqId, IRestRequest iRestRequest, Map<String, String> headers) {
+        if (NetworkUtils.isConnectingToInternet(DastanApp.getInstance())) {
+            VolleyRequest.getJPostJsonObject(postUrl, bodyPost, reqId, iRestRequest, headers);
+        } else {
+            i(TAG, DastanApp.getInstance().getString(R.string.no_internet));
+            ViewUtils.showToast(DastanApp.getInstance(), StringUtils.stringFromXml(DastanApp.getInstance(), R.string.no_internet));
+            iRestRequest.onError(reqId, DastanApp.getInstance().getString(R.string.no_internet));
+        }
+    }
+
 
     public static synchronized void sendPutBodyRequest(String postUrl, String bodyPost, int reqId, IRestRequest iRestRequest, Map<String, String> headers) {
         if (NetworkUtils.isConnectingToInternet(DastanApp.getInstance())) {
@@ -101,4 +124,13 @@ public class DRest {
         }
     }
 
+    public static synchronized void sendGetRequest(String url, int reqId, JSONObject requestobj, IRestRequest iRestRequest) {
+        if (NetworkUtils.isConnectingToInternet(DastanApp.getInstance())) {
+            VolleyRequest.getJsonObj(url, reqId, requestobj, iRestRequest);
+        } else {
+            i(TAG, DastanApp.getInstance().getString(R.string.no_internet));
+            ViewUtils.showToast(DastanApp.getInstance(), StringUtils.stringFromXml(DastanApp.getInstance(), R.string.no_internet));
+            iRestRequest.onError(reqId, DastanApp.getInstance().getString(R.string.no_internet));
+        }
+    }
 }

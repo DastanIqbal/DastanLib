@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by IQBAL-MEBELKART on 12/31/2015.
@@ -53,5 +54,31 @@ public class DateTimeUtils {
         SimpleDateFormat sdf = new SimpleDateFormat(fmt);
         Date date = new Date(timestamp);
         return sdf.format(date);
+    }
+
+    public static String getDateTime(long timestamp, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = new Date(timestamp);
+        return sdf.format(date);
+    }
+
+    public static String convertSecToMinSecs(long seconds) {
+        if (seconds == 0) return "";
+        int m, sec;
+        m = (int) seconds / 60;
+        sec = (int) seconds % 60;
+        if (m > 0 && sec > 0)
+            return m + " min " + sec + " sec";
+        if (m > 0 && sec == 0)
+            return m + " min ";
+        if (m == 0 && sec > 0)
+            return sec + " sec";
+        return "";
+    }
+
+    public static String convertMilliSecToMinSecs(long millis) {
+        if (millis == 0) return "";
+        return convertSecToMinSecs(millis / 1000);
     }
 }

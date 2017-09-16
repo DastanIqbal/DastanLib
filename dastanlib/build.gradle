@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'kotlin-android'
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
 // This is the library version used when deploying the artifact
 version = "0.3"
 
@@ -30,6 +34,22 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 apply from: 'deploy.gradle'
+
+dependencies {
+    implementation files('libs/applovin-sdk-6.4.2.jar')
+    implementation files('libs/StartAppInApp-3.5.6.jar')
+    //Analytics
+    implementation 'com.flurry.android:analytics:6.4.2'
+    //Crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true
+    }
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}

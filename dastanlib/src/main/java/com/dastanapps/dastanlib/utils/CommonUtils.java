@@ -12,24 +12,35 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.dastanapps.dastanlib.DastanApp;
@@ -38,6 +49,7 @@ import com.dastanapps.dastanlib.log.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -45,6 +57,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -54,11 +68,26 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
  * @email : ask2iqbal@gmail.com
  */
 public class CommonUtils {
-    public static final int ACTIVITY_RESULT_SMS_CODE = 200;
     private static final String TAG = CommonUtils.class.getSimpleName();
+    public static final int ACTIVITY_RESULT_SMS_CODE = 200;
+    public static final int CAMERA_REQUEST_CODE_VEDIO = 201;
+    public static final int PICK_VIDEO = 203;
+    public static final int PICK_AUDIO = 204;
+    private static Drawable drawable;
 
     public static String getUUID() {
         return UUID.randomUUID().toString();
+    }
+
+    public static String getUUIDUsingTMgr() {
+        final TelephonyManager tm = (TelephonyManager) DastanApp.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        String tmDevice, tmSerial, androidId;
+        tmDevice = "" + tm.getDeviceId();
+        tmSerial = "";
+        androidId = "";
+
+        UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        return deviceUuid.toString();
     }
 
     public static String decodeBase64(String base64Str) {
@@ -115,6 +144,11 @@ public class CommonUtils {
         return null;
     }
 
+    public static boolean ValidateDecimalNumber(String number) {
+        Pattern emailPattern = Pattern.compile("^(-)?\\d*(\\.\\d*)?$");
+        return emailPattern.matcher(number).matches();
+    }
+
     public static SpannableString getBlackFText(String str) {
         SpannableString blackSpannable = new SpannableString(str);
         blackSpannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, str.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -128,9 +162,9 @@ public class CommonUtils {
         ctxt.startActivity(intentCall);
     }
 
-    public static void rateApp(Context ctxt) {
+    public static void rateApp(Context ctxt, String appLink) {
         try {
-            Uri uri = Uri.parse(String.format(ctxt.getResources().getString(R.string.app_link), ctxt.getPackageName().toString()));
+            Uri uri = Uri.parse(appLink);
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             ctxt.startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
@@ -178,6 +212,13 @@ public class CommonUtils {
         }
     }
 
+    public static void showKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View v = activity.getCurrentFocus();
+        if (v != null)
+            imm.showSoftInput(v, 0);
+    }
+
     /**
      * used to share the link using existing app in device
      *
@@ -192,6 +233,23 @@ public class CommonUtils {
         sendIntent.setType("text/plain");
         startActivityForResult(activity, sendIntent, reqId, new Bundle());
     }
+
+    /**
+     * used to share the link using existing app in device
+     *
+     * @param context
+     * @param shareTitle
+     * @param filepath
+     */
+    public static void shareVideoIntent(Context context, String shareTitle, String filepath, boolean isVideo) {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType(isVideo ? "video/*" : "audio/*");
+        File fileToShare = new File(filepath);
+        Uri uri = Uri.fromFile(fileToShare);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(sendIntent, shareTitle));
+    }
+
 
     /**
      * used to share the link using existing app in device
@@ -219,6 +277,46 @@ public class CommonUtils {
         ((Activity) ctxt).startActivityForResult(smsIntent, ACTIVITY_RESULT_SMS_CODE);
     }
 
+
+    public static void openSpecialAccessSettings(Context ctxt) {
+        Intent smsIntent = new Intent();
+        smsIntent.setAction(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+        smsIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        ((Activity) ctxt).startActivity(smsIntent);
+    }
+
+    public static void captureVideoIntent(Context ctxt) {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        //takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        if (takeVideoIntent.resolveActivity(ctxt.getPackageManager()) != null) {
+            ((Activity) ctxt).startActivityForResult(takeVideoIntent,
+                    CAMERA_REQUEST_CODE_VEDIO);
+        }
+    }
+
+    public static void pickVideoIntent(Context ctxt) {
+        Intent intent = new Intent(Intent.ACTION_PICK, null);//MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("video/*");
+        ((Activity) ctxt).startActivityForResult(intent, PICK_VIDEO);
+    }
+
+    public static void pickAudioIntent(Context ctxt) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        ((Activity) ctxt).startActivityForResult(intent, PICK_AUDIO);
+    }
+
+    public static void pickAudioIntent(Context ctxt, int reqCode) {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        ((Activity) ctxt).startActivityForResult(intent, reqCode);
+    }
+
+
+    /***
+     * @param to
+     * @param msg
+     * @param sendPI
+     * @param deliveredPI {@hide}
+     */
     public static void sendSMS(String to, String msg, PendingIntent sendPI, PendingIntent deliveredPI) {
         //setPremiumMessageEnable(to, msg, sendPI, deliveredPI);
         SmsManager smsManager = SmsManager.getDefault();
@@ -378,7 +476,242 @@ public class CommonUtils {
 
     }
 
+    public static void openNotification(Context ctxt, String title, String desc,
+                                        InputStream largeIconStream,
+                                        InputStream bigPicStream, boolean isCancelable) {
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        ctxt,
+                        0,
+                        DastanApp.getAppInstance().getNotficationIntent(),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(ctxt)
+                        .setSmallIcon(DastanApp.getAppInstance().getSmallIcon())
+                        .setContentTitle(title)
+                        .setAutoCancel(isCancelable)
+                        .setOngoing(false)
+                        .setColor(DastanApp.getAppInstance().getNotificationColor())
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .setSound(defaultSoundUri)
+                        .setContentText(desc)
+                        .setContentIntent(resultPendingIntent);
+
+        if (largeIconStream != null) {
+            Bitmap largBitmap = BitmapFactory.decodeStream(largeIconStream);
+            if (largBitmap != null) {
+                mBuilder.setLargeIcon(largBitmap);
+            }
+        }
+
+        if (bigPicStream != null) {
+            Bitmap bigBitmap = BitmapFactory.decodeStream(bigPicStream);
+
+            if (bigBitmap != null) {
+                mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bigBitmap)
+                        .setBigContentTitle(title)
+                        .setSummaryText(desc));
+            }
+        }
+        //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        // mBuilder.setColor(ctxt.getResources().getColor(R.color.colorPrimary));
+        //    }
+
+        NotificationManager notificationManager = (NotificationManager) ctxt.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1001, mBuilder.build());
+
+    }
+
     public static String getFileName(String path) {
         return path.substring(path.lastIndexOf("/") + 1);
+    }
+
+    public static String readFromRawRes(int rawId) {
+        StringBuilder returnString = new StringBuilder();
+        InputStream fIn = null;
+        InputStreamReader isr = null;
+        BufferedReader input = null;
+        try {
+            fIn = DastanApp.getInstance().getResources().openRawResource(rawId);
+            isr = new InputStreamReader(fIn);
+            input = new BufferedReader(isr);
+            String line = "";
+            while ((line = input.readLine()) != null) {
+                returnString.append(line);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        } finally {
+            try {
+                if (isr != null)
+                    isr.close();
+                if (fIn != null)
+                    fIn.close();
+                if (input != null)
+                    input.close();
+            } catch (Exception e2) {
+                e2.getMessage();
+            }
+        }
+        return returnString.toString();
+    }
+
+    public static void playVideo(Context ctxt, String url) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        i.setDataAndType(Uri.parse(url), "video/*");
+        ctxt.startActivity(i);
+    }
+
+    public static void addAppShortcut(Intent shortCutintent, String name, int icon) {
+
+        removeAppShortcut(shortCutintent, name);
+
+        shortCutintent.setAction(Intent.ACTION_MAIN);
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutintent);
+
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(DastanApp.getInstance(),
+                        icon));
+
+        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        DastanApp.getInstance().sendBroadcast(intent);
+
+    }
+
+    public static void removeAppShortcut(Intent shortCutintent, String name) {
+
+        shortCutintent.setAction(Intent.ACTION_MAIN);
+
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutintent);
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+        intent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
+        DastanApp.getInstance().sendBroadcast(intent);
+
+
+    }
+
+    public static void setLockScreenFlags(Activity activity) {
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+    }
+
+    public static void setFullScreenHideNavBar(Activity activity) {
+        int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION; // hide nav bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            flags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN; // hide status bar;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            flags |= View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+        activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+    }
+
+    public static void changeBackIconColor(Context ctxt, int colorAccent) {
+        final Drawable upArrow = ContextCompat.getDrawable(ctxt, android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(ContextCompat.getColor(ctxt, colorAccent), PorterDuff.Mode.SRC_ATOP);
+        ((AppCompatActivity) ctxt).getSupportActionBar().setHomeAsUpIndicator(upArrow);
+    }
+
+
+    public static Drawable getDrawable(@DrawableRes int resId) {
+        return new BitmapDrawable(DastanApp.getInstance().getResources(),
+                BitmapFactory.decodeResource(DastanApp.getInstance().getResources(), resId));
+    }
+
+    public static void unzip(InputStream inputStream, String dest) {
+        dest += "/";
+        dirChecker(dest, "");
+        byte[] buffer = new byte[1024 * 10];
+        try {
+            ZipInputStream zin = new ZipInputStream(inputStream);
+            ZipEntry ze = null;
+
+            while ((ze = zin.getNextEntry()) != null) {
+                if (ze.isDirectory()) {
+                    dirChecker(dest, ze.getName());
+                } else {
+                    File f = new File(dest + ze.getName());
+                    if (!f.exists()) {
+                        Log.v(TAG, "Unzipping " + ze.getName());
+                        FileOutputStream fout = new FileOutputStream(dest + ze.getName());
+                        int count;
+                        while ((count = zin.read(buffer)) != -1) {
+                            fout.write(buffer, 0, count);
+                        }
+                        zin.closeEntry();
+                        fout.close();
+                    }
+                }
+
+            }
+            zin.close();
+        } catch (Exception e) {
+            Log.e(TAG, "unzip", e);
+        }
+
+    }
+
+    private static void dirChecker(String dir, String dest) {
+        File f = new File(dir + dest);
+        if (!f.isDirectory()) {
+            f.mkdirs();
+        }
+    }
+
+    public static void openWebLinks(Context context, String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://"))
+            url = "http://" + url;
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
+    }
+
+    public static void openAppOrWeb(Context context, String appUrl, String webUrl) {
+        try {
+            Intent appIntent = new Intent(Intent.ACTION_VIEW);
+            appIntent.setData(Uri.parse(appUrl));
+            context.startActivity(appIntent);
+        } catch (Exception ex) {
+            openWebLinks(context, webUrl);
+        }
+    }
+
+    public static String escapeMetaCharacters(String inputString) {
+        final String[] metaCharacters = {"\\", "^", "$", "{", "}", "[", "]", "(", ")","*", "+", "?", "|", "<", ">", "-", "&"};
+        String outputString = "";
+        for (int i = 0; i < metaCharacters.length; i++) {
+            if (inputString.contains(metaCharacters[i])) {
+                outputString = inputString.replace(metaCharacters[i], "\\" + metaCharacters[i]);
+                inputString = outputString;
+            }
+        }
+        return outputString;
+    }
+
+    public static String replaceMetaCharacters(String inputString,String character) {
+        final String[] metaCharacters = {"\\", "^", "$", "{", "}", "[", "]", "(", ")","*", "+", "?", "|", "<", ">", "-", "&"};
+        String outputString = "";
+        for (int i = 0; i < metaCharacters.length; i++) {
+            if (inputString.contains(metaCharacters[i])) {
+                outputString = inputString.replace(metaCharacters[i], character);
+                inputString = outputString;
+            }
+        }
+        return outputString;
     }
 }

@@ -3,12 +3,28 @@ package com.dastanapps.dastanlib.analytics;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
+import com.crashlytics.android.answers.PurchaseEvent;
+import com.dastanapps.dastanlib.DastanApp;
+import com.dastanapps.dastanlib.SPConstant;
 import com.dastanapps.dastanlib.analytics.google.GAnalytics;
 import com.dastanapps.dastanlib.analytics.google.GEcommerceTracking;
+import com.dastanapps.dastanlib.log.Logger;
+import com.dastanapps.dastanlib.utils.SPUtils;
+import com.flurry.android.FlurryAgent;
+import com.flurry.android.FlurryAgentListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.HashMap;
 
 /**
  * Created by IQBAL-MEBELKART on 1/30/2016.
@@ -16,10 +32,24 @@ import org.json.JSONObject;
 public class DAnalytics {
     private static final String TAG = DAnalytics.class.getSimpleName();
 
-    private DAnalytics mkartAnalytics;
+    private static DAnalytics mkartAnalytics;
     private Activity activity;
+    private FirebaseAnalytics firebaseAnalytics;
 
     public DAnalytics() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(DastanApp.getInstance());
+        String apiKey = SPUtils.readString(SPConstant.ANALYTICS_API_KEY);
+        if (DastanApp.getAppInstance().isRelease()) {
+            new FlurryAgent.Builder()
+                    .withLogEnabled(false)
+                    .withListener(new FlurryAgentListener() {
+                        @Override
+                        public void onSessionStarted() {
+                            Logger.d(TAG, "Flurry Session Started");
+                        }
+                    })
+                    .build(DastanApp.getInstance(), apiKey);//"PJT93QQMC5MNY4X76JS3");
+        }
     }
 
     //Adobe
@@ -27,7 +57,7 @@ public class DAnalytics {
 
     }
 
-
+    
     public DAnalytics getInstance(Context ctxt, int trackerId) {
         checkTrackerNull(ctxt, trackerId);
         return this;
@@ -99,5 +129,96 @@ public class DAnalytics {
 
     public void measureImpressionAndAction(JSONObject impressionJson, String screenName) {
         GEcommerceTracking.measureImpressionAndAction(impressionJson);
+    }
+
+    public static DAnalytics getInstance() {
+        if (mkartAnalytics == null) {
+            mkartAnalytics = new DAnalytics();
+        }
+        return mkartAnalytics;
+    }
+
+    public void setVersion(String versionName) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            FlurryAgent.setVersionName(versionName);
+        }
+    }
+
+    public void sendProperty(String key, String value) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            firebaseAnalytics.setUserProperty(key, value);
+            if(FlurryAgent.isSessionActive()) {
+                FlurryAgent.logEvent(key + " : " + value);
+            }
+        }
+    }
+
+    public void sendParams(String key, Bundle bundle) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            firebaseAnalytics.logEvent(key, bundle);
+            CustomEvent customEvent = new CustomEvent(key);
+            HashMap<String, String> hashMap = new HashMap<>();
+            for (String keyE : bundle.keySet()) {
+                String value = bundle.getString(keyE);
+                hashMap.put(keyE, value);
+                customEvent.putCustomAttribute(keyE, value);
+            }
+            if(FlurryAgent.isSessionActive()) {
+                FlurryAgent.logEvent(key, hashMap);
+            }
+            Answers.getInstance().logCustom(customEvent);
+        }
+    }
+
+    public void setContentView(String name, String type, String id) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            Answers.getInstance().logContentView(new ContentViewEvent()
+                    .putContentName(name)
+                    .putContentType(type)
+                    .putContentId(id));
+        }
+    }
+
+    public void sendLogs(String tag, String value) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            sendProperty(tag, value);
+            CustomEvent customEvent = new CustomEvent(tag);
+            customEvent.putCustomAttribute(tag, value);
+            Answers.getInstance().logCustom(customEvent);
+        }
+    }
+
+    public void sendLogs(String tag, String key, String value) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            Bundle bundle = new Bundle();
+            bundle.putString(key, value);
+            sendParams(tag, bundle);
+            CustomEvent customEvent = new CustomEvent(tag);
+            customEvent.putCustomAttribute(key, value);
+            Answers.getInstance().logCustom(customEvent);
+        }
+    }
+
+    public void addPurchase(long price, String item, String type, String id, boolean success) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            Answers.getInstance().logPurchase(new PurchaseEvent()
+                    .putItemPrice(BigDecimal.valueOf(price))
+                    .putCurrency(Currency.getInstance("USD"))
+                    .putItemName(item)
+                    .putItemType(type)
+                    .putItemId(id)
+                    .putSuccess(success));
+        }
+    }
+
+    public void addPurchase(String item, long price, String type, boolean success) {
+        if (DastanApp.getAppInstance().isRelease()) {
+            Answers.getInstance().logPurchase(new PurchaseEvent()
+                    .putItemPrice(BigDecimal.valueOf(price))
+                    .putCurrency(Currency.getInstance("USD"))
+                    .putItemName(item)
+                    .putItemType(type)
+                    .putSuccess(success));
+        }
     }
 }

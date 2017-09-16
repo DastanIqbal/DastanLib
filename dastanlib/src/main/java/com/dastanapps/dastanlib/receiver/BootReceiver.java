@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.dastanapps.dastanlib.services.MarvelService;
+
 
 public class BootReceiver extends BroadcastReceiver {
     public BootReceiver() {
@@ -14,5 +16,6 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent localSmsReciver = new Intent(ReceiverFilter.BOOTCOMPLETE_RECEIVER);
         LocalBroadcastManager.getInstance(context).sendBroadcast(localSmsReciver);
+        MarvelService.runService();
     }
 }

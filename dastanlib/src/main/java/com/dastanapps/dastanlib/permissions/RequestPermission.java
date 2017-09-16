@@ -5,15 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.dastanapps.dastanlib.DastanApp;
+import com.dastanapps.dastanlib.R;
 import com.dastanapps.dastanlib.utils.CommonUtils;
 import com.dastanapps.dastanlib.utils.ViewUtils;
 
@@ -28,15 +26,15 @@ import java.util.List;
 
 public class RequestPermission {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 100;
-    private static String allPermission[] = {Manifest.permission.READ_SMS,
-            Manifest.permission.RECEIVE_SMS,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.SEND_SMS,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.GET_ACCOUNTS};
+//    private static String allPermission[] = {Manifest.permission.READ_SMS,
+//            Manifest.permission.RECEIVE_SMS,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.SEND_SMS,
+//            Manifest.permission.READ_PHONE_STATE,
+//            Manifest.permission.GET_ACCOUNTS};
 
-    public static boolean checkPermission(final Context ctxt, boolean justcheck) {
+    public static boolean checkPermission(final Context ctxt, boolean justcheck,String allPermission[]) {
         final List<String> permissionsNeeded = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
             for (int i = 0; i < allPermission.length; i++) {
@@ -68,16 +66,19 @@ public class RequestPermission {
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     public static boolean hasPermission(Context ctxt, String permission) {
-        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(ctxt, permission);
-        if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
+            int hasWriteContactsPermission = ContextCompat.checkSelfPermission(ctxt, permission);
+            if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        return true;
     }
 
     private static void showMessageOKCancel(Context ctxt, String message, DialogInterface.OnClickListener okListener) {
@@ -89,13 +90,13 @@ public class RequestPermission {
                 .show();
     }
 
-    public static boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public static boolean onRequestPermissionsResult(Context context,int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 1000:
-                for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(DastanApp.getInstance(), "You need to enable some permission in Settings", Toast.LENGTH_SHORT)
-                                .show();
+                for (int grantResult : grantResults) {
+                    if (grantResult == PackageManager.PERMISSION_DENIED) {
+                        ViewUtils.showToast(context, DastanApp.getInstance().getString(R.string.need_permission_msg));
+                        //showPermissionDialog(context);
                         return false;
                     }
                 }
@@ -122,6 +123,22 @@ public class RequestPermission {
         }
     }
 
+    public static boolean askPermission(Context ctxt, String permission, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
+            int hasWriteContactsPermission = ctxt.checkSelfPermission(permission);
+            if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+                //open dialog to inform user for permission if requires
+                ((Activity) ctxt).requestPermissions(new String[]{permission},
+                        requestCode);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
     public static void askCallPermission(Context ctxt, String phone_no) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
             int hasWriteContactsPermission = ctxt.checkSelfPermission(Manifest.permission.CALL_PHONE);
@@ -138,18 +155,26 @@ public class RequestPermission {
         }
     }
 
-    public static void showPermissionDialog(Context ctxt,String msg) {
-        AlertDialog alertDialog = ViewUtils.getDDialogOK(ctxt, "Permission",msg,
-                "Settings", new DialogInterface.OnClickListener() {
+    private static void showPermissionDialog(Context context) {
+        AlertDialog dialog = ViewUtils.getDDialogOK(context, "Permission",
+                String.format(context.getString(R.string.need_permission_msg), "Permission"), "Permission", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                         CommonUtils.openAppPermission();
-                        dialogInterface.dismiss();
+
+//                        //Analytics
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("Permission", "Opened Permission Settings");
+//                        MarvelAnalytics.getInstance().sendParams(TAG, bundle);
+//                        MarvelAnalytics.getInstance().sendProperty(TAG, "Permission");
+
                     }
                 }, false);
-        alertDialog.show();
-        Button positive_button = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        if (positive_button != null)
-            positive_button.setTextColor(Color.BLACK);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!dialog.isShowing())
+                dialog.show();
+        }
     }
 }

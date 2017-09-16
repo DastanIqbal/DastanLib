@@ -8,9 +8,16 @@ import com.dastanapps.dastanlib.DastanApp;
 /**
  * Created by Iqbal Ahmed on 10/10/2015.
  */
-public class SPUtils {
+public class SPUtils<T> {
 
     private static SharedPreferences sharedPreferences;
+    private static SPUtils spUtils;
+
+    public static SPUtils getSPInstance() {
+        if (spUtils == null)
+            spUtils = new SPUtils();
+        return spUtils;
+    }
 
     /**
      * Get Shared preference instance
@@ -21,6 +28,40 @@ public class SPUtils {
         if (sharedPreferences == null)
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DastanApp.getInstance());
         return sharedPreferences;
+    }
+
+    public void writeSP(String key, T v) {
+        if (v instanceof String) {
+            String value = (String) v;
+            getSP().edit().putString(key, value).apply();
+        } else if (v instanceof Float) {
+            Float value = (Float) v;
+            getSP().edit().putFloat(key, value).apply();
+        } else if (v instanceof Integer) {
+            Integer value = (Integer) v;
+            getSP().edit().putInt(key, value).apply();
+        } else if (v instanceof Long) {
+            Long value = (Long) v;
+            getSP().edit().putLong(key, value).apply();
+        } else if (v instanceof Boolean) {
+            Boolean value = (Boolean) v;
+            getSP().edit().putBoolean(key, value).apply();
+        }
+    }
+
+    public T readSP(String key, Class<T> v, T def) {
+        if (v == String.class) {
+            return v.cast(getSP().getString(key, (String) def));
+        } else if (v == Float.class) {
+            return v.cast(getSP().getFloat(key, (Float) def));
+        } else if (v == Integer.class) {
+            return v.cast(getSP().getInt(key, (Integer) def));
+        } else if (v == Long.class) {
+            return v.cast(getSP().getLong(key, (Long) def));
+        } else if (v == Boolean.class) {
+            return v.cast(getSP().getBoolean(key, (Boolean) def));
+        }
+        return null;
     }
 
     /**
