@@ -5,7 +5,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 // This is the library version used when deploying the artifact
-version = "0.4"
+version = "0.4.1"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -14,12 +14,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 25
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -42,4 +42,6 @@ android {
 
 apply from: 'deploy.gradle'
 
-dependencies {}
+dependencies {
+    //implementation 'com.android.support:appcompat-v7:25.4.0'
+}
