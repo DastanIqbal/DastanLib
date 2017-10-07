@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/DastanApps.iml" filepath="$PROJECT_DIR$/DastanApps.iml" />
       <module fileurl="file://$PROJECT_DIR$/DastanLib.iml" filepath="$PROJECT_DIR$/DastanLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dastanlib/dastanlib.iml" filepath="$PROJECT_DIR$/dastanlib/dastanlib.iml" />
     </modules>
   </component>

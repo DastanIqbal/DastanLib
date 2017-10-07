@@ -18,7 +18,7 @@ repositories {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.dastanapps.dastanapps"
         minSdkVersion 15
@@ -33,6 +33,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 configurations{
@@ -40,14 +45,15 @@ configurations{
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    custom 'com.dastanApps.dastanlib:dastanlib:0.4.1'
-    //custom project(':dastanlib')
-
+    implementation 'com.dastanApps.dastanlib:dastanlib:0.4.1'
+    apply from:"../android-support.gradle", to: dependencies
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //implementation 'com.android.support:appcompat-v7:26.0.2'
+
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0-beta1'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    //compile project(path: ':dastanlib')
 }

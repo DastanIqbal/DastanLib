@@ -1,0 +1,10 @@
+def version = "25.4.0"
+implementation "com.android.support:appcompat-v7:$version"
+implementation "com.android.support:design:$version"
+implementation "com.android.support:recyclerview-v7:$version"
+implementation "com.android.support:cardview-v7:$version"
+implementation "com.android.support:support-v4:$version"
+implementation "com.android.support:appcompat-v7:$version"
+implementation "com.android.support:appcompat-v7:$version"
+
+implementation 'com.android.support:multidex:1.0.1'
