@@ -19,6 +19,7 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         jcenter()
         google()
     }
@@ -29,6 +30,6 @@ task clean(type: Delete) {
 }
 
 ext {
-    supportVersion = "27.0.2"
+    supportVersion = "28.0.0"
     smackVersion = "4.1.8"
 }

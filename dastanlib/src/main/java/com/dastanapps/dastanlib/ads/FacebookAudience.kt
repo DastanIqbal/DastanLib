@@ -7,10 +7,9 @@ import android.widget.LinearLayout
 import com.dastanapps.dastanlib.DastanApp
 import com.dastanapps.dastanlib.analytics.DAnalytics
 import com.dastanapps.dastanlib.log.Logger
-import com.startapp.android.publish.adsCommon.Ad
+import com.facebook.ads.*
 import com.videoeditor.kruso.lib.ads.IFBNativeAds
 import java.util.*
-import com.facebook.ads.*
 
 /**
  * Created by dastaniqbal on 22/08/2017.
@@ -40,13 +39,13 @@ class FacebookAudience : IMarvelAds {
     //**************************
     fun showBanner(adContainer: ViewGroup) {
         // Instantiate an AdView view
-        var adView = AdView(context, DastanApp.getAppInstance().fbBannerAdId,
+        val adView = AdView(context, DastanApp.getAppInstance().fbBannerAdId,
                 AdSize.BANNER_HEIGHT_50)
 
         // Add the ad view to container
         adContainer.addView(adView)
 
-        adView!!.setAdListener(object : AdListener {
+        adView.setAdListener(object : AdListener {
             override fun onError(ad: com.facebook.ads.Ad, adError: AdError) {
                 Logger.onlyDebug("Error: " + adError.errorMessage)
                 callAdError(adError.errorMessage)
@@ -54,7 +53,7 @@ class FacebookAudience : IMarvelAds {
 
             override fun onAdLoaded(ad: com.facebook.ads.Ad) {
                 Logger.onlyDebug("Ad loaded!")
-                callAdLoaded(adView!!)
+                callAdLoaded(adView)
             }
 
             override fun onAdClicked(ad: com.facebook.ads.Ad) {
@@ -69,7 +68,7 @@ class FacebookAudience : IMarvelAds {
         })
 
         // Request an ad
-        adView!!.loadAd()
+        adView.loadAd()
     }
 
     //**************************
@@ -78,10 +77,10 @@ class FacebookAudience : IMarvelAds {
     fun loadInterstitial(tag: String) {
         // Instantiate an InterstitialAd object
         val interstitialAd = InterstitialAd(context, DastanApp.getAppInstance().fbInterstialAdId)
-        interstitialAd!!.loadAd()
+        interstitialAd.loadAd()
 
         // Set listeners for the Interstitial Ad
-        interstitialAd!!.setAdListener(object : InterstitialAdListener {
+        interstitialAd.setAdListener(object : InterstitialAdListener {
             override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
                 Logger.onlyDebug("Interstitial Ad displayed!")
                 listnerHashMap[tag]?.addDisplayed()
@@ -128,7 +127,7 @@ class FacebookAudience : IMarvelAds {
     //**************************
     fun showNativeAd(tag: String) {
         val nativeAd = NativeAd(context, DastanApp.getAppInstance().fbNativeAdId)
-        nativeAd!!.setAdListener(object : AdListener {
+        nativeAd.setAdListener(object : AdListener {
 
             override fun onError(ad: com.facebook.ads.Ad, error: AdError) {
                 // Ad error callback
@@ -157,7 +156,7 @@ class FacebookAudience : IMarvelAds {
         })
 
         // Request an ad
-        nativeAd!!.loadAd()
+        nativeAd.loadAd()
     }
 
     fun setAdIcon(nativeAd: NativeAd, showOnthis: ImageView?) {
@@ -190,7 +189,7 @@ class FacebookAudience : IMarvelAds {
     fun showNativeAdInHScroll(num: Int, adContainer: ViewGroup) {
         // Initialize a NativeAdsManager and request 5 ads
         val manager = NativeAdsManager(context, DastanApp.getAppInstance().fbNativeAdId, num)
-        manager?.setListener(object : NativeAdsManager.Listener {
+        manager.setListener(object : NativeAdsManager.Listener {
             override fun onAdsLoaded() {
                 nativeAdScrollView = NativeAdScrollView(context, manager,
                         NativeAdView.Type.HEIGHT_300)
@@ -205,7 +204,7 @@ class FacebookAudience : IMarvelAds {
                         .forEach { it.adError(adError.errorMessage) }
             }
         })
-        manager?.loadAds(NativeAd.MediaCacheFlag.ALL)
+        manager.loadAds(NativeAd.MediaCacheFlag.ALL)
     }
 
     private fun callAdError(errorMessage: String) {
