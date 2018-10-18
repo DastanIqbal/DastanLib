@@ -1,10 +1,16 @@
 package com.dastanapps.dastanlib.utils
 
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.dastanapps.dastanlib.DastanApp
+import com.dastanapps.dastanlib.image.GlideApp
+import com.dastanapps.dastanlib.image.GlideRequest
+import java.io.File
 
 /**
  * Created by dastaniqbal on 20/10/2017.
@@ -18,7 +24,7 @@ object GlideUtils {
         Glide.with(DastanApp.getInstance()).load(path).into(imv)
     }
 
-    /*fun decodeVideo(context: Context, videoPath: String, duration: Int): GlideRequest<Drawable> {
+    fun decodeVideo(context: Context, videoPath: String, duration: Int): GlideRequest<Drawable> {
         var durationMicro = duration * 1000 / 2
         if (durationMicro < 0) {
             durationMicro = 0
@@ -34,7 +40,7 @@ object GlideUtils {
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .fitCenter()
                 .into(imageView)
-    }*/
+    }
 
     fun urlWithHeader(url: String, headers: Map<String, String>?): GlideUrl {
         val headersBuilder: LazyHeaders.Builder = LazyHeaders.Builder()

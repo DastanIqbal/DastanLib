@@ -1,4 +1,3 @@
-/*
 package com.dastanapps.dastanlib.image;
 
 import android.content.Context;
@@ -13,10 +12,11 @@ import java.util.concurrent.ExecutionException;
 
 import static com.dastanapps.dastanlib.network.VolleyRequest.getRequestQueue;
 
-*/
-/**
+/*
+ *
  * Created by IQBAL-MEBELKART on 10/23/2015.
- *//*
+
+ */
 
 public class MkartImage {
 
@@ -26,8 +26,8 @@ public class MkartImage {
     public static void loadImage(Context ctxt, String url, ImageView imv) {
         GlideApp.with(ctxt)
                 .load(url)
-                        //.asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                //.asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.drawable.common_placeholder)
                 .into(imv);
     }
@@ -35,15 +35,15 @@ public class MkartImage {
     public static void loadImage(Context ctxt, String url, ImageView imv, int defImg) {
         GlideApp.with(ctxt)
                 .load(url)
-                        //.asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                //.asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(defImg)
                 .into(imv);
     }
 
     public static Bitmap loadBitmap(Context ctxt, String url) {
         try {
-            return GlideApp.with(ctxt).load(url).asBitmap().into(-1, -1).get();
+            return GlideApp.with(ctxt).asBitmap().load(url).into(-1, -1).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -64,33 +64,32 @@ public class MkartImage {
     public static void loadVolleyImage(String url, ImageView imv) {
         ImageLoader imageLoader = getImageLoader();
         imageLoader.get(url, ImageLoader.getImageListener(
-                imv, R.drawable.common_placeholder, R.drawable.common_placeholder),600,600);
+                imv, R.drawable.common_placeholder, R.drawable.common_placeholder), 600, 600);
     }
 
 
     public static void clear(ImageView itemImg) {
-        GlideApp.clear(itemImg);
+        GlideApp.with(itemImg.getContext()).clear(itemImg);
     }
 
     public static void loadResizeImage(Context ctxt, String img_url, ImageView view) {
-        GlideAppApp.with(ctxt)
-                .load(img_url)
+        GlideApp.with(ctxt)
                 .asBitmap()
-                .override(400,163)
+                .load(img_url)
+                .override(400, 163)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.common_placeholder)
                 .into(view);
     }
 
     public static void loadResizeProdImage(Context ctxt, String img_url, ImageView view) {
-        GlideAppApp.with(ctxt)
-                .load(img_url)
+        GlideApp.with(ctxt)
                 .asBitmap()
-                .override(400,400)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .load(img_url)
+                .override(400, 400)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.drawable.common_placeholder)
                 .into(view);
     }
 }
 
-*/
