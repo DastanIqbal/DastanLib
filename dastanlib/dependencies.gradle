@@ -1,0 +1,38 @@
+apply from: '../androidSupport.gradle'
+apply from: '../googleService.gradle'  //Google Service Libraries
+apply from: '../xmpp.gradle'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation files('libs/applovin-sdk-6.4.2.jar')
+    implementation files('libs/StartAppInApp-3.5.6.jar')
+    //Analytics
+    implementation 'com.flurry.android:analytics:6.4.2'
+    //Crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true
+    }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Parser
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //Facebook Audience
+    implementation 'com.facebook.android:audience-network-sdk:4.99.3'
+    //Facebook Sdk
+    implementation 'com.facebook.android:facebook-android-sdk:4.37.0'
+
+    //Ripple Effect
+    compile 'com.balysv:material-ripple:1.0.2'
+
+    //3-Party SquareUP Libraries
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    implementation 'it.neokree:MaterialTabs:0.11'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+}
