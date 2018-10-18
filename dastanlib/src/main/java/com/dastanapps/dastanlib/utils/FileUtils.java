@@ -28,7 +28,6 @@ import java.text.DecimalFormat;
 
 /**
  * Created by dastaniqbal on 17/02/2017.
- * dastanIqbal@marvelmedia.com
  * 17/02/2017 3:28
  */
 

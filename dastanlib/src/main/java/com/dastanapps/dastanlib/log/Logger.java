@@ -7,7 +7,6 @@ import com.dastanapps.dastanlib.DastanApp;
 
 /**
  * Created by Iqbal Ahmed on 10/8/2015.
- * dastanIqbal@marvelmedia.com
  * 10/8/2015 11:07
  */
 public class Logger {

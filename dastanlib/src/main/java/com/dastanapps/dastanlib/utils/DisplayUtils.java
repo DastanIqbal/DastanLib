@@ -3,6 +3,7 @@ package com.dastanapps.dastanlib.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 import com.dastanapps.dastanlib.DastanApp;
 
@@ -65,5 +66,11 @@ public class DisplayUtils {
     public static float convertToDp(float scaledPixels) {
         float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().density;
         return scaledPixels * scaledDensity;
+    }
+
+    public static float getDIP(float value) {
+        DisplayMetrics metrics = DastanApp.getAppInstance().getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value,
+                metrics);
     }
 }

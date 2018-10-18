@@ -14,7 +14,6 @@ import java.io.File;
 
 /**
  * Created by dastaniqbal on 27/04/2017.
- * dastanIqbal@marvelmedia.com
  * 27/04/2017 11:32
  */
 

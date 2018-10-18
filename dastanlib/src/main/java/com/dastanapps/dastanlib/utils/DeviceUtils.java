@@ -135,4 +135,8 @@ public class DeviceUtils {
         return serial;
     }
 
+    public static String getBasicDeviceInfo() {
+        return Build.MANUFACTURER + Build.MODEL +
+                Build.DEVICE + Build.VERSION.RELEASE + Build.VERSION.SDK_INT;
+    }
 }

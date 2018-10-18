@@ -36,7 +36,6 @@ import java.net.URL;
 
 /**
  * Created by dastaniqbal on 15/12/2016.
- * dastanIqbal@marvelmedia.com
  * 15/12/2016 10:07
  */
 

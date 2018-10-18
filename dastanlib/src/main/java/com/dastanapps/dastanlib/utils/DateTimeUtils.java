@@ -5,6 +5,7 @@ import android.util.Log;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -80,5 +81,24 @@ public class DateTimeUtils {
     public static String convertMilliSecToMinSecs(long millis) {
         if (millis == 0) return "";
         return convertSecToMinSecs(millis / 1000);
+    }
+
+    public static int findDaysDiff(long unixStartTime, long unixEndTime) {
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTimeInMillis(unixStartTime);
+        calendar1.set(Calendar.HOUR_OF_DAY, 0);
+        calendar1.set(Calendar.MINUTE, 0);
+        calendar1.set(Calendar.SECOND, 0);
+        calendar1.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTimeInMillis(unixEndTime);
+        calendar2.set(Calendar.HOUR_OF_DAY, 0);
+        calendar2.set(Calendar.MINUTE, 0);
+        calendar2.set(Calendar.SECOND, 0);
+        calendar2.set(Calendar.MILLISECOND, 0);
+
+        return (int) ((calendar2.getTimeInMillis() - calendar1.getTimeInMillis()) / (24 * 60 * 60 * 1000));
+
     }
 }

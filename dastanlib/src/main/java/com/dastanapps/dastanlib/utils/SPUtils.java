@@ -125,5 +125,29 @@ public class SPUtils<T> {
     public static boolean readBoolean(String key, boolean defaultValue) {
         return getSP().getBoolean(key, defaultValue);
     }
+
+    public static void writeLong(String key, long value) {
+        getSP().edit().putLong(key, value).commit();
+    }
+
+
+    public static long readLong(String key) {
+        return getSP().getLong(key, 0);
+    }
+
+
+    public static void writeInt(String key, int value) {
+        getSP().edit().putInt(key, value).commit();
+    }
+
+
+    public static int readInt(String key) {
+        return getSP().getInt(key, 0);
+    }
+
+    public static int readInt(String key, int defValue) {
+        return getSP().getInt(key, defValue);
+    }
+
 }
 

@@ -75,7 +75,6 @@ import static android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES;
 
 /**
  * Created by dastaniqbal on 19/01/2017.
- * dastanIqbal@marvelmedia.com
  * 19/01/2017 12:48
  */
 

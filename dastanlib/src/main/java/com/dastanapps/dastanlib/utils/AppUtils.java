@@ -7,7 +7,6 @@ import com.dastanapps.dastanlib.DastanApp;
 
 /**
  * Created by dastaniqbal on 15/12/2016.
- * dastanIqbal@marvelmedia.com
  * 15/12/2016 4:20
  */
 

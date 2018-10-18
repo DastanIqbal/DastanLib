@@ -1,6 +1,7 @@
 package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.support.design.widget.TextInputLayout;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -9,6 +10,8 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Arrays;
 
 
 /**
@@ -177,6 +180,24 @@ public class StringUtils {
 
     public static boolean validateIFSCCode(String str) {
         return (str.matches("^[a-zA-Z]{4}[0][0-9]{6}$"));
+    }
+
+    public static String toArrayString(Matrix matrix) {
+        float[] temp = new float[9];
+        matrix.getValues(temp);
+        return Arrays.toString(temp).
+                replace("[", "").replace("]", "");
+    }
+
+    public static Matrix toMatrix(String matrixFloatArrayString) {
+        float[] floatArray = new float[9];
+        String[] stringArray = matrixFloatArrayString.split(",");
+        for (int i = 0; i < stringArray.length; i++) {
+            floatArray[i] = Float.parseFloat(stringArray[i]);
+        }
+        Matrix matrix = new Matrix();
+        matrix.setValues(floatArray);
+        return matrix;
     }
 
 }

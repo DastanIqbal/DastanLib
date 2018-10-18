@@ -11,7 +11,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 /**
  * Created by dastaniqbal on 17/08/2017.
- * dastanIqbal@marvelmedia.com
  * 17/08/2017 10:41
  */
 class RemoteConfigFB {

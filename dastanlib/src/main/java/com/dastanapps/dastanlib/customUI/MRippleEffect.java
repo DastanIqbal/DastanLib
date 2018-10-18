@@ -7,7 +7,6 @@ import com.balysv.materialripple.MaterialRippleLayout;
 
 /**
  * Created by dastaniqbal on 01/08/2017.
- * dastanIqbal@marvelmedia.com
  * 01/08/2017 11:09
  */
 

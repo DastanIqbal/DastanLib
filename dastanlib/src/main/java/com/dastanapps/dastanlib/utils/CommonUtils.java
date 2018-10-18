@@ -9,6 +9,8 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -55,6 +57,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -247,6 +251,26 @@ public class CommonUtils {
         File fileToShare = new File(filepath);
         Uri uri = Uri.fromFile(fileToShare);
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(sendIntent, shareTitle));
+    }
+
+    /**
+     * used to share the link using existing app in device
+     *
+     * @param context
+     * @param shareText
+     * @param shareTitle
+     * @param filepath
+     */
+    public static void shareVideoIntent(Context context, String shareTitle, String filepath, String shareText, boolean isVideo) {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType(isVideo ? "video/*" : "audio/*");
+        File fileToShare = new File(filepath);
+        Uri uri = Uri.fromFile(fileToShare);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (shareText != null) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        }
         context.startActivity(Intent.createChooser(sendIntent, shareTitle));
     }
 
@@ -713,5 +737,82 @@ public class CommonUtils {
             }
         }
         return outputString;
+    }
+
+    public static <T> Iterable<T> emptyIfNull(Iterable<T> iterable) {
+        return iterable == null ? Collections.<T>emptyList() : iterable;
+    }
+
+
+    public static void sharingVideoToSocialMedia(Context context, String application, String shareTitle, String filepath, boolean isVideo) {
+
+        sharingVideoToSocialMediaWithText(context, application, shareTitle, null, filepath, isVideo);
+    }
+
+    public static void sharingVideoToSocialMediaWithText(Context context, String application, String shareTitle, String shareText, String filepath, boolean isVideo) {
+
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType(isVideo ? "video/*" : "audio/*");
+        File fileToShare = new File(filepath);
+        Uri uri = Uri.fromFile(fileToShare);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (shareText != null) {
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        }
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        boolean installed = checkAppInstall(application);
+        if (installed) {
+            try {
+                sendIntent.setPackage(application);
+                context.startActivity(sendIntent);
+            } catch (Exception e) {
+                shareVideoIntent(context, shareTitle, filepath, shareText, isVideo);
+            }
+        } else {
+            shareVideoIntent(context, shareTitle, filepath, shareText, isVideo);
+        }
+    }
+
+
+    public static boolean checkAppInstall(String uri) {
+        PackageManager pm = DastanApp.getAppInstance().getPackageManager();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return packageInfo != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static int getRandomNumber(int max, int min) {
+        Random rn = new Random();
+        int range = max - min + 1;
+        return rn.nextInt(range) + min;
+    }
+
+    public static void screenBrightness(double newBrightnessValue, Activity activity) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        float newBrightness = (float) newBrightnessValue;
+        lp.screenBrightness = newBrightness / (float) 255;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    public static void changeBrightnessMode(Activity activity) {
+        try {
+            int brightnessMode = Settings.System.getInt(activity.getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS_MODE);
+            if (brightnessMode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+                Settings.System.putInt(activity.getContentResolver(),
+                        Settings.System.SCREEN_BRIGHTNESS_MODE,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+            }
+
+        } catch (Exception e) {
+            // do something useful
+        }
+    }
+
+    public static void runInThread(Runnable runnable) {
+        new Thread(runnable).start();
     }
 }

@@ -1,11 +1,12 @@
 package com.dastanapps.dastanlib.utils;
 
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
  * Created by dastaniqbal on 19/07/2017.
- * dastanIqbal@marvelmedia.com
  * 19/07/2017 6:30
  */
 
@@ -22,5 +23,12 @@ public class LayoutUtils {
             params.addRule(aVerb);
         }
         rlView.setLayoutParams(params);
+    }
+
+    public static void setConstraintRatio(ConstraintLayout layout, int viewId, String ratio) {
+        ConstraintSet set = new ConstraintSet();
+        set.clone(layout);
+        set.setDimensionRatio(viewId, ratio);
+        set.applyTo(layout);
     }
 }
