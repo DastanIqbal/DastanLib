@@ -77,7 +77,7 @@ public class StartAppAds {
 
     public void init() {
         //102362101,202271055
-        StartAppSDK.init(DastanApp.getAppInstance(), SPUtils.readString("adnetworkId"), false);
+        StartAppSDK.init(DastanApp.getInstance(), SPUtils.readString("adnetworkId"), false);
         startAppNativeAd = new StartAppNativeAd(DastanApp.getInstance());
     }
 
@@ -113,7 +113,7 @@ public class StartAppAds {
                 DAnalytics.getInstance().sendLogs("StartApp", "interstialAds", "adNotDisplayed");
             }
         });
-        StartAppAd.onBackPressed(DastanApp.getAppInstance());
+        StartAppAd.onBackPressed(DastanApp.getInstance());
     }
 
     public void setInterstialAds(final StartAppAd startAppAd) {

@@ -39,7 +39,7 @@ public class DAnalytics {
     public DAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(DastanApp.getInstance());
         String apiKey = SPUtils.readString(SPConstant.ANALYTICS_API_KEY);
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             new FlurryAgent.Builder()
                     .withLogEnabled(false)
                     .withListener(new FlurryAgentListener() {
@@ -139,13 +139,13 @@ public class DAnalytics {
     }
 
     public void setVersion(String versionName) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             FlurryAgent.setVersionName(versionName);
         }
     }
 
     public void sendProperty(String key, String value) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             firebaseAnalytics.setUserProperty(key, value);
             if(FlurryAgent.isSessionActive()) {
                 FlurryAgent.logEvent(key + " : " + value);
@@ -154,7 +154,7 @@ public class DAnalytics {
     }
 
     public void sendParams(String key, Bundle bundle) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             firebaseAnalytics.logEvent(key, bundle);
             CustomEvent customEvent = new CustomEvent(key);
             HashMap<String, String> hashMap = new HashMap<>();
@@ -171,7 +171,7 @@ public class DAnalytics {
     }
 
     public void setContentView(String name, String type, String id) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             Answers.getInstance().logContentView(new ContentViewEvent()
                     .putContentName(name)
                     .putContentType(type)
@@ -180,7 +180,7 @@ public class DAnalytics {
     }
 
     public void sendLogs(String tag, String value) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             sendProperty(tag, value);
             CustomEvent customEvent = new CustomEvent(tag);
             customEvent.putCustomAttribute(tag, value);
@@ -189,7 +189,7 @@ public class DAnalytics {
     }
 
     public void sendLogs(String tag, String key, String value) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             Bundle bundle = new Bundle();
             bundle.putString(key, value);
             sendParams(tag, bundle);
@@ -200,7 +200,7 @@ public class DAnalytics {
     }
 
     public void addPurchase(long price, String item, String type, String id, boolean success) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             Answers.getInstance().logPurchase(new PurchaseEvent()
                     .putItemPrice(BigDecimal.valueOf(price))
                     .putCurrency(Currency.getInstance("USD"))
@@ -212,7 +212,7 @@ public class DAnalytics {
     }
 
     public void addPurchase(String item, long price, String type, boolean success) {
-        if (DastanApp.getAppInstance().isRelease()) {
+        if (DastanApp.getInstance().isRelease()) {
             Answers.getInstance().logPurchase(new PurchaseEvent()
                     .putItemPrice(BigDecimal.valueOf(price))
                     .putCurrency(Currency.getInstance("USD"))

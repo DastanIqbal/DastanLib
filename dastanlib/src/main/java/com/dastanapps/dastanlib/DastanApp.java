@@ -1,7 +1,6 @@
 package com.dastanapps.dastanlib;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 
 import com.dastanapps.dastanlib.ads.MarvelAds;
@@ -13,7 +12,7 @@ import com.dastanapps.dastanlib.utils.SPUtils;
 
 public class DastanApp extends Application {
     public static final String GCM_MESSAGE = "gcm_message";
-    private static Context instance;
+    private static DastanApp instance;
     private String devMode;
     private int smallIcon;
     private Intent notficationIntent;
@@ -21,16 +20,14 @@ public class DastanApp extends Application {
     private String fbBannerAdId, fbNativeAdId, fbInterstialAdId;
     private MarvelAds marvelAds;
 
-    public static Context getInstance() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
+
+    public static DastanApp getInstance() {
         return instance;
-    }
-
-    public static void setInstance(Context context) {
-        instance = context;
-    }
-
-    public static DastanApp getAppInstance() {
-        return (DastanApp) instance;
     }
 
     public static String getChatUser() {

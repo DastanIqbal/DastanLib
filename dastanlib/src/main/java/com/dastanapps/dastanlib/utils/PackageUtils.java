@@ -197,7 +197,7 @@ public class PackageUtils {
         for (int i = 0; i < pkgInfoList.size(); i++) {
             PackageInfo pkgInfo = pkgInfoList.get(i);
             try {
-                if (!pkgInfo.packageName.equals(DastanApp.getAppInstance().getPackageName())) {
+                if (!pkgInfo.packageName.equals(DastanApp.getInstance().getPackageName())) {
                     jsonArray.put(getPackageInfoJsonObj(pkgInfo));
                 }
             } catch (Exception e) {

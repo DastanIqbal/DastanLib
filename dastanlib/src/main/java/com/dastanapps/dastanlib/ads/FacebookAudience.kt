@@ -24,7 +24,7 @@ class FacebookAudience : IMarvelAds {
     init {
         val testDevices = ArrayList<String>()
         //Testing Device HashCode
-        if (!DastanApp.getAppInstance().isRelease) {
+        if (!DastanApp.getInstance().isRelease) {
             AdSettings.addTestDevices(testDevices)
         }
     }
@@ -38,7 +38,7 @@ class FacebookAudience : IMarvelAds {
     //**************************
     fun showBanner(adContainer: ViewGroup) {
         // Instantiate an AdView view
-        val adView = AdView(context, DastanApp.getAppInstance().fbBannerAdId,
+        val adView = AdView(context, DastanApp.getInstance().fbBannerAdId,
                 AdSize.BANNER_HEIGHT_50)
 
         // Add the ad view to container
@@ -75,7 +75,7 @@ class FacebookAudience : IMarvelAds {
     //**************************
     fun loadInterstitial(tag: String) {
         // Instantiate an InterstitialAd object
-        val interstitialAd = InterstitialAd(context, DastanApp.getAppInstance().fbInterstialAdId)
+        val interstitialAd = InterstitialAd(context, DastanApp.getInstance().fbInterstialAdId)
         interstitialAd.loadAd()
 
         // Set listeners for the Interstitial Ad
@@ -125,7 +125,7 @@ class FacebookAudience : IMarvelAds {
     // Native Ads
     //**************************
     fun showNativeAd(tag: String) {
-        val nativeAd = NativeAd(context, DastanApp.getAppInstance().fbNativeAdId)
+        val nativeAd = NativeAd(context, DastanApp.getInstance().fbNativeAdId)
         nativeAd.setAdListener(object : AdListener {
 
             override fun onError(ad: com.facebook.ads.Ad, error: AdError) {
@@ -187,7 +187,7 @@ class FacebookAudience : IMarvelAds {
 
     fun showNativeAdInHScroll(num: Int, adContainer: ViewGroup) {
         // Initialize a NativeAdsManager and request 5 ads
-        val manager = NativeAdsManager(context, DastanApp.getAppInstance().fbNativeAdId, num)
+        val manager = NativeAdsManager(context, DastanApp.getInstance().fbNativeAdId, num)
         manager.setListener(object : NativeAdsManager.Listener {
             override fun onAdsLoaded() {
                 nativeAdScrollView = NativeAdScrollView(context, manager,

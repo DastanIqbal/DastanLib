@@ -49,27 +49,27 @@ public class DisplayUtils {
     }
 
     public static float convertSpToPx(float scaledPixels) {
-        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        float scaledDensity = DastanApp.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return scaledPixels * scaledDensity;
     }
 
     public static int convertToPx(float scaledPixels) {
-        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        float scaledDensity = DastanApp.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return (int) (scaledPixels * scaledDensity);
     }
 
     public static float convertPxToSp(float scaledPixels) {
-        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().scaledDensity;
+        float scaledDensity = DastanApp.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return scaledPixels / scaledDensity;
     }
 
     public static float convertToDp(float scaledPixels) {
-        float scaledDensity = DastanApp.getAppInstance().getResources().getDisplayMetrics().density;
+        float scaledDensity = DastanApp.getInstance().getResources().getDisplayMetrics().density;
         return scaledPixels * scaledDensity;
     }
 
     public static float getDIP(float value) {
-        DisplayMetrics metrics = DastanApp.getAppInstance().getResources().getDisplayMetrics();
+        DisplayMetrics metrics = DastanApp.getInstance().getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value,
                 metrics);
     }

@@ -12,7 +12,6 @@ public class MyAPP extends DastanApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        setInstance(this);
-        ViewUtils.showToast(this, "Intialized");
+        ViewUtils.showToast(this, "Initialized");
     }
 }

@@ -15,37 +15,37 @@ public class Logger {
     }
 
     public static void i(String tag, String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.d(tag, checkNull(log));
 //        DFabric.log(tag, checkNull(log));
     }
 
     public static void w(String tag, String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.w(tag, checkNull(log));
 //        DFabric.log(tag, checkNull(log));
     }
 
     public static void d(String tag, String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.d(tag, checkNull(log));
 //        DFabric.log(tag, checkNull(log));
     }
 
     public static void e(String tag, String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.e(tag, checkNull(log));
 //        DFabric.log(tag, checkNull(log));
     }
 
     public static void v(String tag, String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.v(tag, log);
 //        DFabric.log(tag, log);
     }
 
     public static void onlyDebug(String log) {
-        if (!DastanApp.getAppInstance().isRelease())
+        if (!DastanApp.getInstance().isRelease())
             Log.d("dastanLib", checkNull(log));
 //        DFabric.log(tag, checkNull(log));
     }

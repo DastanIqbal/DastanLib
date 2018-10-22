@@ -31,7 +31,7 @@ class RemoteConfigFB {
                     mFirebaseRemoteConfig.activateFetched()
                     val url = mFirebaseRemoteConfig.getString(key)
                     if (!TextUtils.isEmpty(url)) {
-                        DastanApp.getAppInstance().setPushURL(url)
+                        DastanApp.getInstance().setPushURL(url)
                         MarvelService.getInstance().sendtoken()
                     }
                     Logger.d(TAG, url)

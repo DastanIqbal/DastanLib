@@ -508,16 +508,16 @@ public class CommonUtils {
                 PendingIntent.getActivity(
                         ctxt,
                         0,
-                        DastanApp.getAppInstance().getNotficationIntent(),
+                        DastanApp.getInstance().getNotficationIntent(),
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctxt)
-                        .setSmallIcon(DastanApp.getAppInstance().getSmallIcon())
+                        .setSmallIcon(DastanApp.getInstance().getSmallIcon())
                         .setContentTitle(title)
                         .setAutoCancel(isCancelable)
                         .setOngoing(false)
-                        .setColor(DastanApp.getAppInstance().getNotificationColor())
+                        .setColor(DastanApp.getInstance().getNotificationColor())
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setSound(defaultSoundUri)
                         .setContentText(desc)
@@ -775,7 +775,7 @@ public class CommonUtils {
 
 
     public static boolean checkAppInstall(String uri) {
-        PackageManager pm = DastanApp.getAppInstance().getPackageManager();
+        PackageManager pm = DastanApp.getInstance().getPackageManager();
         try {
             PackageInfo packageInfo = pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             return packageInfo != null;

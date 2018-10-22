@@ -42,7 +42,9 @@ android {
     }
 }
 
-apply from: 'deploy.gradle'
+if (!rootProject.ext.devMode) {
+    apply from: 'deploy.gradle'
+}
 apply from: 'dependencies.gradle'
 
 dependencies {
