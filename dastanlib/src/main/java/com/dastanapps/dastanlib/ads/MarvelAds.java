@@ -12,7 +12,6 @@ import com.facebook.ads.InterstitialAd;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 import com.startapp.android.publish.adsCommon.StartAppAd;
-import com.videoeditor.kruso.lib.ads.IFBNativeAds;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

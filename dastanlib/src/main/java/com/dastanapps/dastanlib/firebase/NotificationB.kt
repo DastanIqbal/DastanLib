@@ -1,4 +1,4 @@
-package com.videoeditor.kruso.lib.firebase
+package com.dastanapps.dastanlib.firebase
 
 data class NotificationB(
         var title: String,

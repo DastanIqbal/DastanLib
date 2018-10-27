@@ -24,7 +24,7 @@ import com.dastanapps.dastanlib.utils.SPUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.videoeditor.kruso.lib.firebase.NotificationB;
+import com.dastanapps.dastanlib.firebase.NotificationB;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.videoeditor.kruso.lib.firebase
+package com.dastanapps.dastanlib.firebase
 
 import android.text.TextUtils
 import com.dastanapps.dastanlib.BuildConfig

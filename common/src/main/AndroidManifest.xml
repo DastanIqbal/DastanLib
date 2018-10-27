@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dastanapps.dastanlib.utils" />
+    package="com.dastanapps.dastanlib.utils">
+
+    <application android:name="com.dastanapps.dastanlib.DastanLibApp" />
+</manifest>

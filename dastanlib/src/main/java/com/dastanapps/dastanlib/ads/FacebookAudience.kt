@@ -8,7 +8,6 @@ import com.dastanapps.dastanlib.DastanApp
 import com.dastanapps.dastanlib.analytics.DAnalytics
 import com.dastanapps.dastanlib.log.Logger
 import com.facebook.ads.*
-import com.videoeditor.kruso.lib.ads.IFBNativeAds
 import java.util.*
 
 /**

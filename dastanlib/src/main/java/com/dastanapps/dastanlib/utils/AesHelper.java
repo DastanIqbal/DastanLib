@@ -3,6 +3,8 @@ package com.dastanapps.dastanlib.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.nio.charset.Charset;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,16 +16,16 @@ public class AesHelper {
 
     public static byte[] encrypt(String plainText, String encryptionKey, String IV) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        SecretKeySpec key = new SecretKeySpec(encryptionKey.getBytes("UTF-8"), "AES");
-        cipher.init(Cipher.ENCRYPT_MODE, key,new IvParameterSpec(IV.getBytes("UTF-8")));
-        return cipher.doFinal(plainText.getBytes("UTF-8"));
+        SecretKeySpec key = new SecretKeySpec(encryptionKey.getBytes(Charset.defaultCharset()), "AES");
+        cipher.init(Cipher.ENCRYPT_MODE, key,new IvParameterSpec(IV.getBytes(Charset.defaultCharset())));
+        return cipher.doFinal(plainText.getBytes(Charset.defaultCharset()));
     }
 
     public static String decrypt(byte[] cipherText, String encryptionKey, String IV) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        SecretKeySpec key = new SecretKeySpec(encryptionKey.getBytes("UTF-8"), "AES");
-        cipher.init(Cipher.DECRYPT_MODE, key,new IvParameterSpec(IV.getBytes("UTF-8")));
-        return new String(cipher.doFinal(cipherText),"UTF-8");
+        SecretKeySpec key = new SecretKeySpec(encryptionKey.getBytes(Charset.defaultCharset()), "AES");
+        cipher.init(Cipher.DECRYPT_MODE, key,new IvParameterSpec(IV.getBytes(Charset.defaultCharset())));
+        return new String(cipher.doFinal(cipherText),Charset.defaultCharset());
     }
 
     public static String toHex(byte[] buf) {

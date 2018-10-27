@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 apply from: '../test-dependencies.gradle'
+apply from: '../kotlin.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -23,5 +23,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:appcompat-v7:' + supportVersion
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Logger
+    implementation "org.slf4j:slf4j-android:$sl4j"
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:$glide") {
+        exclude group: "com.android.support"
+    }
+    kapt 'com.github.bumptech.glide:compiler:' + glide
+
+    //Koin
+    implementation 'org.koin:koin-android:' + koin
+    //implementation 'org.koin:koin-android-scope:' + koin
+    //implementation 'org.koin:koin-android-viewmodel:' + koin
 }

@@ -1,4 +1,4 @@
-package com.videoeditor.kruso.lib.customUI
+package com.dastanapps.dastanlib.customUI
 
 import android.content.Context
 import android.graphics.Canvas

@@ -1,5 +1,6 @@
 package com.dastanapps.dastanlib.utils;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -28,6 +29,7 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.RequiresPermission;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -55,6 +57,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Collections;
@@ -97,45 +100,31 @@ public class CommonUtils {
     public static String decodeBase64(String base64Str) {
         try {
             byte[] data = Base64.decode(base64Str, Base64.DEFAULT);
-            try {
-                return new String(data, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            return new String(data, Charset.defaultCharset());
         } catch (Exception e) {
             return null;
         }
-        return null;
     }
 
     public static String decodeBase64NoPadding(String base64Str) {
         try {
             byte[] data = Base64.decode(base64Str, Base64.NO_PADDING);
-            try {
-                return new String(data, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            return new String(data, Charset.defaultCharset());
         } catch (Exception e) {
             return null;
         }
-        return null;
     }
 
     public static String encodeBase64NoPadding(byte[] str) {
         try {
-            try {
-                byte[] data = Base64.encode(str, Base64.NO_PADDING);
-                return new String(data, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            byte[] data = Base64.encode(str, Base64.NO_PADDING);
+            return new String(data, Charset.defaultCharset());
         } catch (Exception e) {
             return null;
         }
-        return null;
     }
 
+    @RequiresPermission(Manifest.permission.GET_ACCOUNTS)
     public static String getAccountName(Context ctxt) {
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(ctxt).getAccounts();

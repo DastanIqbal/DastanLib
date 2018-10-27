@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="featuredChild" type="id"/>
+    <item name="dealChild" type="id"/>
+    <item name="catId" type="id"/>
+    <item name="prodId" type="id"/>
+    <item name="catName" type="id"/>
+    <item name="children" type="id"/>
+    <item name="menuPosition" type="id"/>
+    <item name="handleMultipleTap" type="id"/>
+    <item name="slider_click" type="id" />
+    <item name="card_selection" type="id" />
+</resources>

@@ -1,6 +1,4 @@
-package com.videoeditor.kruso.lib.ads
-
-import com.dastanapps.dastanlib.ads.IMarvelAds
+package com.dastanapps.dastanlib.ads
 
 interface IFBNativeAds : IMarvelAds {
     fun adLoaded(adLoaded: Any)
