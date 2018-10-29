@@ -8,6 +8,7 @@ class DastanChatApp : DastanLibApp() {
     private val TAG = this::class.java.simpleName
     var chatUser: String? = null
     var chatPwd: String? = null
+    var xmppHost: String? = null
 
     companion object {
         lateinit var INSTANCE: DastanChatApp
@@ -23,6 +24,10 @@ class DastanChatApp : DastanLibApp() {
 
         if (chatPwd.isNullOrEmpty()) {
             RuntimeException("Chat Password cannot be Null")
+        }
+
+        if (xmppHost.isNullOrEmpty()) {
+            RuntimeException("Xmpp Host cannot be Null")
         }
     }
 }

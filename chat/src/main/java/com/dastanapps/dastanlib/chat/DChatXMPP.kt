@@ -245,8 +245,8 @@ class DChatXMPP {
         private val TAG = DChatXMPP::class.java.simpleName
         private val DEFAULT_RECONNECTION_DELAY = 5 // sec
         private val DEFAULT_SEND_MESSAGE_TIMEOUT = 5 // sec
-        val XMPP_HOST = "im.zylahealth.com"
-        val RESOURCE = "zyla_android"
+        val XMPP_HOST = DastanChatApp.INSTANCE.xmppHost
+        val RESOURCE = "dastan_chat"
         private var xmpptcpConnection: XMPPTCPConnection? = null
         var xmppChat: XMPPChat? = null
             private set
