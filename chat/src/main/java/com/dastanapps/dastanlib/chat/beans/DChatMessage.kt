@@ -1,6 +1,6 @@
 package com.dastanapps.dastanlib.chat.beans
 
-import com.dastanapps.dastanlib.chat.DChatXMPP.XMPP_HOST
+import com.dastanapps.dastanlib.DastanChatApp
 import org.jivesoftware.smack.packet.Message
 
 
@@ -12,7 +12,7 @@ class DChatMessage(to: String, //public String from;
                    private val msg: String, private val isGroup: Boolean) {
     private val message: Message
     val msgId: String
-    val to: String = "$to@$XMPP_HOST"
+    val to: String = "$to@${DastanChatApp.INSTANCE.xmppHost}"
 
     val chatMessage: Message
         get() {
