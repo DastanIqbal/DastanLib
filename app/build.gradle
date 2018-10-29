@@ -8,8 +8,8 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
+apply from: '../kotlin.gradle'
 
 repositories {
     mavenCentral()
@@ -17,12 +17,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.dastanapps.dastanapps"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dataBinding{
+        enabled true
+    }
 }
 
 configurations {
@@ -48,17 +52,12 @@ apply from: '../androidSupport.gradle'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'
-    testImplementation 'junit:junit:4.12'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'com.dastanApps.dastanlib:dastanlib:0.4.1'
-//    implementation(project(path: ':common')){
-//        transitive false
-//    }
+    implementation(project(path: ':ui'))
+    implementation(project(path: ':common'))/*{
+        transitive false
+    }*/
 }
