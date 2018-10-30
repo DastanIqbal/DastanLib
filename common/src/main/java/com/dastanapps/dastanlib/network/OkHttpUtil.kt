@@ -23,7 +23,7 @@ object OkHttpUtil {
                 .build()
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                iRestRequest.onError(reqId, e.message)
+                iRestRequest.onError(reqId, e.message!!)
             }
 
             @Throws(IOException::class)
@@ -45,7 +45,7 @@ object OkHttpUtil {
                 .build()
         okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                iRestRequest.onError(reqId, e.message)
+                iRestRequest.onError(reqId, e.message!!)
             }
 
             @Throws(IOException::class)

@@ -345,7 +345,7 @@ public class HorizontalSlideColorPicker extends View {
             return true;
         }
 
-        Logger.onlyDebug("Touched: " + event.getAction());
+        Logger.INSTANCE.onlyDebug("Touched: " + event.getAction());
 
         return true;
     }
