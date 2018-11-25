@@ -2,17 +2,11 @@ package com.dastanapps.dastanlib.utils
 
 import android.Manifest
 import android.accounts.AccountManager
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.Typeface
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
@@ -39,7 +33,7 @@ import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import com.dastanapps.dastanlib.DastanLibApp
+import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.log.Logger
 import java.io.*
 import java.nio.charset.Charset
@@ -441,91 +435,75 @@ object CommonUtils {
         return returnString.toString()
     }
 
-    fun openNotification(ctxt: Context, title: String, desc: String, smallIcon: Int, largeIconStream: InputStream?, bigPicStream: InputStream?, resultIntent: Intent) {
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val resultPendingIntent = PendingIntent.getActivity(
-                ctxt,
-                0,
-                resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val mBuilder = NotificationCompat.Builder(ctxt)
-                .setSmallIcon(smallIcon)
-                .setContentTitle(title)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentText(desc)
-                .setContentIntent(resultPendingIntent)
-
-        if (largeIconStream != null) {
-            val largBitmap = BitmapFactory.decodeStream(largeIconStream)
-            if (largBitmap != null) {
-                mBuilder.setLargeIcon(largBitmap)
-            }
+    fun createNotificationChannel(nm: NotificationManager?, channelName: String?, channelId: String?): String? {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val chan = NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW)
+            chan.setSound(null, null)
+            chan.enableLights(false)
+            chan.enableVibration(false)
+            chan.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            nm?.createNotificationChannel(chan)
         }
-
-        if (bigPicStream != null) {
-            val bigBitmap = BitmapFactory.decodeStream(bigPicStream)
-
-            if (bigBitmap != null) {
-                mBuilder.setStyle(NotificationCompat.BigPictureStyle()
-                        .bigPicture(bigBitmap)
-                        .setBigContentTitle(title)
-                        .setSummaryText(desc))
-            }
-        }
-        //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        mBuilder.color = DastanLibApp.INSTANCE.notificationColor
-        //    }
-
-        val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(1001, mBuilder.build())
-
+        return channelId
     }
 
     fun openNotification(ctxt: Context, title: String, desc: String,
                          largeIconStream: InputStream?,
                          bigPicStream: InputStream?, isCancelable: Boolean) {
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val resultPendingIntent = PendingIntent.getActivity(
-                ctxt,
-                0,
-                DastanLibApp.INSTANCE.notficationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val mBuilder = NotificationCompat.Builder(ctxt)
-                .setSmallIcon(DastanLibApp.INSTANCE.smallIcon)
-                .setContentTitle(title)
-                .setAutoCancel(isCancelable)
-                .setOngoing(false)
-                .setColor(DastanLibApp.INSTANCE.notificationColor)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setSound(defaultSoundUri)
-                .setContentText(desc)
-                .setContentIntent(resultPendingIntent)
-
+        var largBitmap: Bitmap? = null
+        var bigBitmap: Bitmap? = null
         if (largeIconStream != null) {
-            val largBitmap = BitmapFactory.decodeStream(largeIconStream)
-            if (largBitmap != null) {
-                mBuilder.setLargeIcon(largBitmap)
-            }
+            largBitmap = BitmapFactory.decodeStream(largeIconStream)
         }
 
         if (bigPicStream != null) {
-            val bigBitmap = BitmapFactory.decodeStream(bigPicStream)
+            bigBitmap = BitmapFactory.decodeStream(bigPicStream)
+        }
+        val notificationB = NotificationB()
+        notificationB.cancelable = isCancelable
+        notificationB.title = title
+        notificationB.desc = desc
+        notificationB.largeBmp = largBitmap
+        notificationB.bigBmp = bigBitmap
+        openNotification2(ctxt, notificationB)
+    }
 
-            if (bigBitmap != null) {
-                mBuilder.setStyle(NotificationCompat.BigPictureStyle()
-                        .bigPicture(bigBitmap)
-                        .setBigContentTitle(title)
-                        .setSummaryText(desc))
-            }
+    fun openNotification2(ctxt: Context, notificationB: NotificationB) {
+        val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val resultPendingIntent = PendingIntent.getActivity(ctxt,
+                0, notificationB.pendingIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+        var channelId = ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channelId = createNotificationChannel(notificationManager, notificationB.channelName, notificationB.channelId) ?: ""
+        }
+        val mBuilder = NotificationCompat.Builder(ctxt, channelId)
+                .setSmallIcon(notificationB.smallIcon)
+                .setContentTitle(notificationB.title)
+                .setAutoCancel(notificationB.cancelable)
+                .setOngoing(false)
+                .setColor(notificationB.color)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setSound(defaultSoundUri)
+                .setContentText(notificationB.desc)
+                .setContentIntent(resultPendingIntent)
+
+        if (notificationB.largeBmp != null) {
+            mBuilder.setLargeIcon(notificationB.largeBmp)
+        }
+
+        if (notificationB.bigBmp != null) {
+            mBuilder.setStyle(NotificationCompat.BigPictureStyle()
+                    .bigPicture(notificationB.bigBmp)
+                    .setBigContentTitle(notificationB.title)
+                    .setSummaryText(notificationB.desc))
         }
         //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         // mBuilder.setColor(ctxt.getResources().getColor(R.color.colorPrimary));
         //    }
 
-        val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(1001, mBuilder.build())
 
     }

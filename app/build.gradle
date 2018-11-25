@@ -48,7 +48,7 @@ configurations {
     custom
 }
 
-apply from: '../androidSupport.gradle'
+apply from: '../android-support.gradle'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

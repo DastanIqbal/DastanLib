@@ -11,6 +11,8 @@ project.ext {
     glide = "4.8.0"
     koin = "1.0.1"
     constraint="2.0.0-alpha2"
+    arch="1.1.1"
+    dagger="2.15"
 
     testJunit = 4.12
     testRunner = "1.0.2"

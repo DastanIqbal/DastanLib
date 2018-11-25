@@ -1,4 +1,4 @@
-apply from: '../androidSupport.gradle'
+apply from: '../android-support.gradle'
 apply from: '../googleService.gradle'  //Google Service Libraries
 apply from: '../xmpp.gradle'
 
