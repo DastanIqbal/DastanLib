@@ -2,6 +2,7 @@
 
 project.ext {
     devMode = false
+    artifact= "ui" //ui,chat,common
 
     minSdkVersion = 16
     compileSdkVersion = 28

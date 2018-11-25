@@ -2,6 +2,15 @@ apply plugin: 'com.android.library'
 apply from: "../kotlin.gradle"
 apply from: '../test-dependencies.gradle'
 
+// This is the library version used when deploying the artifact
+version = "0.1-alpha"
+
+ext {
+    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
+    PUBLISH_ARTIFACT_ID = 'dastanlib'
+    PUBLISH_VERSION = "$version"
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -23,6 +32,10 @@ android {
         enabled = true
     }
 
+}
+
+if (!rootProject.ext.devMode) {
+    apply from: '../deploy.gradle'
 }
 
 dependencies {
