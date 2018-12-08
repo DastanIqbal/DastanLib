@@ -98,53 +98,6 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         }
     }
 
-    fun loadRewardedVideo() {
-        if (!DastanAdsApp.INSTANCE.disableAds)
-            mRewardedVideoAd.loadAd(DastanAdsApp.INSTANCE.adsConfiguration.adMobRewardId, AdRequest.Builder().build())
-    }
-
-    /*fun showRewardedVideo(listener: ListenerAdapter?) {
-        val localListener = object : RewardedVideoAdListener {
-            override fun onRewardedVideoAdClosed() {
-                listener?.onRewardedVideoAdClosed()
-                mRewardedVideoAd.rewardedVideoAdListener = null
-            }
-
-            override fun onRewardedVideoAdLeftApplication() {
-                listener?.onRewardedVideoAdLeftApplication()
-            }
-
-            override fun onRewardedVideoAdLoaded() {
-                listener?.onRewardedVideoAdLoaded()
-                mRewardedVideoAd.show()
-            }
-
-            override fun onRewardedVideoAdOpened() {
-                listener?.onRewardedVideoAdOpened()
-            }
-
-            override fun onRewarded(p0: RewardItem?) {
-                listener?.onRewarded(p0)
-            }
-
-            override fun onRewardedVideoStarted() {
-                listener?.onRewardedVideoStarted()
-            }
-
-            override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-                listener?.onRewardedVideoAdFailedToLoad(p0)
-                mRewardedVideoAd.rewardedVideoAdListener = null
-            }
-
-        }
-        mRewardedVideoAd.rewardedVideoAdListener = localListener
-        if (mRewardedVideoAd.isLoaded) {
-            mRewardedVideoAd.show()
-        } else {
-            loadRewardedVideo()
-        }
-    }*/
-
     fun showRewardedVideo() {
         if (mRewardedVideoAd.isLoaded) {
             mRewardedVideoAd.show()
@@ -152,7 +105,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     fun loadBannerAds(tag: String, bannerId: String) {
-        if (cahcedBannerAdMap[tag] != null) return;
+        if (cahcedBannerAdMap[tag] != null) return
         val adView = AdView(DastanAdsApp.INSTANCE)
         adView.adSize = AdSize.SMART_BANNER
         adView.adUnitId = bannerId
@@ -243,11 +196,11 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         }
     }
 
-    fun showInterstialAd(tag: String, inetrstialAd: InterstitialAd) {
-        if (inetrstialAd.isLoaded) {
+    fun showInterstialAd(tag: String, inetrstialAd: Any) {
+        if (inetrstialAd is InterstitialAd && inetrstialAd.isLoaded) {
             inetrstialAd.show()
             DAnalytics.getInstance().sendLogs("Ads", "onSaveClicked", "AdMob InterstialAds")
-        } else Logger.onlyDebug("admob:interstialAdNotLoaded")
+        } else Logger.onlyDebug("admob:InterstitialAdNotLoaded")
     }
 
     fun isAdAvailable(): Boolean {
@@ -270,37 +223,4 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         super.removeListener(tag)
         mRewardedVideoAd.destroy(context)
     }
-
-    /*open class ListenerAdapter : RewardedVideoAdListener {
-        override fun onRewardedVideoCompleted() {
-        }
-
-        override fun onRewardedVideoAdClosed() {
-            // To be overriden
-        }
-
-        override fun onRewardedVideoAdLeftApplication() {
-            // To be overriden
-        }
-
-        override fun onRewardedVideoAdLoaded() {
-            // To be overriden
-        }
-
-        override fun onRewardedVideoAdOpened() {
-            // To be overriden
-        }
-
-        override fun onRewarded(p0: RewardItem?) {
-            // To be overriden
-        }
-
-        override fun onRewardedVideoStarted() {
-            // To be overriden
-        }
-
-        override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-            // To be overriden
-        }
-    }*/
 }

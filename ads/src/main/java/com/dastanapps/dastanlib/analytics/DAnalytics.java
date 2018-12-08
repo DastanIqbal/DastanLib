@@ -34,7 +34,7 @@ public class DAnalytics {
 
     public DAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(DastanAdsApp.INSTANCE);
-        String apiKey = (String) SPUtils.INSTANCE.readSP(ANALYTICS_API_KEY,null);
+        String apiKey = (String) SPUtils.INSTANCE.readSP(ANALYTICS_API_KEY,"");
         if (DastanAdsApp.INSTANCE.isRelease()) {
             new FlurryAgent.Builder()
                     .withLogEnabled(false)
