@@ -120,7 +120,7 @@ public class DeviceUtils {
     public static String getDeviceSerial() {
        /* String serial = android.os.Build.SERIAL;
         if (TextUtils.isEmpty(serial)) {
-            serial = Settings.Secure.getString(MarvelApp.getInstance().getContentResolver(), Settings.Secure.ANDROID_ID);
+            serial = Settings.Secure.getString(DastanLibApp.INSTANCE.getContentResolver(), Settings.Secure.ANDROID_ID);
         }
         if (TextUtils.isEmpty(serial)) {*/
           String  serial = "34" +

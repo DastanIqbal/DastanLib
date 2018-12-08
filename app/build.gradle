@@ -39,8 +39,21 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding{
+    dataBinding {
         enabled true
+    }
+
+    flavorDimensions android.defaultConfig.versionName
+    productFlavors {
+        dev {
+            dimension android.defaultConfig.versionName
+            //Admob
+            resValue 'string', 'admob_app_id', "ca-app-pub-3940256099942544~3347511713"
+            resValue 'string', 'admob_reward_ad', "ca-app-pub-3940256099942544/5224354917"
+            resValue 'string', 'admob_ads_banner', "ca-app-pub-3940256099942544/6300978111"
+            resValue 'string', 'admob_ads_interstial', "ca-app-pub-8334207332200892/1601691980"
+
+        }
     }
 }
 
@@ -56,8 +69,7 @@ dependencies {
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'
 
-    implementation(project(path: ':ui'))
-    implementation(project(path: ':common'))/*{
-        transitive false
-    }*/
+    implementation 'com.dastanapps.dastanlib:ui:0.1.1-alpha'
+    implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
+    implementation(project(path: ':ads'))
 }

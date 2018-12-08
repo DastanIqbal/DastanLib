@@ -3,7 +3,7 @@ apply from: "../kotlin.gradle"
 apply from: '../test-dependencies.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1-alpha"
+version = "0.1.1-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -45,5 +45,5 @@ dependencies {
     implementation 'com.android.support:design:' + supportVersion
     implementation 'com.android.support.constraint:constraint-layout:' + constraint
 
-    implementation project(":common")
+    implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
 }

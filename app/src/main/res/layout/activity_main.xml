@@ -17,6 +17,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:entries="@array/activity_list"
+            tools:entries="@array/activity_list"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

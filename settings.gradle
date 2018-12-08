@@ -1,3 +1,4 @@
-include ':dastanlib',':common', ':chat'
-include ':app', ':ui'
+include ':dastanlib',':common', ':chat', ':ads',':ui'
+include ':app'
+include ':unity-ads'
 
