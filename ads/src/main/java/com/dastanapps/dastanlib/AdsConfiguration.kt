@@ -1,5 +1,7 @@
 package com.dastanapps.dastanlib
 
+import com.dastanapps.dastanlib.ads.BuildConfig
+
 /**
  * Created by dastaniqbal on 16/04/2018.
  * dastanIqbal@marvelmedia.com
