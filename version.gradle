@@ -2,7 +2,7 @@
 
 project.ext {
     devMode = false
-    artifact= "ads" //ui,chat,common,ads
+    artifact= "common" //ui,chat,common,ads
 
     minSdkVersion = 16
     compileSdkVersion = 28

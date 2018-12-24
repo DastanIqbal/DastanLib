@@ -3,7 +3,7 @@ apply from: '../test-dependencies.gradle'
 apply from: '../kotlin.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1-alpha"
+version = "0.1.1-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'

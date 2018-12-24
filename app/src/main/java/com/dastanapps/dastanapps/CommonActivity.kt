@@ -22,7 +22,7 @@ class CommonActivity : AppCompatActivity() {
                 .channelName("Testing ")
                 .title("This is title")
                 .desc("This is description")
-                .cancelable(false)
+                //.cancelable(false)
         CommonUtils.openNotification2(this, notificationB)
 
         ViewUtils.showToast(this, "Device Resolution:" + DisplayUtils.getDeviceResolution(this))
