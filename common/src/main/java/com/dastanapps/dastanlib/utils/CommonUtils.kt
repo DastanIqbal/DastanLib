@@ -53,6 +53,7 @@ object CommonUtils {
     val CAMERA_REQUEST_CODE_VEDIO = 201
     val PICK_VIDEO = 203
     val PICK_AUDIO = 204
+    val PICK_IMAGES = 205
     private val drawable: Drawable? = null
 
     val uuid: String
@@ -299,22 +300,26 @@ object CommonUtils {
         }
     }
 
-    fun pickVideoIntent(ctxt: Context) {
+    @RequiresPermission("android.Manifest.permission.READ_EXTERNAL_STORAGE")
+    fun pickImageIntent(ctxt: Context, reqId: Int = PICK_IMAGES) {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        (ctxt as Activity).startActivityForResult(intent, PICK_IMAGES)
+    }
+
+    @RequiresPermission("android.Manifest.permission.READ_EXTERNAL_STORAGE")
+    fun pickVideoIntent(ctxt: Context, reqId: Int = PICK_VIDEO) {
         val intent = Intent(Intent.ACTION_PICK, null)//MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         intent.type = "video/*"
         (ctxt as Activity).startActivityForResult(intent, PICK_VIDEO)
     }
 
-    fun pickAudioIntent(ctxt: Context) {
+    @RequiresPermission("android.Manifest.permission.READ_EXTERNAL_STORAGE")
+    fun pickAudioIntent(ctxt: Context, reqId: Int = PICK_AUDIO) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "audio/*"
         (ctxt as Activity).startActivityForResult(intent, PICK_AUDIO)
     }
-
-    fun pickAudioIntent(ctxt: Context, reqCode: Int) {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
-        (ctxt as Activity).startActivityForResult(intent, reqCode)
-    }
-
 
     /***
      * @param to
@@ -461,20 +466,17 @@ object CommonUtils {
             bigBitmap = BitmapFactory.decodeStream(bigPicStream)
         }
         val notificationB = NotificationB()
-        notificationB.cancelable = isCancelable
-        notificationB.title = title
-        notificationB.desc = desc
-        notificationB.largeBmp = largBitmap
-        notificationB.bigBmp = bigBitmap
+                .cancelable(isCancelable)
+                .title(title)
+                .desc(desc)
+        largBitmap?.run { notificationB.largeBmp(this) }
+        bigBitmap?.run { notificationB.bigBmp(this) }
         openNotification2(ctxt, notificationB)
     }
 
     fun openNotification2(ctxt: Context, notificationB: NotificationB) {
         val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val resultPendingIntent = PendingIntent.getActivity(ctxt,
-                0, notificationB.pendingIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
         var channelId = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channelId = createNotificationChannel(notificationManager, notificationB.channelName, notificationB.channelId) ?: ""
@@ -483,12 +485,18 @@ object CommonUtils {
                 .setSmallIcon(notificationB.smallIcon)
                 .setContentTitle(notificationB.title)
                 .setAutoCancel(notificationB.cancelable)
-                .setOngoing(false)
+                .setOngoing(!notificationB.cancelable)
                 .setColor(notificationB.color)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setSound(defaultSoundUri)
                 .setContentText(notificationB.desc)
-                .setContentIntent(resultPendingIntent)
+
+        if (notificationB.pendingIntent != null) {
+            val resultPendingIntent = PendingIntent.getActivity(ctxt,
+                    0, notificationB.pendingIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+            mBuilder.setContentIntent(resultPendingIntent)
+        }
 
         if (notificationB.largeBmp != null) {
             mBuilder.setLargeIcon(notificationB.largeBmp)
@@ -504,8 +512,12 @@ object CommonUtils {
         // mBuilder.setColor(ctxt.getResources().getColor(R.color.colorPrimary));
         //    }
 
-        notificationManager.notify(1001, mBuilder.build())
+        notificationManager.notify(notificationB.id, mBuilder.build())
+    }
 
+    fun cancelNotificaiton(context:Context,id:Int){
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(id)
     }
 
     fun getFileName(path: String): String {

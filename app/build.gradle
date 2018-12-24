@@ -73,8 +73,11 @@ dependencies {
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'
 
-    implementation 'com.dastanapps.dastanlib:ui:0.1.1-alpha'
-    implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
+    //implementation 'com.dastanapps.dastanlib:ui:0.1.1-alpha'
+    //implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
     implementation 'com.dastanapps.dastanlib:ads:0.1.2.2-alpha'
+
     //implementation(project(path: ':ads'))
+    implementation(project(path: ':common'))
+    implementation(project(path: ':ui'))
 }

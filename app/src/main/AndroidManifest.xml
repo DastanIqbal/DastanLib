@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dastanapps.dastanapps">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.Manifest.permission.READ_EXTERNAL_STORAGE" /><uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyAPP"
@@ -23,12 +23,16 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4584cd2188487bc798147fc3a88597113ee7bebf" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id"/>
+            android:value="@string/admob_app_id" />
 
-        <activity android:name=".ads.admob.AdmobAdsTestActivity"></activity>
+        <activity android:name=".ads.admob.AdmobAdsTestActivity" />
+        <activity android:name=".CommonActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

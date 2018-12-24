@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.dastanapps.dastanlib.DastanLibApp
-import com.dastanapps.dastanlib.R
 import kotlinx.android.synthetic.main.activity_log.*
 import java.io.File
 import java.util.*

@@ -3,5 +3,6 @@
     <string-array name="activity_list">
         <item>Logger Activity</item>
         <item>Test Ads</item>
+        <item>Common Library</item>
     </string-array>
 </resources>

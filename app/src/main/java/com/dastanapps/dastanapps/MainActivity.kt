@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
             when (position) {
                 0 -> startActivity(Intent(this@MainActivity, LoggerActivity::class.java))
                 1 -> startActivity(Intent(this@MainActivity, AdmobAdsTestActivity::class.java))
+                2 -> startActivity(Intent(this@MainActivity, CommonActivity::class.java))
             }
         }
     }

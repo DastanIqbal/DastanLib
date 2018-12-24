@@ -21,7 +21,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.dastanapps.dastanlib.DastanLibApp
-import com.dastanapps.dastanlib.R
+import com.dastanapps.dastanlib.ui.R
 import com.dastanapps.dastanlib.utils.StringUtils.stringLengthShouldbeLessthan
 
 /**

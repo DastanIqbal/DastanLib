@@ -27,12 +27,21 @@ object DisplayUtils {
         val density = mContext.resources.displayMetrics.densityDpi
 
         return when (density) {
+            DisplayMetrics.DENSITY_LOW -> "LDPI"
             DisplayMetrics.DENSITY_MEDIUM -> "MDPI"
             DisplayMetrics.DENSITY_HIGH -> "HDPI"
-            DisplayMetrics.DENSITY_LOW -> "LDPI"
-            DisplayMetrics.DENSITY_XHIGH -> "XHDPI"
             DisplayMetrics.DENSITY_TV -> "TV"
+            DisplayMetrics.DENSITY_260-> "260"
+            DisplayMetrics.DENSITY_280-> "280"
+            DisplayMetrics.DENSITY_300-> "300"
+            DisplayMetrics.DENSITY_XHIGH -> "XHDPI"
+            DisplayMetrics.DENSITY_340-> "340"
+            DisplayMetrics.DENSITY_360-> "360"
+            DisplayMetrics.DENSITY_400-> "400"
+            DisplayMetrics.DENSITY_420-> "420"
+            DisplayMetrics.DENSITY_440-> "440"
             DisplayMetrics.DENSITY_XXHIGH -> "XXHDPI"
+            DisplayMetrics.DENSITY_560-> "560"
             DisplayMetrics.DENSITY_XXXHIGH -> "XXXHDPI"
             else -> "Unknown"
         }

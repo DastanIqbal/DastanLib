@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dastanapps.dastanlib.DastanLibApp
-import com.dastanapps.dastanlib.databinding.LogItemBinding
+import com.dastanapps.dastanlib.ui.databinding.LogItemBinding
 import com.dastanapps.dastanlib.utils.CommonUtils
 import com.dastanapps.dastanlib.utils.DeviceUtils
 import com.dastanapps.dastanlib.utils.ViewUtils

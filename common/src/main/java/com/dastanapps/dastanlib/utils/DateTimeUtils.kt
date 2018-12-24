@@ -18,6 +18,12 @@ object DateTimeUtils {
         return DateFormat.getDateInstance().format(dt).toString()
     }
 
+    fun currentDateTime(locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat("dd MMM yyyy hh:mm aaa",locale)
+        val date = Date(System.currentTimeMillis())
+        return sdf.format(date)
+    }
+
     fun currentTimeStampInDateTime(format: String, locale: Locale = Locale.ENGLISH): String {
         val sdf = SimpleDateFormat(format, locale)
         val date = Date(System.currentTimeMillis())
@@ -61,7 +67,7 @@ object DateTimeUtils {
         return sdf.format(date)
     }
 
-    fun convertSecToMinSecs(seconds: Long,locale: Locale = Locale.ENGLISH): String {
+    private fun convertSecToMinSecs(seconds: Long, locale: Locale = Locale.ENGLISH): String {
         if (seconds == 0L) return ""
         val m: Int
         val sec: Int
