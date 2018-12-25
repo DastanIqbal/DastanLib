@@ -16,7 +16,7 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     private var itimepickerresult: ITimePickerResult? = null
 
     interface ITimePickerResult {
-        fun onTimeSet(time: String)
+        fun onTimeSet(time: String, calendar: Calendar)
     }
 
     fun setOnTimeSet(iTimePickerResult: ITimePickerResult) {
@@ -40,7 +40,7 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         mCalendar.set(Calendar.MINUTE, minute)
         val mSDF = SimpleDateFormat("hh:mm a")
         val time = mSDF.format(mCalendar.time)
-        itimepickerresult!!.onTimeSet(time)
+        itimepickerresult?.onTimeSet(time,mCalendar)
     }
 
     fun checkBefore(startTime: String, endTime: String): Boolean {
