@@ -79,5 +79,5 @@ dependencies {
 
     //implementation(project(path: ':ads'))
     implementation(project(path: ':common'))
-    implementation(project(path: ':ui'))
+//    implementation(project(path: ':ui'))
 }

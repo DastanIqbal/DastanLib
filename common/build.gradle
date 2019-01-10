@@ -3,7 +3,7 @@ apply from: '../test-dependencies.gradle'
 apply from: '../kotlin.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.1-alpha"
+version = "0.1.1.1-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -35,7 +35,7 @@ if (!rootProject.ext.devMode) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:' + supportVersion
+    implementation "com.android.support:appcompat-v7:$supportVersion"
 
     //Logger
     implementation "org.slf4j:slf4j-android:$sl4j"
@@ -44,7 +44,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:$glide") {
         exclude group: "com.android.support"
     }
-    kapt 'com.github.bumptech.glide:compiler:' + glide
+    kapt "com.github.bumptech.glide:compiler:$glide"
 
     implementation 'com.google.code.gson:gson:2.8.2'
 
@@ -55,7 +55,7 @@ dependencies {
 
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     //Koin
-    implementation 'org.koin:koin-android:' + koin
+    implementation "org.koin:koin-android:$koin"
     //implementation 'org.koin:koin-android-scope:' + koin
     //implementation 'org.koin:koin-android-viewmodel:' + koin
 }
