@@ -1,9 +1,13 @@
+def home="/home/dastaniqbal/Iqbal/DastanLib"
+
 apply plugin: 'com.android.library'
-apply from: '../test-dependencies.gradle'
-apply from: '../kotlin.gradle'
+apply from: home+'/test-dependencies.gradle'
+apply from: home+'/kotlin.gradle'
+apply from: home+'/android-support.gradle'
+apply from: home+'/googleService.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.1.1-alpha"
+version = "0.1.1.2-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -28,9 +32,9 @@ android {
 
 }
 
-if (!rootProject.ext.devMode) {
-    apply from: '../deploy.gradle'
-}
+//if (!rootProject.ext.devMode) {
+//    apply from: '../deploy.gradle'
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

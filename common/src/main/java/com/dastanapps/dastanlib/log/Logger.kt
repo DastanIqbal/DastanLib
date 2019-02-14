@@ -19,7 +19,7 @@ import java.io.IOException
  */
 object Logger {
     private val prefix = "dastanlibs"
-    private val logger = org.slf4j.LoggerFactory.getLogger("KLogger")
+    private val logger = org.slf4j.LoggerFactory.getLogger("DLogger")
 
     var LOG_FILE_NAME = "Dlog.txt"
 

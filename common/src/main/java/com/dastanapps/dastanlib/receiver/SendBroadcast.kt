@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v4.content.LocalBroadcastManager
 
 import com.dastanapps.dastanlib.DastanLibApp
+import com.dastanapps.dastanlib.utils.R
 
 
 /**
@@ -40,6 +41,12 @@ object SendBroadcast {
     fun PushMsg(message: String) {
         val intent = Intent(SendBroadcast.GCM_MESSAGE)
         intent.putExtra("msg", message)
+        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+    }
+
+    fun PushToken(){
+        val intent = Intent()
+        intent.action = DastanLibApp.INSTANCE.getString(R.string.token_refresh_broadcast)
         LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 }

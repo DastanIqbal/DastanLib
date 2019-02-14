@@ -73,8 +73,8 @@
         </attr>
         <attr name="fromDeg" format="float" />
         <attr name="toDeg" format="float" />
-        <attr name="pivotX" format="fraction" />
-        <attr name="pivotY" format="fraction" />
+        <attr name="pivot_X" format="fraction" />
+        <attr name="pivot_Y" format="fraction" />
     </declare-styleable>
 
     <!-- Default screen margins, per the Android Design guidelines. -->

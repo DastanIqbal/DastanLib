@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">common</string>
     <string name="no_internet">No Internet Connection.</string>
+
+    <string name="fcm_default_channel" translatable="false">dastanlib_default_channel</string>
+    <string name="token_refresh_broadcast" translatable="false">token_refresh_broadcast</string>
 </resources>

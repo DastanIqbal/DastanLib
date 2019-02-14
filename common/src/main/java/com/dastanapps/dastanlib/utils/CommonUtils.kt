@@ -474,12 +474,27 @@ object CommonUtils {
         openNotification2(ctxt, notificationB)
     }
 
+    fun getNotificationB(ctxt: Context, title: String, desc: String,
+                          largBitmap: Bitmap?,
+                          bigBitmap: Bitmap?, isCancelable: Boolean): NotificationB {
+        val notificationB = NotificationB()
+                .cancelable(isCancelable)
+                .title(title)
+                .desc(desc)
+                .channelName("Notification")
+                .channelId(ctxt.getString(R.string.fcm_default_channel))
+        largBitmap?.run { notificationB.largeBmp(this) }
+        bigBitmap?.run { notificationB.bigBmp(this) }
+        return notificationB
+    }
+
     fun openNotification2(ctxt: Context, notificationB: NotificationB) {
         val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         var channelId = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = createNotificationChannel(notificationManager, notificationB.channelName, notificationB.channelId) ?: ""
+            channelId = createNotificationChannel(notificationManager, notificationB.channelName, notificationB.channelId)
+                    ?: ""
         }
         val mBuilder = NotificationCompat.Builder(ctxt, channelId)
                 .setSmallIcon(notificationB.smallIcon)
@@ -515,7 +530,7 @@ object CommonUtils {
         notificationManager.notify(notificationB.id, mBuilder.build())
     }
 
-    fun cancelNotificaiton(context:Context,id:Int){
+    fun cancelNotificaiton(context: Context, id: Int) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(id)
     }

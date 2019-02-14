@@ -1,6 +1,8 @@
+def home="/home/dastaniqbal/Iqbal/DastanLib"
+
 apply plugin: 'com.android.library'
-apply from: "../kotlin.gradle"
-apply from: '../test-dependencies.gradle'
+apply from: home+"/kotlin.gradle"
+apply from: home+'/test-dependencies.gradle'
 
 // This is the library version used when deploying the artifact
 version = "0.1.2-alpha"
@@ -34,9 +36,9 @@ android {
 
 }
 
-if (!rootProject.ext.devMode) {
+/*if (!rootProject.ext.devMode) {
     apply from: '../deploy.gradle'
-}
+}*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -45,5 +47,6 @@ dependencies {
     implementation 'com.android.support:design:' + supportVersion
     implementation 'com.android.support.constraint:constraint-layout:' + constraint
 
-    implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
+    //implementation 'com.dastanapps.dastanlib:common:0.1.1.1-alpha'
+    implementation project(":common")
 }

@@ -1,6 +1,8 @@
+def home="/home/dastaniqbal/Iqbal/DastanLib"
+
 apply plugin: 'com.android.library'
-apply from: '../test-dependencies.gradle'
-apply from: '../kotlin.gradle'
+apply from: home+"/kotlin.gradle"
+apply from: home+'/test-dependencies.gradle'
 
 repositories {
     mavenCentral()
@@ -35,9 +37,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-if (!rootProject.ext.devMode) {
+/*if (!rootProject.ext.devMode) {
     apply from: '../deploy.gradle'
-}
+}*/
 
 dependencies {
     implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
@@ -50,9 +52,9 @@ dependencies {
     implementation('com.github.vungle:vungle-android-sdk:5.3.0') {
         transitive = true
     }
-    implementation 'com.google.android.gms:play-services-ads:17.1.2'
-    implementation 'com.google.android.gms:play-services-measurement-base:16.0.5'
-    implementation 'com.google.android.gms:play-services-measurement-api:16.0.4'
+    implementation 'com.google.android.gms:play-services-ads:17.1.3'
+    implementation 'com.google.android.gms:play-services-measurement-base:16.3.0'
+    implementation 'com.google.android.gms:play-services-measurement-api:16.3.0'
 
     implementation 'com.startapp:inapp-sdk:3.7.1'
     // For banners
@@ -73,5 +75,6 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true
     }
-    implementation 'com.dastanapps.dastanlib:common:0.1-alpha'
+    //implementation 'com.dastanapps.dastanlib:common:0.1.1.1-alpha'
+    implementation project(":common")
 }
