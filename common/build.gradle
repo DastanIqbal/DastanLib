@@ -1,4 +1,4 @@
-def home="/home/dastaniqbal/Iqbal/DastanLib"
+def home="/mnt/01D1ABAF100032D0/Iqbal/DastanLib"
 
 apply plugin: 'com.android.library'
 apply from: home+'/test-dependencies.gradle'
