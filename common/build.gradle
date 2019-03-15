@@ -7,7 +7,7 @@ apply from: home+'/android-support.gradle'
 apply from: home+'/googleService.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.1.2-alpha"
+version = "0.1.2-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -33,9 +33,10 @@ android {
 
 }
 
-//if (!rootProject.ext.devMode) {
-//    apply from: '../deploy.gradle'
-//}
+if (!rootProject.ext.devMode) {
+    rootProject.ext.artifact = project.name
+    apply from: '../deploy.gradle'
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -55,7 +56,7 @@ dependencies {
 
     //3-Party SquareUP Libraries
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 
     implementation 'com.mcxiaoke.volley:library:1.0.19'

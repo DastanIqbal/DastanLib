@@ -1,8 +1,8 @@
 // All library version add in this file
 
 project.ext {
-    devMode = false
-    artifact= "common" //ui,chat,common,ads
+    devMode = true
+    artifact= "undefined"
 
     minSdkVersion = 16
     compileSdkVersion = 28
