@@ -153,6 +153,10 @@ object ViewUtils {
         snack.show()
     }
 
+    fun showSnack(msg: String, snackView: View) {
+        Snackbar.make(snackView, msg, Snackbar.LENGTH_LONG).show()
+    }
+
     fun inflateLayout(ctxt: Context, resId: Int): View {
         return LayoutInflater.from(ctxt).inflate(resId, null)
     }

@@ -1,3 +1,4 @@
-include ':dastanlib',':common', ':chat', ':ads',':ui'
+//include ':dastanlib'
+include ':common', ':chat', ':ads',':ui'
 include ':app'
 

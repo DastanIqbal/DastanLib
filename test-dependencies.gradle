@@ -6,6 +6,7 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:' + testJunit
+    androidTestImplementation 'com.android.support:multidex-instrumentation:1.0.3'
     androidTestImplementation 'com.android.support.test:runner:' + testRunner
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + testEspresso
 }

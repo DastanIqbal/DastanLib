@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dastanapps.dastanlib.utils">
 
-    <application>
+    <application android:name="com.dastanapps.dastanlib.DastanLibApp">
         <!-- -[BEGIN FCM] -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

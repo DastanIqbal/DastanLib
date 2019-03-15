@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dastanapps.dastanlib.ui">
 
-    <application>
+    <application android:name="com.dastanapps.dastanlib.DastanLibApp">
         <activity android:name=".LoggerActivity" />
     </application>
 </manifest>

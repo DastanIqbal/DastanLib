@@ -1,9 +1,13 @@
 package com.dastanapps.dastanlib
 
 import android.app.Application
+import android.content.Context
+import android.support.multidex.MultiDex
 import com.dastanapps.dastanlib.log.Logger
 import org.koin.android.ext.android.startKoin
 import org.koin.dsl.module.module
+
+
 
 /**
  * Created by dastaniqbal on 27/10/2018.
@@ -20,6 +24,11 @@ open class DastanLibApp : Application() {
 
     val appModule = module {
 
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     override fun onCreate() {
