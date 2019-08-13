@@ -1,15 +1,15 @@
 package com.dastanapps.dastanlib.ui
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.dastanapps.dastanlib.DastanLibApp
 import com.dastanapps.dastanlib.ui.databinding.LogItemBinding
 import com.dastanapps.dastanlib.utils.CommonUtils
 import com.dastanapps.dastanlib.utils.DeviceUtils
 import com.dastanapps.dastanlib.utils.ViewUtils
 
-class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) : androidx.recyclerview.widget.RecyclerView.Adapter<LogFileAdapter.LogVH>() {
+class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) : RecyclerView.Adapter<LogFileAdapter.LogVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogVH {
         return LogVH(LogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -21,7 +21,7 @@ class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) : androidx.
     }
 
 
-    inner class LogVH(val binding: LogItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+    inner class LogVH(val binding: LogItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(fileItemB: FileItemB) {
             binding.logName.text = fileItemB.filename
             binding.root.setOnClickListener {

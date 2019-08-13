@@ -2,6 +2,7 @@ def home = "/mnt/01D1ABAF100032D0/Iqbal/DastanLib"
 
 apply plugin: 'com.android.library'
 apply from: home + "/kotlin.gradle"
+apply from: home+'/android-support.gradle'
 apply from: home + '/test-dependencies.gradle'
 
 // This is the library version used when deploying the artifact
@@ -37,11 +38,11 @@ if (!rootProject.ext.devMode) {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     if (!rootProject.ext.devMode) {
-        api 'com.dastanapps.dastanlib:common:0.3-alpha@aar'
+        implementation 'com.dastanapps.dastanlib:common:0.3-alpha@aar'
     } else {
-        api project(":common")
+        implementation project(":common")
     }
 }

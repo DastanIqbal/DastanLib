@@ -5,93 +5,97 @@ def siteUrl = 'https://dastanApps.com'
 def gitUrl = 'https://gitlab.com/dastanIqbal/DastanLib.git'
 group = "com.dastanapps.dastanlib"
 
-// Create the pom configuration:
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id 'ask2iqbal'
-            name 'Iqbal Ahmed'
-            email 'ask2iqbal@gmail.com'
-        }
-    }
-
-    scm {
-        connection gitUrl
-        developerConnection gitUrl
-        url gitUrl
-    }
+task androidJavadocs(type: Javadoc) {
+    failOnError = false
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath += files(ext.androidJar)
+    exclude '**/R.html', '**/R.*.html', '**/index.html'
 }
 
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+project.afterEvaluate {
 // Create the publication with the pom configuration:
-publishing {
-    publications {
-        Production(MavenPublication) {
-            pom.withXml {
-                // Define this explicitly if using implementation or api configurations
-                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
-                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.implementation.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                        root.children().last() + pomConfig
+    publishing {
+        publications {
+            Production(MavenPublication) {
+                groupId this.group
+                artifactId rootProject.ext.artifact
+                version this.version
+
+                artifact bundleReleaseAar
+                artifact androidJavadocsJar
+                artifact androidSourcesJar
+
+                pom.withXml {
+                    // Define this explicitly if using implementation or api configurations
+                    def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                    ext.addDependency = { Dependency dep, String scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                            return // ignore invalid dependencies
+
+                        final dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dep.group)
+                        dependencyNode.appendNode('artifactId', dep.name)
+                        dependencyNode.appendNode('version', dep.version)
+                        dependencyNode.appendNode('scope', scope)
+
+                        if (!dep.transitive) {
+                            // If this dependency is transitive, we should force exclude all its dependencies them from the POM
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', '*')
+                            exclusionNode.appendNode('artifactId', '*')
+                        } else if (!dep.properties.excludeRules.empty) {
+                            // Otherwise add specified exclude rules
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            dep.properties.excludeRules.each { ExcludeRule rule ->
+                                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                            }
+                        }
                     }
+
+                    // List all "compile" dependencies (for old Gradle)
+                    configurations.compile.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    // List all "api" dependencies (for new Gradle) as "compile" dependencies
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    // List all "implementation" dependencies (for new Gradle) as "runtime" dependencies
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
                 }
             }
         }
     }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-//    options.encoding = 'UTF-8'
-}
-artifacts {
-    //   archives javadocJar
-    archives sourcesJar
-}
 
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-bintray {
-    print "Artificat Name ${rootProject.ext.artifact}"
-    if (rootProject.ext.artifact == "undefined") {
-        throw new GradleException('Artificat name not Defined')
-    } else {
-        user = properties.getProperty("bintray.user")
-        key = properties.getProperty("bintray.apikey")
-        configurations = ['archives']
-        pkg {
-            repo = "maven"
-            name = rootProject.ext.artifact
-            websiteUrl = siteUrl
-            vcsUrl = gitUrl
-            licenses = ["Apache-2.0"]
-            publish = false
+    bintray {
+        print "Artificat Name ${rootProject.ext.artifact}"
+        if (rootProject.ext.artifact == "undefined") {
+            throw new GradleException('Artificat name not Defined')
+        } else {
+            user = properties.getProperty("bintray.user")
+            key = properties.getProperty("bintray.apikey")
+            configurations = ['archives']
+            pkg {
+                repo = "maven"
+                name = rootProject.ext.artifact
+                websiteUrl = siteUrl
+                vcsUrl = gitUrl
+                licenses = ["Apache-2.0"]
+                publish = false
+            }
+            publications = ['Production']
         }
-        publications = ['Production']
     }
 }

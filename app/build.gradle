@@ -68,23 +68,23 @@ configurations {
 apply from: '../android-support.gradle'
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    api 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
 
     androidTestImplementation 'androidx.multidex:multidex-instrumentation:2.0.0'
 
-    if (rootProject.ext.devMode) {
+    if (!rootProject.ext.devMode) {
         print "Dev Mode"
-        api 'com.dastanapps.dastanlib:ui:0.1.3.1-alpha'
-        api 'com.dastanapps.dastanlib:common:0.2-alpha@aar'
-        api 'com.dastanapps.dastanlib:ads:0.1.3-alpha'
+        implementation 'com.dastanapps.dastanlib:ui:0.1.3.2-alpha'
+        implementation 'com.dastanapps.dastanlib:common:0.3.1-alpha'
+        implementation 'com.dastanapps.dastanlib:ads:0.1.3-alpha'
     } else {
-        api(project(path: ':ads'))
-        api(project(path: ':common'))
-        api(project(path: ':ui'))
+        implementation(project(path: ':ads'))
+        implementation(project(path: ':common'))
+        implementation(project(path: ':ui'))
     }
     //Glide
-    api("com.github.bumptech.glide:glide:$glide")
+    implementation("com.github.bumptech.glide:glide:$glide")
     kapt "com.github.bumptech.glide:compiler:$glide"
 }
