@@ -1,7 +1,7 @@
 package com.dastanapps.dastanlib.network
 
 import android.Manifest
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import android.util.Log.i
 import com.dastanapps.dastanlib.DastanLibApp
 import com.dastanapps.dastanlib.utils.NetworkUtils

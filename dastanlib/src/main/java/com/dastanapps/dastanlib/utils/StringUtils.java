@@ -2,7 +2,7 @@ package com.dastanapps.dastanlib.utils;
 
 import android.content.Context;
 import android.graphics.Matrix;
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;

@@ -27,7 +27,7 @@ object Logger {
         return log ?: "Null"
     }
 
-    fun i(tag: String, log: String) {
+    fun i(tag: String, log: String?) {
         logger.info(tag + log)
         if (!DastanLibApp.INSTANCE.isRelease) {
             Log.d(prefix, tag + ":" + checkNull(log))
@@ -35,7 +35,7 @@ object Logger {
         }
     }
 
-    fun w(tag: String, log: String) {
+    fun w(tag: String, log: String?) {
         logger.warn("$tag:$log")
         if (!DastanLibApp.INSTANCE.isRelease) {
             Log.w(prefix, tag + ":" + checkNull(log))
@@ -43,7 +43,7 @@ object Logger {
         }
     }
 
-    fun d(tag: String, log: String) {
+    fun d(tag: String, log: String?) {
         logger.debug("$tag:$log")
         if (!DastanLibApp.INSTANCE.isRelease) {
             Log.d(prefix, tag + ":" + checkNull(log))
@@ -51,7 +51,7 @@ object Logger {
         }
     }
 
-    fun e(tag: String, log: String) {
+    fun e(tag: String, log: String?) {
         logger.error("$tag:$log")
         if (!DastanLibApp.INSTANCE.isRelease) {
             Log.e(prefix, tag + ":" + checkNull(log))
@@ -59,7 +59,7 @@ object Logger {
         }
     }
 
-    fun v(tag: String, log: String) {
+    fun v(tag: String, log: String?) {
         logger.trace("$tag:$log")
         if (!DastanLibApp.INSTANCE.isRelease) {
             Log.v(prefix, "$tag:$log")
@@ -67,9 +67,9 @@ object Logger {
         }
     }
 
-    fun onlyDebug(log: String?) {
-        var log = log
-        if (log == null) {
+    fun onlyDebug(log1: String?) {
+        var log:String?=null
+        if (log1 == null) {
             log = "null"
         }
         logger.debug(log)
@@ -79,7 +79,7 @@ object Logger {
         }
     }
 
-    private fun appendLog(text: String) {
+    private fun appendLog(text: String?) {
         if (!DastanLibApp.INSTANCE.isRelease) {
             val file = File(DastanLibApp.INSTANCE.externalCacheDir!!.toString() + "/logs/")
             if (!file.exists())

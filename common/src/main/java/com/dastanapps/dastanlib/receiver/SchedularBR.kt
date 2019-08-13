@@ -3,7 +3,7 @@ package com.dastanapps.dastanlib.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 import com.dastanapps.dastanlib.log.Logger
 
@@ -18,7 +18,7 @@ class SchedularBR : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Logger.d(TAG, "Schedular Called")
         val localSmsReciver = Intent(ReceiverFilter.OTP_SMS_RECEIVER)
-        LocalBroadcastManager.getInstance(context).sendBroadcast(localSmsReciver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context).sendBroadcast(localSmsReciver)
     }
 
     companion object {

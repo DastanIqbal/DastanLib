@@ -1,42 +1,51 @@
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+apply plugin: 'maven-publish'
 
 def siteUrl = 'https://dastanApps.com'
 def gitUrl = 'https://gitlab.com/dastanIqbal/DastanLib.git'
 group = "com.dastanapps.dastanlib"
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id 'ask2iqbal'
+            name 'Iqbal Ahmed'
+            email 'ask2iqbal@gmail.com'
+        }
+    }
 
-                // Add your description here
-                name 'Its a library which have common methods for Network Request, Common Utils Package,Push Notification,Google Analytics, and Image Library Glide'
-                url siteUrl
+    scm {
+        connection gitUrl
+        developerConnection gitUrl
+        url gitUrl
+    }
+}
 
-                // Set your license
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        Production(MavenPublication) {
+            pom.withXml {
+                // Define this explicitly if using implementation or api configurations
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                        root.children().last() + pomConfig
                     }
-                }
-                developers {
-                    developer {
-                        id 'ask2iqbal'
-                        name 'Iqbal Ahmed'
-                        email 'ask2iqbal@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
                 }
             }
         }
@@ -81,7 +90,8 @@ bintray {
             websiteUrl = siteUrl
             vcsUrl = gitUrl
             licenses = ["Apache-2.0"]
-            publish = true
+            publish = false
         }
+        publications = ['Production']
     }
 }

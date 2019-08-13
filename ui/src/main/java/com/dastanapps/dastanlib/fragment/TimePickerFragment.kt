@@ -4,14 +4,14 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.text.format.DateFormat
 import android.widget.TimePicker
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener {
+class TimePickerFragment : androidx.fragment.app.DialogFragment(), TimePickerDialog.OnTimeSetListener {
 
     private var itimepickerresult: ITimePickerResult? = null
 

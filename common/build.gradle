@@ -7,13 +7,8 @@ apply from: home+'/android-support.gradle'
 apply from: home+'/googleService.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.2-alpha"
-
-ext {
-    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
-    PUBLISH_ARTIFACT_ID = 'dastanlib'
-    PUBLISH_VERSION = "$version"
-}
+//artifact("$buildDir/outputs/aar/corekit-development-release.aar")
+version = "0.3-alpha"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -39,29 +34,27 @@ if (!rootProject.ext.devMode) {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation "com.android.support:appcompat-v7:$supportVersion"
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
     //Logger
-    implementation "org.slf4j:slf4j-android:$sl4j"
+    api "org.slf4j:slf4j-android:$sl4j"
 
     //Glide
-    implementation("com.github.bumptech.glide:glide:$glide") {
+    api("com.github.bumptech.glide:glide:$glide") {
         exclude group: "com.android.support"
     }
     kapt "com.github.bumptech.glide:compiler:$glide"
 
-    implementation 'com.google.code.gson:gson:2.8.2'
+    api 'com.google.code.gson:gson:2.8.5'
 
     //3-Party SquareUP Libraries
-    implementation 'com.squareup.okhttp:okhttp:2.7.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    api 'com.squareup.okhttp:okhttp:2.7.5'
+    api 'com.squareup.okhttp3:okhttp:3.12.1'
+    api 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 
-    implementation 'com.mcxiaoke.volley:library:1.0.19'
+    api 'com.mcxiaoke.volley:library:1.0.19'
     //Koin
-    implementation "org.koin:koin-android:$koin"
-    //implementation 'org.koin:koin-android-scope:' + koin
-    //implementation 'org.koin:koin-android-viewmodel:' + koin
+    //api "org.koin:koin-android:$koin"
+    //api 'org.koin:koin-android-scope:' + koin
+    //api 'org.koin:koin-android-viewmodel:' + koin
 }

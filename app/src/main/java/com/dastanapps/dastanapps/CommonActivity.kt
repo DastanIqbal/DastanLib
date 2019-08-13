@@ -3,7 +3,7 @@ package com.dastanapps.dastanapps
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.dastanapps.dastanapps.R.id.*
 import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.fragment.TimePickerFragment

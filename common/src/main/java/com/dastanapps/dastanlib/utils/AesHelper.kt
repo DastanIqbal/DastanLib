@@ -2,7 +2,7 @@ package com.dastanapps.dastanlib.utils
 
 import android.Manifest
 import android.content.Context
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import android.text.TextUtils
 import java.nio.charset.Charset
 import javax.crypto.Cipher

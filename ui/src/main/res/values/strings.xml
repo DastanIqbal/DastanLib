@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ui</string>
+    <string name="need_permission_msg" formatted="false">Need Some permission to perform operation, Please enable in Settings > App > %s > Permission</string>
 </resources>

@@ -27,11 +27,11 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:localbroadcastmanager:' + supportVersion
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.android.support:localbroadcastmanager:' + supportVersion
     if (!rootProject.ext.devMode) {
-        implementation 'com.dastanapps.dastanlib:common:0.1.1.3-alpha'
+        api 'com.dastanapps.dastanlib:common:0.1.1.3-alpha'
     } else {
-        implementation project(":common")
+        api project(":common")
     }
 }

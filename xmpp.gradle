@@ -1,10 +1,10 @@
 def smackVersion="$rootProject.ext.smackVersion"
 dependencies {
     //Chat SDK
-    implementation "org.igniterealtime.smack:smack-android-extensions:$smackVersion"
-    implementation "org.igniterealtime.smack:smack-extensions:$smackVersion"
-    implementation "org.igniterealtime.smack:smack-tcp:$smackVersion"
-    implementation "org.igniterealtime.smack:smack-im:$smackVersion"
+    api "org.igniterealtime.smack:smack-android-extensions:$smackVersion"
+    api "org.igniterealtime.smack:smack-extensions:$smackVersion"
+    api "org.igniterealtime.smack:smack-tcp:$smackVersion"
+    api "org.igniterealtime.smack:smack-im:$smackVersion"
 }
 
 //compile files('src/main/libs/smack-android-extensions:4.1.0.jar')

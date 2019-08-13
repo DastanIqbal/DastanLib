@@ -5,7 +5,7 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import com.dastanapps.dastanlib.log.Logger

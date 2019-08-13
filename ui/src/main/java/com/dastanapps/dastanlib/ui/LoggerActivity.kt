@@ -1,8 +1,8 @@
 package com.dastanapps.dastanlib.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.dastanapps.dastanlib.DastanLibApp
 import kotlinx.android.synthetic.main.activity_log.*
@@ -19,7 +19,7 @@ class LoggerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         val adapter = LogFileAdapter(getLogFiles())
         recyclerView.adapter = adapter
     }

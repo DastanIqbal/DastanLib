@@ -3,7 +3,7 @@ package com.dastanapps.dastanlib.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.telephony.SmsMessage
 import android.text.TextUtils
 import com.dastanapps.dastanlib.log.Logger
@@ -29,7 +29,7 @@ class OTPSMSReceiver : BroadcastReceiver() {
                 if (!TextUtils.isEmpty(otp)) {
                     val localSmsReciver = Intent(INTENT_SMS_RECEIVER)
                     localSmsReciver.putExtra(RECEIVE_CONSTANT, otp)
-                    LocalBroadcastManager.getInstance(context).sendBroadcast(localSmsReciver)
+                    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context).sendBroadcast(localSmsReciver)
                     Logger.d(TAG, "$phone : $otp")
                 }
             }

@@ -14,13 +14,6 @@ import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
 import android.provider.Settings
-import android.support.annotation.DrawableRes
-import android.support.annotation.RequiresPermission
-import android.support.v4.app.ActivityCompat.startActivityForResult
-import android.support.v4.app.Fragment
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
 import android.text.Spannable
@@ -33,6 +26,12 @@ import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.log.Logger
 import java.io.*
@@ -264,7 +263,7 @@ object CommonUtils {
      * @param shareText
      * @param shareLink
      */
-    fun shareIntent(mFragment: Fragment, shareText: String, shareLink: String, reqId: Int) {
+    fun shareIntent(mFragment: androidx.fragment.app.Fragment, shareText: String, shareLink: String, reqId: Int) {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, shareText + "\n" + shareLink)
@@ -600,7 +599,7 @@ object CommonUtils {
     }
 
     fun changeBackIconColor(ctxt: Context, colorAccent: Int) {
-        val upArrow = ContextCompat.getDrawable(ctxt, android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material)
+        val upArrow = ContextCompat.getDrawable(ctxt, R.drawable.abc_ic_ab_back_material)
         upArrow!!.setColorFilter(ContextCompat.getColor(ctxt, colorAccent), PorterDuff.Mode.SRC_ATOP)
         (ctxt as AppCompatActivity).supportActionBar!!.setHomeAsUpIndicator(upArrow)
     }
@@ -778,5 +777,13 @@ object CommonUtils {
         val chooserIntent = Intent.createChooser(intent, "Report Issue")
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooserIntent)
+    }
+
+    fun openAppSettings(context: Context) {
+        val intent = Intent()
+        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        val uri = Uri.fromParts("package", context.packageName, null)
+        intent.data = uri
+        context.startActivity(intent)
     }
 }

@@ -3,11 +3,14 @@ package com.dastanapps.dastanlib.glide
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
+import com.bumptech.glide.request.RequestOptions
 import com.dastanapps.dastanlib.DastanLibApp
 import java.io.File
 import java.util.concurrent.ExecutionException
@@ -30,16 +33,16 @@ object GlideUtils {
             durationMicro = 0
         }
         return GlideApp.with(context)
-                .load(videoPath)
-                .frame(durationMicro.toLong())
+            .load(videoPath)
+            .frame(durationMicro.toLong())
     }
 
     fun setImageViewFilePath(path: String, imageView: ImageView) {
         GlideApp.with(imageView.context)
-                .load(File(path))
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .fitCenter()
-                .into(imageView)
+            .load(File(path))
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .fitCenter()
+            .into(imageView)
     }
 
     fun urlWithHeader(url: String, headers: Map<String, String>?): GlideUrl {
@@ -54,19 +57,27 @@ object GlideUtils {
 
     fun loadImage(ctxt: Context, url: String, imv: ImageView) {
         GlideApp.with(ctxt)
-                .load(url)
-                //.asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .into(imv)
+            .load(url)
+            //.asBitmap()
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .into(imv)
+    }
+
+    fun loadImage(ctxt: Context, url: Uri, imv: ImageView) {
+        GlideApp.with(ctxt)
+            .load(url)
+            //.asBitmap()
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .into(imv)
     }
 
     fun loadImage(ctxt: Context, url: String, imv: ImageView, defImg: Int) {
         GlideApp.with(ctxt)
-                .load(url)
-                //.asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .placeholder(defImg)
-                .into(imv)
+            .load(url)
+            //.asBitmap()
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .placeholder(defImg)
+            .into(imv)
     }
 
     fun loadBitmap(ctxt: Context, url: String): Bitmap? {
@@ -87,19 +98,57 @@ object GlideUtils {
 
     fun loadResizeImage(ctxt: Context, img_url: String, view: ImageView) {
         GlideApp.with(ctxt)
-                .asBitmap()
-                .load(img_url)
-                .override(400, 163)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(view)
+            .asBitmap()
+            .load(img_url)
+            .override(400, 163)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(view)
     }
 
     fun loadResizeProdImage(ctxt: Context, img_url: String, view: ImageView) {
         GlideApp.with(ctxt)
-                .asBitmap()
-                .load(img_url)
-                .override(400, 400)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .into(view)
+            .asBitmap()
+            .load(img_url)
+            .override(400, 400)
+            .diskCacheStrategy(DiskCacheStrategy.DATA)
+            .into(view)
+    }
+
+    fun loadResizeImageThumb(ctxt: Context, uri: Uri, view: ImageView, w: Int, h: Int, placeholder: Drawable) {
+        GlideApp.with(ctxt)
+            .asBitmap()
+            .load(uri)
+            .apply {
+                RequestOptions()
+                    .override(w, h)
+                    .placeholder(placeholder)
+                    .centerCrop()
+            }
+            .into(view)
+    }
+
+    fun loadResizeImageHighPriority(ctxt: Context, uri: Uri, view: ImageView, w: Int, h: Int) {
+        GlideApp.with(ctxt)
+            .load(uri)
+            .apply {
+                RequestOptions()
+                    .override(w, h)
+                    .priority(Priority.HIGH)
+                    .fitCenter()
+            }
+            .into(view)
+    }
+
+    fun loadResizeGifHighPriority(ctxt: Context, uri: Uri, view: ImageView, w: Int, h: Int) {
+        GlideApp.with(ctxt)
+            .asGif()
+            .load(uri)
+            .apply {
+                RequestOptions()
+                    .override(w, h)
+                    .priority(Priority.HIGH)
+                    .fitCenter()
+            }
+            .into(view)
     }
 }

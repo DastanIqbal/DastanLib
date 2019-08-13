@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import com.dastanapps.dastanlib.utils.CommonUtils
 import java.util.*
 
@@ -20,13 +20,6 @@ import java.util.*
 
 object RequestPermission {
     private val REQUEST_CODE_ASK_PERMISSIONS = 100
-    //    private static String allPermission[] = {Manifest.permission.READ_SMS,
-    //            Manifest.permission.RECEIVE_SMS,
-    //            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    //            Manifest.permission.READ_EXTERNAL_STORAGE,
-    //            Manifest.permission.SEND_SMS,
-    //            Manifest.permission.READ_PHONE_STATE,
-    //            Manifest.permission.GET_ACCOUNTS};
 
     fun checkPermission(ctxt: Context?, justcheck: Boolean, allPermission: Array<String>): Boolean {
         val permissionsNeeded = ArrayList<String>()
@@ -66,11 +59,7 @@ object RequestPermission {
     fun hasPermission(ctxt: Context?, permission: String): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
             val hasWriteContactsPermission = ContextCompat.checkSelfPermission(ctxt, permission)
-            return if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
-                true
-            } else {
-                false
-            }
+            return hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED
         }
         return true
     }
@@ -99,34 +88,34 @@ object RequestPermission {
     }
 
     fun askPermission(ctxt: Context?, permission: String): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
             val hasWriteContactsPermission = ctxt.checkSelfPermission(permission)
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
                 //open dialog to inform user for permission if requires
                 (ctxt as Activity).requestPermissions(arrayOf(permission),
-                        REQUEST_CODE_ASK_PERMISSIONS)
-                return false
+                    REQUEST_CODE_ASK_PERMISSIONS)
+                false
             } else {
-                return true
+                true
             }
         } else {
-            return true
+            true
         }
     }
 
     fun askPermission(ctxt: Context?, permission: String, requestCode: Int): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ctxt != null) {
             val hasWriteContactsPermission = ctxt.checkSelfPermission(permission)
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
                 //open dialog to inform user for permission if requires
                 (ctxt as Activity).requestPermissions(arrayOf(permission),
-                        requestCode)
-                return false
+                    requestCode)
+                false
             } else {
-                return true
+                true
             }
         } else {
-            return true
+            true
         }
     }
 
@@ -145,23 +134,4 @@ object RequestPermission {
             CommonUtils.makePhoneCall(ctxt!!, phone_no)
         }
     }
-
-    /*private fun showPermissionDialog(context: Context) {
-        val dialog = ViewUtils.getDDialogOK(context, "Permission",
-                String.format(context.getString(R.string.need_permission_msg), "Permission"), "Permission", DialogInterface.OnClickListener { dialog, which ->
-            dialog.dismiss()
-            CommonUtils.openAppPermission()
-
-            //                        //Analytics
-            //                        Bundle bundle = new Bundle();
-            //                        bundle.putString("Permission", "Opened Permission Settings");
-            //                        MarvelAnalytics.getInstance().sendParams(TAG, bundle);
-            //                        MarvelAnalytics.getInstance().sendProperty(TAG, "Permission");
-        }, false)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!dialog.isShowing())
-                dialog.show()
-        }
-    }*/
 }

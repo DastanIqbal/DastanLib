@@ -2,7 +2,7 @@ package com.dastanapps.dastanapps
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.dastanapps.dastanapps.ads.admob.AdmobAdsTestActivity
 import com.dastanapps.dastanlib.ui.LoggerActivity
 import kotlinx.android.synthetic.main.activity_main.*

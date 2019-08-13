@@ -5,15 +5,16 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TextInputLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.view.ContextThemeWrapper
-import android.support.v7.widget.AppCompatEditText
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.AppCompatEditText
 import android.text.TextUtils
 import android.view.*
 import android.widget.EditText
@@ -46,11 +47,11 @@ object ViewUtils {
      * @param ctxt
      */
 
-    fun showProgressDialog(ctxt: Context?) {
+    fun showProgressDialog(ctxt: Context?, text: String = "Loading") {
         if (ctxt != null && (progressDialog == null || !progressDialog!!.isShowing)) {
             progressDialog = ProgressDialog(ctxt)
             // progressDialog.setCancelable(false);
-            progressDialog!!.setMessage("Loading")
+            progressDialog!!.setMessage(text)
             progressDialog!!.setIndeterminateDrawable(getDrawable(ctxt as Activity, R.drawable.progressbar_circle))
             progressDialog!!.show()
             progressDialog!!.setCanceledOnTouchOutside(true)
@@ -67,14 +68,15 @@ object ViewUtils {
     fun hideProgressDialog() {
         if (progressDialog != null && progressDialog!!.isShowing) {
             progressDialog!!.dismiss()
+            progressDialog = null
         }
     }
 
-    fun showProgressDialogNotCancellable(ctxt: Context?) {
+    fun showProgressDialogNotCancellable(ctxt: Context?, text: String = "Loading") {
         if (ctxt != null && (progressDialog == null || !progressDialog!!.isShowing)) {
             progressDialog = ProgressDialog(ctxt)
             // progressDialog.setCancelable(false);
-            progressDialog!!.setMessage("Loading")
+            progressDialog!!.setMessage(text)
             progressDialog!!.setIndeterminateDrawable(getDrawable(ctxt as Activity, R.drawable.progressbar_circle))
             progressDialog!!.show()
             progressDialog!!.setCanceledOnTouchOutside(false)
@@ -92,6 +94,7 @@ object ViewUtils {
     fun hideProgressDialogNotCancellable() {
         if (progressDialog != null && progressDialog!!.isShowing) {
             progressDialog!!.dismiss()
+            progressDialog = null
         }
     }
 
@@ -157,6 +160,20 @@ object ViewUtils {
         Snackbar.make(snackView, msg, Snackbar.LENGTH_LONG).show()
     }
 
+    fun makePermissionSnackbar(parent: View): Snackbar {
+        val text = String.format(
+            parent.context.getString(R.string.need_permission_msg),
+            parent.context.getString(R.string.app_name)
+        )
+        val snack = Snackbar.make(parent, text, Snackbar.LENGTH_LONG)
+        val view = snack.view
+        val tv = view.findViewById(R.id.snackbar_text) as TextView
+        tv.setTextColor(Color.WHITE)
+        tv.maxLines = 4
+        snack.setAction("SETTINGS") { v -> CommonUtils.openAppSettings(parent.context) }
+        return snack
+    }
+
     fun inflateLayout(ctxt: Context, resId: Int): View {
         return LayoutInflater.from(ctxt).inflate(resId, null)
     }
@@ -174,9 +191,11 @@ object ViewUtils {
         return d
     }
 
-    fun getDDialogOK(ctxt: Context, title: String, msg: String,
-                     positiveText: String, negativeText: String, okInterface: DialogInterface.OnClickListener,
-                     cancelInterface: DialogInterface.OnClickListener): Dialog {
+    fun getDDialogOK(
+        ctxt: Context, title: String, msg: String,
+        positiveText: String, negativeText: String, okInterface: DialogInterface.OnClickListener,
+        cancelInterface: DialogInterface.OnClickListener
+    ): Dialog {
         val builder = AlertDialog.Builder(ctxt)
         builder.setTitle(title)
         builder.setMessage(msg)
@@ -185,8 +204,10 @@ object ViewUtils {
         return builder.create()
     }
 
-    fun getDDialogOK(ctxt: Context, title: String, msg: String,
-                     positiveText: String, okInterface: DialogInterface.OnClickListener, isCancelable: Boolean): AlertDialog {
+    fun getDDialogOK(
+        ctxt: Context, title: String, msg: String,
+        positiveText: String, okInterface: DialogInterface.OnClickListener, isCancelable: Boolean
+    ): AlertDialog {
         val builder = AlertDialog.Builder(ctxt)
         builder.setTitle(title)
         builder.setMessage(msg)
@@ -196,8 +217,10 @@ object ViewUtils {
         return builder.create()
     }
 
-    fun getCustomDDialogOK(ctxt: Context, title: String, msg: String,
-                           positiveText: String, okInterface: DialogInterface.OnClickListener, isCancelable: Boolean): AlertDialog {
+    fun getCustomDDialogOK(
+        ctxt: Context, title: String, msg: String,
+        positiveText: String, okInterface: DialogInterface.OnClickListener, isCancelable: Boolean
+    ): AlertDialog {
         val builder = AlertDialog.Builder(ContextThemeWrapper(ctxt, R.style.AlertDialogCustom))
         builder.setTitle(title)
         builder.setMessage(msg)
@@ -234,8 +257,10 @@ object ViewUtils {
     }
 
     fun setFontTextViews(ctxt: Context, font: Int, vararg tv: TextView) {
-        val tf = Typeface.createFromAsset(ctxt.assets,
-                ctxt.resources.getString(font))
+        val tf = Typeface.createFromAsset(
+            ctxt.assets,
+            ctxt.resources.getString(font)
+        )
         for (tview in tv) {
             tview.typeface = tf
         }

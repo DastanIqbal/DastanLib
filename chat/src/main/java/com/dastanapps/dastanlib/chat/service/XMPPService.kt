@@ -10,7 +10,7 @@ import android.content.IntentFilter
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.SystemClock
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
 import com.dastanapps.dastanlib.DastanChatApp
@@ -52,7 +52,7 @@ class XMPPService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         start()
         xmppService = this
-        LocalBroadcastManager.getInstance(this).registerReceiver(mStopReceiver, IntentFilter(ACTION_STOP))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(mStopReceiver, IntentFilter(ACTION_STOP))
         return Service.START_STICKY
     }
 
@@ -63,7 +63,7 @@ class XMPPService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mStopReceiver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(mStopReceiver)
         stop()
         // release the wakelock
         mWakeLock!!.release()
@@ -129,7 +129,7 @@ class XMPPService : Service() {
         }
 
         fun stopService(context: Context) {
-            val broadcastManager = LocalBroadcastManager.getInstance(context)
+            val broadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context)
             broadcastManager.sendBroadcast(Intent(ACTION_STOP))
         }
 

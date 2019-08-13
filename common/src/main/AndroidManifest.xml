@@ -7,14 +7,10 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/fcm_default_channel" />
 
-        <service android:name="com.dastanapps.dastanlib.push.MyFCMListenerService">
+        <service android:name="com.dastanapps.dastanlib.push.MyFCMListenerService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name="com.dastanapps.dastanlib.push.MyInstanceIDListenerService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <!-- -[END FCM] -->

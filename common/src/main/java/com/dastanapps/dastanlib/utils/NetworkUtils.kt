@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import android.telephony.TelephonyManager
 import java.text.DecimalFormat
 

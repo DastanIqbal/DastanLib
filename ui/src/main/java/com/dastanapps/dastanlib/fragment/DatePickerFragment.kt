@@ -4,22 +4,23 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import android.widget.DatePicker
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class DatePickerFragment : androidx.fragment.app.DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     private var idatepickerresult: IDatePickerResult? = null
+    var defaultFmt="dd MMM, yyyy";
 
     override fun onDateSet(datePicker: DatePicker, year: Int, month: Int, day: Int) {
         val mCalendar = Calendar.getInstance()
         mCalendar.set(Calendar.YEAR, year)
         mCalendar.set(Calendar.MONTH, month)
         mCalendar.set(Calendar.DAY_OF_MONTH, day)
-        val mSDF = SimpleDateFormat("dd MMM, yyyy")
+        val mSDF = SimpleDateFormat(defaultFmt, Locale.ENGLISH)
         val date = mSDF.format(mCalendar.time)
         idatepickerresult!!.onDateSet(date)
     }
@@ -45,7 +46,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     }
 
     fun checkBefore(startDate: String, endDate: String): Boolean {
-        val sdf = SimpleDateFormat("dd MMM, yyyy")
+        val sdf = SimpleDateFormat(defaultFmt, Locale.ENGLISH)
         try {
             val date1 = sdf.parse(startDate)
             val date2 = sdf.parse(endDate)

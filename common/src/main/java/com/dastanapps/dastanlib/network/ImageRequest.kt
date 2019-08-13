@@ -2,7 +2,7 @@ package com.dastanapps.dastanlib.network
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.support.v4.util.LruCache
+import androidx.collection.LruCache
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
@@ -23,7 +23,7 @@ class ImageRequest private constructor(private val context: Context) {
 
         imageLoader = ImageLoader(requestQueue,
                 object : ImageLoader.ImageCache {
-                    private val cache = LruCache<String, Bitmap>(200)
+                    private val cache = androidx.collection.LruCache<String, Bitmap>(200)
 
                     override fun getBitmap(url: String): Bitmap? {
                         return cache.get(url)

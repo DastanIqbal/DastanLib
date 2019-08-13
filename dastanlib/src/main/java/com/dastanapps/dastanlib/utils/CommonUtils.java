@@ -28,12 +28,12 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.RequiresPermission;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresPermission;
+import androidx.fragment.app.Fragment;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -67,7 +67,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 /**
  * *@author : Dastan Iqbal
@@ -636,7 +636,7 @@ public class CommonUtils {
     }
 
     public static void changeBackIconColor(Context ctxt, int colorAccent) {
-        final Drawable upArrow = ContextCompat.getDrawable(ctxt, android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material);
+        final Drawable upArrow = ContextCompat.getDrawable(ctxt, androidx.appcompat.appcompat.R.drawable.abc_ic_ab_back_material);
         upArrow.setColorFilter(ContextCompat.getColor(ctxt, colorAccent), PorterDuff.Mode.SRC_ATOP);
         ((AppCompatActivity) ctxt).getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }

@@ -5,13 +5,7 @@ apply from: home + "/kotlin.gradle"
 apply from: home + '/test-dependencies.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.3.1-alpha"
-
-ext {
-    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
-    PUBLISH_ARTIFACT_ID = 'dastanlib'
-    PUBLISH_VERSION = "$version"
-}
+version = "0.1.3.2-alpha"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -43,15 +37,11 @@ if (!rootProject.ext.devMode) {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:' + supportVersion
-    implementation 'com.android.support:design:' + supportVersion
-    implementation 'com.android.support.constraint:constraint-layout:' + constraint
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
     if (!rootProject.ext.devMode) {
-        implementation 'com.dastanapps.dastanlib:common:0.1.1.3-alpha'
+        api 'com.dastanapps.dastanlib:common:0.3-alpha@aar'
     } else {
-        implementation project(":common")
+        api project(":common")
     }
 }

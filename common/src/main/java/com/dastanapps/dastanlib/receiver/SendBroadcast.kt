@@ -1,7 +1,7 @@
 package com.dastanapps.dastanlib.receiver
 
 import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 import com.dastanapps.dastanlib.DastanLibApp
 import com.dastanapps.dastanlib.utils.R
@@ -23,30 +23,31 @@ object SendBroadcast {
     fun AppUpdate(pkgIntent: Intent) {
         val intent = Intent(APP_UPDATE)
         intent.putExtra("intent", pkgIntent)
-        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 
     fun GooglePlayServiceMission(isAvailable: Boolean) {
         val intent = Intent(GPlayS_Missing)
         intent.putExtra(IS_AVAIL, isAvailable)
-        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 
 
     fun ScheduleEvent() {
         val intent = Intent(SCHEDULE)
-        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 
     fun PushMsg(message: String) {
         val intent = Intent(SendBroadcast.GCM_MESSAGE)
         intent.putExtra("msg", message)
-        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 
-    fun PushToken(){
+    fun PushToken(token: String) {
         val intent = Intent()
         intent.action = DastanLibApp.INSTANCE.getString(R.string.token_refresh_broadcast)
-        LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
+        intent.putExtra("token", token)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(DastanLibApp.INSTANCE).sendBroadcast(intent)
     }
 }

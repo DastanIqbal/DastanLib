@@ -19,7 +19,7 @@ object DateTimeUtils {
     }
 
     fun currentDateTime(locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat("dd MMM yyyy hh:mm aaa",locale)
+        val sdf = SimpleDateFormat("dd MMM yyyy hh:mm aaa", locale)
         val date = Date(System.currentTimeMillis())
         return sdf.format(date)
     }
@@ -31,37 +31,49 @@ object DateTimeUtils {
     }
 
     fun currentDate(locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat("dd MMM yyyy",locale)
+        val sdf = SimpleDateFormat("dd MMM yyyy", locale)
+        val date = Date(System.currentTimeMillis())
+        return sdf.format(date)
+    }
+
+    fun currentDate(dateFmt: String = "dd MMM yyyy", locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat(dateFmt, locale)
         val date = Date(System.currentTimeMillis())
         return sdf.format(date)
     }
 
     fun currentTime(locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat("hh:mm aaa",locale)
+        val sdf = SimpleDateFormat("hh:mm aaa", locale)
         val date = Date(System.currentTimeMillis())
         return sdf.format(date)
     }
 
-    fun getTime(timestamp: Long,locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat("hh:mm aaa",locale)
+    fun currentTime(timeFmt: String = "hh:mm aaa",locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat(timeFmt, locale)
+        val date = Date(System.currentTimeMillis())
+        return sdf.format(date)
+    }
+
+    fun getTime(timestamp: Long, locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat("hh:mm aaa", locale)
         val date = Date(timestamp)
         return sdf.format(date)
     }
 
-    fun getDate(timestamp: Long,locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat("dd MMM yyyy",locale)
+    fun getDate(timestamp: Long, locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat("dd MMM yyyy", locale)
         val date = Date(timestamp)
         return sdf.format(date)
     }
 
-    fun getDate(fmt: String, timestamp: Long,locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat(fmt,locale)
+    fun getDate(fmt: String, timestamp: Long, locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat(fmt, locale)
         val date = Date(timestamp)
         return sdf.format(date)
     }
 
-    fun getDateTime(timestamp: Long, format: String,locale: Locale = Locale.ENGLISH): String {
-        val sdf = SimpleDateFormat(format,locale)
+    fun getDateTime(timestamp: Long, format: String, locale: Locale = Locale.ENGLISH): String {
+        val sdf = SimpleDateFormat(format, locale)
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         val date = Date(timestamp)
         return sdf.format(date)

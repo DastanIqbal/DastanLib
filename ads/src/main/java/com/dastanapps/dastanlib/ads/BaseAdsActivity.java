@@ -1,7 +1,7 @@
 package com.dastanapps.dastanlib.ads;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.startapp.android.publish.adsCommon.StartAppAd;
 

@@ -2,10 +2,8 @@ package com.dastanapps.dastanlib
 
 import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDex
+import androidx.multidex.MultiDex
 import com.dastanapps.dastanlib.log.Logger
-import org.koin.android.ext.android.startKoin
-import org.koin.dsl.module.module
 
 
 
@@ -22,9 +20,9 @@ open class DastanLibApp : Application() {
         lateinit var INSTANCE: DastanLibApp
     }
 
-    val appModule = module {
-
-    }
+//    val appModule = module {
+//
+//    }
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
@@ -35,6 +33,6 @@ open class DastanLibApp : Application() {
         super.onCreate()
         INSTANCE = this
         Logger.onlyDebug("Lib Initialized")
-        startKoin(this, listOf(appModule))
+     //   startKoin(this, listOf(appModule))
     }
 }
