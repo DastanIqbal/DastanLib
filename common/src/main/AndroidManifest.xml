@@ -8,7 +8,9 @@
             android:value="@string/fcm_default_channel" />
 
         <service android:name="com.dastanapps.dastanlib.push.MyFCMListenerService"
-            android:exported="false">
+            android:exported="false"
+            android:enabled="true"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
