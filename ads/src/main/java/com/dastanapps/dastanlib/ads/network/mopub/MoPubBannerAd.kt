@@ -11,7 +11,7 @@ import com.mopub.mobileads.MoPubView
 
 /**
  * Created by dastaniqbal on 19/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 19/12/2017 11:12
  */
 class MoPubBannerAd(moPubBannerId: String, val tag: String) {
@@ -67,7 +67,7 @@ class MoPubBannerAd(moPubBannerId: String, val tag: String) {
                 showAnalytics("onBannerClicked")
             }
         }
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             mBanner?.loadAd()
     }
 

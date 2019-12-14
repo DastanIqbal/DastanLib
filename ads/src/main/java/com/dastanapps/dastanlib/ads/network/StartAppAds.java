@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * Created by dastaniqbal on 15/03/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 15/03/2017 11:22
  */
 
@@ -130,7 +130,7 @@ public class StartAppAds extends AdsBase {
     }
 
     public void setInterstialAds(final StartAppAd startAppAd) {
-        if (!DastanAdsApp.INSTANCE.getDisableAds())
+        if (!DastanAdsApp.INSTANCE.disableAds())
             startAppAd.loadAd(StartAppAd.AdMode.AUTOMATIC, new AdEventListener() {
                 @Override
                 public void onReceiveAd(Ad ad) {
@@ -149,7 +149,7 @@ public class StartAppAds extends AdsBase {
     public boolean isAdsReady() {
         if (rewardAds != null && rewardAds.isReady()) {
 
-            if (!DastanAdsApp.INSTANCE.getDisableAds())
+            if (!DastanAdsApp.INSTANCE.disableAds())
                 rewardAds.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
 
             return true;
@@ -160,7 +160,7 @@ public class StartAppAds extends AdsBase {
 
     public void loadRewardedAds() {
         rewardAds = new StartAppAd(DastanAdsApp.INSTANCE);
-        if (!DastanAdsApp.INSTANCE.getDisableAds())
+        if (!DastanAdsApp.INSTANCE.disableAds())
             rewardAds.loadAd(StartAppAd.AdMode.REWARDED_VIDEO, new AdEventListener() {
                 @Override
                 public void onReceiveAd(Ad ad) {
@@ -217,7 +217,7 @@ public class StartAppAds extends AdsBase {
 
     public void setupNativeAds() {
         if (startAppNativeAd == null) return;
-        if (!DastanAdsApp.INSTANCE.getDisableAds())
+        if (!DastanAdsApp.INSTANCE.disableAds())
             startAppNativeAd.loadAd(new NativeAdPreferences()
                     .setAutoBitmapDownload(true)
                     .setAdsNumber(21)
@@ -226,7 +226,7 @@ public class StartAppAds extends AdsBase {
     }
 
     public void setupSingleNativeAds(final String tag) {
-        if (!DastanAdsApp.INSTANCE.getDisableAds())
+        if (!DastanAdsApp.INSTANCE.disableAds())
             startAppNativeAd.loadAd(new NativeAdPreferences()
                             .setAutoBitmapDownload(true)
                             .setAdsNumber(1)
@@ -265,7 +265,7 @@ public class StartAppAds extends AdsBase {
     }
 
     public void setupNativeAds(String tag, int adsNumber) {
-        if (!DastanAdsApp.INSTANCE.getDisableAds())
+        if (!DastanAdsApp.INSTANCE.disableAds())
             startAppNativeAd.loadAd(new NativeAdPreferences()
                             .setAutoBitmapDownload(true)
                             .setAdsNumber(adsNumber)

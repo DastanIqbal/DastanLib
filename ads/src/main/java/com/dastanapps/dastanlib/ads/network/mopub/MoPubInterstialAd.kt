@@ -9,7 +9,7 @@ import com.mopub.mobileads.MoPubInterstitial
 
 /**
  * Created by dastaniqbal on 19/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 19/12/2017 11:12
  */
 class MoPubInterstialAd(val mActivity: Activity) {
@@ -48,8 +48,8 @@ class MoPubInterstialAd(val mActivity: Activity) {
             }
 
         }
-        if (DastanAdsApp.INSTANCE.isRelease &&
-                !DastanAdsApp.INSTANCE.disableAds)
+        if (DastanAdsApp.INSTANCE.isRelease() &&
+                !DastanAdsApp.INSTANCE.disableAds())
             mInterstitial?.load()
     }
 

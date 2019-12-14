@@ -23,7 +23,7 @@ import java.util.*
 
 /**
  * Created by dastaniqbal on 17/03/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 17/03/2017 4:45
  */
 
@@ -37,13 +37,13 @@ class DastanAds {
     private var vungleAds: VungleAds? = null
     private var moPubInterstialAd: MoPubInterstialAd? = null
     private var moPubRewardVideoAd: MoPubRewardVideoAd? = null
-    private var isRelease:Boolean = DastanAdsApp.INSTANCE.isRelease
+    private var isRelease:Boolean = DastanAdsApp.INSTANCE.isRelease()
     val startAppAds: StartAppAds
         get() {
             if (startAppAd == null) {
                 startAppAd = StartAppAds()
             }
-            if (DastanAdsApp.INSTANCE.isRelease)
+            if (isRelease)
                 startAppAd!!.init()
             return startAppAd as StartAppAds
         }

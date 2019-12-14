@@ -5,7 +5,7 @@ import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
 
 /**
  * Created by dastaniqbal on 12/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 12/12/2017 2:24
  */
 abstract class AdsBase {

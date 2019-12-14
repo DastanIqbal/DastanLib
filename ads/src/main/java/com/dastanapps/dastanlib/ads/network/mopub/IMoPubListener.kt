@@ -2,7 +2,7 @@ package com.dastanapps.dastanlib.ads.network.mopub
 
 /**
  * Created by dastaniqbal on 19/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 19/12/2017 11:15
  */
 interface IMoPubListener {

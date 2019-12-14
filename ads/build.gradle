@@ -8,7 +8,7 @@ repositories {
 }
 
 // This is the library version used when deploying the artifact
-version = "0.1.3-alpha"
+version = "0.1.4-alpha"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -76,7 +76,7 @@ dependencies {
         transitive = true
     }
     if (!rootProject.ext.devMode) {
-        implementation 'com.dastanapps.dastanlib:common:0.1.1.3-alpha'
+        implementation 'com.dastanapps.dastanlib:common:0.3.2-alpha'
     } else {
         implementation project(":common")
     }

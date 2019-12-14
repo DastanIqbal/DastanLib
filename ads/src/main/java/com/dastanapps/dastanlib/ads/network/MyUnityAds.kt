@@ -6,7 +6,7 @@ import com.unity3d.ads.UnityAds
 
 /**
  * Created by dastaniqbal on 19/03/2018.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 19/03/2018 2:40
  */
 class MyUnityAds(val activity: Activity) {

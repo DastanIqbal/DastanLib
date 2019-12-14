@@ -9,7 +9,6 @@ import com.dastanapps.dastanlib.ads.DastanAds
 open class DastanAdsApp : DastanLibApp() {
     private val TAG = this::class.java.simpleName
     val adsConfiguration = AdsConfiguration()
-    var disableAds = false
 
     companion object {
         lateinit var INSTANCE: DastanAdsApp
@@ -22,4 +21,6 @@ open class DastanAdsApp : DastanLibApp() {
         super.onCreate()
         INSTANCE = this
     }
+
+    fun disableAds() = adsConfiguration.disableAds
 }

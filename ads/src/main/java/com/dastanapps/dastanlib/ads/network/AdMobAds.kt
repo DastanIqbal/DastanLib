@@ -1,7 +1,12 @@
 package com.dastanapps.dastanlib.ads.network
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.View
 import com.dastanapps.dastanlib.DastanAdsApp
 import com.dastanapps.dastanlib.ads.AdsBase
+import com.dastanapps.dastanlib.ads.admob.nativeads.NativeTemplateStyle
+import com.dastanapps.dastanlib.ads.admob.nativeads.TemplateView
 import com.dastanapps.dastanlib.ads.interfaces.IAdMobAds
 import com.dastanapps.dastanlib.ads.interfaces.IAdsLifecycle
 import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
@@ -14,7 +19,7 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener
 
 /**
  * Created by dastaniqbal on 12/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 12/12/2017 2:01
  */
 class AdMobAds : AdsBase(), IAdsLifecycle {
@@ -34,7 +39,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     fun loadRewardedVideoAd(tag: String) {
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             mRewardedVideoAd.loadAd(DastanAdsApp.INSTANCE.adsConfiguration.adMobRewardId, AdRequest.Builder().build())
 
         mRewardedVideoAd.rewardedVideoAdListener = object : RewardedVideoAdListener {
@@ -141,7 +146,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
                     listnerHashMap[tag]?.adDismissed(tag)
             }
         }
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             adView.loadAd(AdRequest.Builder().build())
     }
 
@@ -160,7 +165,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         val interstitialAd = InterstitialAd(DastanAdsApp.INSTANCE)
         interstitialAd.adUnitId = DastanAdsApp.INSTANCE.adsConfiguration.adMobInterstialAd
 
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             interstitialAd.loadAd(AdRequest.Builder().build())
 
         interstitialAd.adListener = object : AdListener() {
@@ -201,6 +206,51 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             inetrstialAd.show()
             DAnalytics.getInstance().sendLogs("Ads", "onSaveClicked", "AdMob InterstialAds")
         } else Logger.onlyDebug("admob:InterstitialAdNotLoaded")
+    }
+
+    fun loadNativeAds(template: TemplateView, tag: String) {
+        template.visibility = View.GONE
+        val adLoader = AdLoader.Builder(DastanAdsApp.INSTANCE, DastanAdsApp.INSTANCE.adsConfiguration.adMobNativeAd)
+                .withAdListener(object : AdListener() {
+                    override fun onAdLoaded() {
+                        Logger.onlyDebug("admob:NaitveAds:onAdLoaded")
+                        if (listnerHashMap[tag] != null)
+                            listnerHashMap[tag]?.adLoaded("")
+                    }
+
+                    override fun onAdFailedToLoad(errorCode: Int) {
+                        Logger.onlyDebug("admob:NaitveAds:onAdFailedToLoad")
+                        if (listnerHashMap[tag] != null)
+                            listnerHashMap[tag]?.adError(errorCode.toString())
+                    }
+
+                    override fun onAdOpened() {
+                        Logger.onlyDebug("admob:NaitveAds:onAdOpened")
+                        if (listnerHashMap[tag] != null)
+                            listnerHashMap[tag]?.addDisplayed()
+                    }
+
+                    override fun onAdLeftApplication() {
+                        Logger.onlyDebug("admob:NaitveAds:onAdLeftApplication")
+                        if (listnerHashMap[tag] != null)
+                            listnerHashMap[tag]?.adDismissed(tag)
+                    }
+
+                    override fun onAdClosed() {
+                        Logger.onlyDebug("admob:NaitveAds:onAdClosed")
+                        if (listnerHashMap[tag] != null)
+                            listnerHashMap[tag]?.adDismissed(tag)
+                    }
+                })
+                .forUnifiedNativeAd {
+                    val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.WHITE)).build()
+
+                    template.visibility = View.VISIBLE
+                    template.setStyles(styles)
+                    template.setNativeAd(it)
+                }.build()
+        if (!DastanAdsApp.INSTANCE.disableAds())
+            adLoader.loadAd(AdRequest.Builder().build())
     }
 
     fun isAdAvailable(): Boolean {

@@ -14,7 +14,7 @@ import com.facebook.ads.*
 
 /**
  * Created by dastaniqbal on 22/08/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 22/08/2017 12:24
  */
 
@@ -76,7 +76,7 @@ class FacebookAudience : AdsBase() {
                     DAnalytics.getInstance().sendLogs("Ads", "FBBannerAd:$tag", "clicked")
                 }
             })
-            if (!DastanAdsApp.INSTANCE.disableAds)
+            if (!DastanAdsApp.INSTANCE.disableAds())
                 adView.loadAd()
         }, 500)
     }
@@ -114,7 +114,7 @@ class FacebookAudience : AdsBase() {
                 DAnalytics.getInstance().sendLogs("Ads", "FBBannerAd:$tag", "clicked")
             }
         })
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             adView.loadAd()
     }
 
@@ -134,7 +134,7 @@ class FacebookAudience : AdsBase() {
         // Instantiate an InterstitialAd object
         val interstitialAd = InterstitialAd(context, DastanAdsApp.INSTANCE.adsConfiguration.fbInterstialAdId)
 
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             interstitialAd.loadAd()
 
         // Set listeners for the Interstitial Ad
@@ -237,7 +237,7 @@ class FacebookAudience : AdsBase() {
         })
 
         // Request an ad
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             nativeAd.loadAd()
     }
 
@@ -274,7 +274,7 @@ class FacebookAudience : AdsBase() {
         })
 
         // Request an ad
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             nativeAd.loadAd()
     }
 
@@ -320,7 +320,7 @@ class FacebookAudience : AdsBase() {
                 })
 
                 // Request an ad
-                if (!DastanAdsApp.INSTANCE.disableAds)
+                if (!DastanAdsApp.INSTANCE.disableAds())
                     nativeAd.loadAd()
 
                 i++
@@ -373,7 +373,7 @@ class FacebookAudience : AdsBase() {
                 })
 
                 // Request an ad
-                if (!DastanAdsApp.INSTANCE.disableAds)
+                if (!DastanAdsApp.INSTANCE.disableAds())
                     nativeAd.loadAd()
 
                 i++
@@ -433,7 +433,7 @@ class FacebookAudience : AdsBase() {
                         .forEach { it.adError(adError.errorMessage) }
             }
         })
-        if (!DastanAdsApp.INSTANCE.disableAds)
+        if (!DastanAdsApp.INSTANCE.disableAds())
             manager.loadAds(NativeAd.MediaCacheFlag.ALL)
     }
 }

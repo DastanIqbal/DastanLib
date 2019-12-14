@@ -5,7 +5,7 @@ import com.mopub.common.MoPub
 
 /**
  * Created by dastaniqbal on 19/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 19/12/2017 11:12
  */
 object AdLifeCycle {

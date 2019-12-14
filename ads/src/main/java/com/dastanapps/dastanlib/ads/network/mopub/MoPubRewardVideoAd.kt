@@ -75,8 +75,8 @@ open class MoPubRewardVideoAd(mActivity: Activity) {
             }
 
         })
-        if (DastanAdsApp.INSTANCE.isRelease &&
-                !DastanAdsApp.INSTANCE.disableAds)
+        if (DastanAdsApp.INSTANCE.isRelease() &&
+                !DastanAdsApp.INSTANCE.disableAds())
             loadRewardedVideo()
     }
 

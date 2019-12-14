@@ -10,7 +10,7 @@ import com.vungle.publisher.VunglePub
 
 /**
  * Created by dastaniqbal on 04/12/2017.
- * dastanIqbal@marvelmedia.com
+ * ask2iqbal@gmail.com
  * 04/12/2017 10:25
  */
 class VungleAds {
