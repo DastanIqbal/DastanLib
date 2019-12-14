@@ -1,5 +1,3 @@
-def home="/mnt/01D1ABAF100032D0/Iqbal/DastanLib"
-
 apply plugin: 'com.android.library'
 apply from: home+'/test-dependencies.gradle'
 apply from: home+'/kotlin.gradle'
@@ -49,7 +47,7 @@ dependencies {
 
     //3-Party SquareUP Libraries
     api 'com.squareup.okhttp:okhttp:2.7.5'
-    api 'com.squareup.okhttp3:okhttp:3.12.1'
+    api 'com.squareup.okhttp3:okhttp:4.2.2'
     api 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 
     api 'com.mcxiaoke.volley:library:1.0.19'
