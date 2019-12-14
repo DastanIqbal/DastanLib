@@ -4,7 +4,7 @@ apply from: home+'/android-support.gradle'
 apply from: home + '/test-dependencies.gradle'
 
 // This is the library version used when deploying the artifact
-version = "0.1.3.2-alpha"
+version = "0.1.4-alpha"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

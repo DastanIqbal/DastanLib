@@ -18,6 +18,7 @@ class MyAPP : DastanAdsApp() {
         adsConfiguration.adMobRewardId = getString(R.string.admob_reward_ad)
         adsConfiguration.adMobBannerId = getString(R.string.admob_ads_banner)
         adsConfiguration.adMobInterstialAd = getString(R.string.admob_ads_interstial)
+        adsConfiguration.adMobNativeAd = getString(R.string.admob_ads_native)
 
     }
 }

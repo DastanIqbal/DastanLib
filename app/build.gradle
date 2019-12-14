@@ -56,6 +56,7 @@ android {
             resValue 'string', 'admob_reward_ad', "ca-app-pub-3940256099942544/5224354917"
             resValue 'string', 'admob_ads_banner', "ca-app-pub-3940256099942544/6300978111"
             resValue 'string', 'admob_ads_interstial', "ca-app-pub-8334207332200892/1601691980"
+            resValue 'string', 'admob_ads_native', "ca-app-pub-3940256099942544/2247696110"
 
         }
     }
@@ -76,9 +77,9 @@ dependencies {
 
     if (!rootProject.ext.devMode) {
         print "Dev Mode"
-        implementation 'com.dastanapps.dastanlib:ui:0.1.3.2-alpha'
-        implementation 'com.dastanapps.dastanlib:common:0.3.1-alpha'
-        implementation 'com.dastanapps.dastanlib:ads:0.1.3-alpha'
+        implementation 'com.dastanapps.dastanlib:ui:0.1.4-alpha'
+        implementation 'com.dastanapps.dastanlib:common:0.3.2-alpha'
+        implementation 'com.dastanapps.dastanlib:ads:0.1.4-alpha'
     } else {
         implementation(project(path: ':ads'))
         implementation(project(path: ':common'))

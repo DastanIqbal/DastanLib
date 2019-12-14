@@ -93,7 +93,7 @@ project.afterEvaluate {
                 websiteUrl = siteUrl
                 vcsUrl = gitUrl
                 licenses = ["Apache-2.0"]
-                publish = false
+                publish = true
             }
             publications = ['Production']
         }

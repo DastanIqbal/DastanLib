@@ -1,8 +1,8 @@
 package com.dastanapps.dastanapps.ads.admob
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.dastanapps.dastanapps.R
 import com.dastanapps.dastanlib.DastanAdsApp
 import com.dastanapps.dastanlib.ads.interfaces.IAdMobAds
@@ -23,6 +23,35 @@ class AdmobAdsTestActivity : AppCompatActivity() {
         bannerAds()
         interstialAds()
         rewardAds()
+        nativeAds()
+    }
+
+    private fun nativeAds() {
+        admobads.loadNativeAds(nativead,"nativeads")
+        admobads.setAdsListener(object : IMarvelAds {
+
+            override fun adLoaded(adLoaded: Any) {
+                Logger.onlyDebug("adMob:NaitveAds:adLoaded")
+                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adLoaded")
+                admobads.showInterstialAd("NaitveAds", adLoaded)
+            }
+
+            override fun adError(error: String) {
+                Logger.onlyDebug("adMob:NaitveAds:adError")
+                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adError")
+            }
+
+            override fun adDismissed(tag: String) {
+                Logger.onlyDebug("adMob:NaitveAds:adDismissed")
+                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDismissed")
+            }
+
+            override fun addDisplayed() {
+                Logger.onlyDebug("adMob:NaitveAds:adDisplayed")
+                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDisplayed")
+            }
+
+        }, "nativeads")
     }
 
     private fun bannerAds() {

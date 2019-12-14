@@ -3,5 +3,6 @@
 
     <application android:name="com.dastanapps.dastanlib.DastanLibApp">
         <activity android:name=".LoggerActivity" />
+        <activity android:name=".DWebView" />
     </application>
 </manifest>
