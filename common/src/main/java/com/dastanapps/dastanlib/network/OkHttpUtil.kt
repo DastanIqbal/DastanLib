@@ -28,7 +28,7 @@ object OkHttpUtil {
 
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
-                iRestRequest.onResponse(reqId, response.body()!!.string())
+                response.body?.string()?.let { iRestRequest.onResponse(reqId, it) }
             }
         })
     }
@@ -50,7 +50,7 @@ object OkHttpUtil {
 
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
-                iRestRequest.onResponse(reqId, response.body()!!.string())
+                response.body?.string()?.let { iRestRequest.onResponse(reqId, it) }
             }
         })
     }

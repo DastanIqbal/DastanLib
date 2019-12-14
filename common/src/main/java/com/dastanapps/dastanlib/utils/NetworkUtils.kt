@@ -7,6 +7,9 @@ import android.net.NetworkInfo
 import android.os.Build
 import androidx.annotation.RequiresPermission
 import android.telephony.TelephonyManager
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.DecimalFormat
 
 /**
@@ -16,14 +19,12 @@ object NetworkUtils {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     fun isConnectingToInternet(context: Context): Boolean {
         val connectivity = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivity != null) {
-            val info = connectivity.allNetworkInfo
-            if (info != null)
-                for (i in info.indices)
-                    if (info[i].state == NetworkInfo.State.CONNECTED) {
-                        return true
-                    }
-        }
+        val info = connectivity.allNetworkInfo
+        if (info != null)
+            for (i in info.indices)
+                if (info[i].state == NetworkInfo.State.CONNECTED) {
+                    return true
+                }
         return false
     }
 
@@ -35,20 +36,16 @@ object NetworkUtils {
         val nf = DecimalFormat()
         nf.maximumFractionDigits = 2
 
-        try {
-            return if (sizeInBytes < SPACE_KB) {
-                nf.format(sizeInBytes) + " Byte(s)"
-            } else if (sizeInBytes < SPACE_MB) {
-                nf.format(sizeInBytes / SPACE_KB) + " KB"
-            } else if (sizeInBytes < SPACE_GB) {
-                nf.format(sizeInBytes / SPACE_MB) + " MB"
-            } else if (sizeInBytes < SPACE_TB) {
-                nf.format(sizeInBytes / SPACE_GB) + " GB"
-            } else {
-                nf.format(sizeInBytes / SPACE_TB) + " TB"
+        return try {
+            when {
+                sizeInBytes < SPACE_KB -> nf.format(sizeInBytes) + " Byte(s)"
+                sizeInBytes < SPACE_MB -> nf.format(sizeInBytes / SPACE_KB) + " KB"
+                sizeInBytes < SPACE_GB -> nf.format(sizeInBytes / SPACE_MB) + " MB"
+                sizeInBytes < SPACE_TB -> nf.format(sizeInBytes / SPACE_GB) + " GB"
+                else -> nf.format(sizeInBytes / SPACE_TB) + " TB"
             }
         } catch (e: Exception) {
-            return sizeInBytes.toString() + " Byte(s)"
+            "$sizeInBytes Byte(s)"
         }
 
     }
@@ -71,7 +68,7 @@ object NetworkUtils {
 
     fun isMobileAvailable(context: Context): Boolean {
         val tel = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        return if (tel.networkOperator != null && tel.networkOperator == "") false else true
+        return !(tel.networkOperator != null && tel.networkOperator == "")
     }
 
     fun canSendSMS(context: Context): Boolean {
@@ -84,7 +81,7 @@ object NetworkUtils {
     }
 
     @Throws(IOException::class)
-    fun getFinalURL1(url: String): String {
+    fun getFinalURL(url: String): String {
         val con = URL(url).openConnection() as HttpURLConnection
         con.instanceFollowRedirects = false
         con.connect()

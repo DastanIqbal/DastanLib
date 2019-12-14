@@ -27,10 +27,11 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 class MyFCMListenerService : FirebaseMessagingService() {
+    private val TAG = this::class.java.simpleName
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        Logger.d(TAG, "From: " + remoteMessage!!.from!!)
+        Logger.d(TAG, "From: " + remoteMessage.from)
 
         // Check if message contains a data payload.
         if (remoteMessage.data.isNotEmpty()) {
@@ -42,7 +43,7 @@ class MyFCMListenerService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(p0: String?) {
+    override fun onNewToken(p0: String) {
         super.onNewToken(p0)
         Logger.d(TAG, "New Token")
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
@@ -52,12 +53,6 @@ class MyFCMListenerService : FirebaseMessagingService() {
                 SendBroadcast.PushToken(this)
             } ?: Logger.d(TAG, "Firebase Token is null")
         }
-
-    }
-
-    companion object {
-
-        private val TAG = "MyFCMListenerService"
     }
 }
 

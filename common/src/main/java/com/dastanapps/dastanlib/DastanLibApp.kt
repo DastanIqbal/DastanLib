@@ -13,8 +13,8 @@ import com.dastanapps.dastanlib.log.Logger
  */
 open class DastanLibApp : Application() {
     private val TAG = this::class.java.simpleName
-    var isRelease = false
     val supportEmail: String? = null
+    val commonConfiguration = CommonConfiguration()
 
     companion object {
         lateinit var INSTANCE: DastanLibApp
@@ -35,4 +35,9 @@ open class DastanLibApp : Application() {
         Logger.onlyDebug("Lib Initialized")
      //   startKoin(this, listOf(appModule))
     }
+
+    fun isRelease(): Boolean {
+        return commonConfiguration.devMode == "release"
+    }
+
 }
