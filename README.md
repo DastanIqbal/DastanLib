@@ -86,8 +86,24 @@ implementation "com.dastanapps.dastanlib:ui:0.1.4-alpha"
 ```
 
 Call readymade method, Eg:
-Just to load webpage use `DWebView`
+Just to load webpage use `DWebView` for eg:
+```
+  startActivity(Intent(this, DWebView::class.java).apply {
+                        putExtra(DWebView.DWEBVIEW_URL, "http://privacypolicy.com/privacypolicy")
+                    })
+```
+
 Date and Time Picker use `DatePickerFragment`,`TimePickerFragment`
+```
+     private val datePickerFragment by lazy { DatePickerFragment() }
+     datePickerFragment.defaultFmt = "yyyy-MM-dd"
+     datePickerFragment.idatepickerresult = object : DatePickerFragment.IDatePickerResult {
+            override fun onDateSet(date: String, mCalendar: Calendar) {
+                val currentDate = DateTimeUtils.currentDate("yyyy-MM-dd")
+            }
+        }
+     datePickerFragment.show(requireFragmentManager(), "Date Picker")   
+```
 Launch LoggerActivity to see log files. 
 
 To show Toast or Snackbar
