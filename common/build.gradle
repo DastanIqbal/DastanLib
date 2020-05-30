@@ -6,7 +6,7 @@ apply from: home+'/googleService.gradle'
 
 // This is the library version used when deploying the artifact
 //artifact("$buildDir/outputs/aar/corekit-development-release.aar")
-version = "0.3.2-alpha"
+version = "0.3.3-alpha"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
