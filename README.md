@@ -25,19 +25,56 @@ implementation "com.dastanapps.dastanlib:common:0.3.2-alpha"
 
 To Implement Push Notification just register your receiver and you will get the push
 ```
-  LocalBroadcastManager.getInstance(this)
-                .registerReceiver(
-                        PushNotificatinoMsgsReceiver(),
-                        IntentFilter(SendBroadcast.GCM_MESSAGE)
+class PushNotificatinoMsgsReceiver : BroadcastReceiver() {
+    private val TAG = this::class.java.simpleName
+    override fun onReceive(ctxt: Context, intent: Intent?) {
+        intent?.run {
+            val msg = intent.getStringExtra("msg")
+            Logger.d(TAG, msg)
+            //Extract data
+            CommonUtils.openNotification2(PushNotificationB(title,content,banner_url,push_type))
+        }
+    }
+ }
+
 ```
 To receive Push token
 ```
-   LocalBroadcastManager.getInstance(this)
+class SendNewTokenReceiver : BroadcastReceiver() {
+    private val TAG = this::class.java.simpleName
+    override fun onReceive(ctxt: Context, intent: Intent?) {
+        if (DastanLibApp.INSTANCE.isRelease)
+            intent?.getStringExtra("token")?.let { token ->
+            val bundle = Bundle().apply {
+                    putString("TOKEN", token)
+            }
+            //Sent token to server
+            AppWorkManager.networkWorker(AppWorkManager.TASK_SENDTOKEN, bundle)
+        }
+     }
+}
+```
+
+In `App` register Reciver
+```
+open class App : DastanAdsApp() {
+       override fun onCreate() {
+              super.onCreate()
+              INSTANCE = this
+              LocalBroadcastManager.getInstance(this)
+                            .registerReceiver(
+                                    PushNotificatinoMsgsReceiver(),
+                                    IntentFilter(SendBroadcast.GCM_MESSAGE)
+              LocalBroadcastManager.getInstance(this)
                 .registerReceiver(
                         SendNewTokenReceiver(),
                         IntentFilter(getString(R.string.token_refresh_broadcast))
                 )
+      }
+}
 ```
+
+Thats it, you will start receving Push and Token in both Receiver. Simple!!
 
 Use `DGson` for converting Json to Object, and Object to Json.
 Common utility class `Bitmap, DateTime, Display, File, Network etc`
