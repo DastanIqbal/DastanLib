@@ -67,11 +67,7 @@ object Logger {
         }
     }
 
-    fun onlyDebug(log1: String?) {
-        var log:String?=null
-        if (log1 == null) {
-            log = "null"
-        }
+    fun onlyDebug(log: String) {
         logger.debug(log)
         if (!DastanLibApp.INSTANCE.isRelease()) {
             d(prefix, checkNull(log))

@@ -765,18 +765,34 @@ object CommonUtils {
         Thread(runnable).start()
     }
 
-    fun sendEmailAttachment(context: Context, content: String, filePath: String, to: String) {
+    fun sendEmailAttachment(context: Context, content: String, subject: String, filePath: String, to: String) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Report Issue")
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
         intent.putExtra(Intent.EXTRA_TEXT, DeviceUtils.getMinimalDeviceInfo() + content)
         val uri = Uri.fromFile(File(filePath))
         intent.putExtra(Intent.EXTRA_STREAM, uri)
 
-        val chooserIntent = Intent.createChooser(intent, "Report Issue")
+        val chooserIntent = Intent.createChooser(intent, subject)
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooserIntent)
+    }
+
+    fun sendEmail(context: Context, content: String, to: String, subject: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        intent.putExtra(Intent.EXTRA_TEXT, DeviceUtils.getMinimalDeviceInfo() + content)
+
+        try {
+            val chooserIntent = Intent.createChooser(intent, subject)
+            chooserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(chooserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun openAppSettings(context: Context) {
