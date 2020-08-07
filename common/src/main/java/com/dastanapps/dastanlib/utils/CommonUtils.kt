@@ -2,14 +2,19 @@ package com.dastanapps.dastanlib.utils
 
 import android.Manifest
 import android.accounts.AccountManager
-import android.app.*
+import android.app.Activity
+import android.app.AlarmManager
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
@@ -30,10 +35,11 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.dastanapps.dastanlib.ChannelB
 import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.log.Logger
+import com.dastanapps.dastanlib.utils.NotificationUtils.showNotification
 import java.io.*
 import java.nio.charset.Charset
 import java.text.DecimalFormat
@@ -439,94 +445,13 @@ object CommonUtils {
         return returnString.toString()
     }
 
-    fun createNotificationChannel(nm: NotificationManager?, channelName: String?, channelId: String?): String? {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val chan = NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW)
-            chan.setSound(null, null)
-            chan.enableLights(false)
-            chan.enableVibration(false)
-            chan.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            nm?.createNotificationChannel(chan)
-        }
-        return channelId
+    fun createNotificationChannel(nm: NotificationManager, channel: ChannelB): String {
+        return NotificationUtils.createChannel(nm, channel)
     }
 
-    fun openNotification(ctxt: Context, title: String, desc: String,
-                         largeIconStream: InputStream?,
-                         bigPicStream: InputStream?, isCancelable: Boolean) {
-        var largBitmap: Bitmap? = null
-        var bigBitmap: Bitmap? = null
-        if (largeIconStream != null) {
-            largBitmap = BitmapFactory.decodeStream(largeIconStream)
-        }
-
-        if (bigPicStream != null) {
-            bigBitmap = BitmapFactory.decodeStream(bigPicStream)
-        }
-        val notificationB = NotificationB()
-                .cancelable(isCancelable)
-                .title(title)
-                .desc(desc)
-        largBitmap?.run { notificationB.largeBmp(this) }
-        bigBitmap?.run { notificationB.bigBmp(this) }
-        openNotification2(ctxt, notificationB)
-    }
-
-    fun getNotificationB(ctxt: Context, title: String, desc: String,
-                          largBitmap: Bitmap?,
-                          bigBitmap: Bitmap?, isCancelable: Boolean): NotificationB {
-        val notificationB = NotificationB()
-                .cancelable(isCancelable)
-                .title(title)
-                .desc(desc)
-                .channelName("Notification")
-                .channelId(ctxt.getString(R.string.fcm_default_channel))
-        largBitmap?.run { notificationB.largeBmp(this) }
-        bigBitmap?.run { notificationB.bigBmp(this) }
-        return notificationB
-    }
-
-    fun openNotification2(ctxt: Context, notificationB: NotificationB) {
-        val notificationManager = ctxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        var channelId = ""
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = createNotificationChannel(notificationManager, notificationB.channelName, notificationB.channelId)
-                    ?: ""
-        }
-        val mBuilder = NotificationCompat.Builder(ctxt, channelId)
-                .setSmallIcon(notificationB.smallIcon)
-                .setContentTitle(notificationB.title)
-                .setAutoCancel(notificationB.cancelable)
-                .setOngoing(!notificationB.cancelable)
-                .setColor(notificationB.color)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setSound(defaultSoundUri)
-                .setContentText(notificationB.desc)
-
-        if (notificationB.pendingIntent != null) {
-            val resultPendingIntent = PendingIntent.getActivity(ctxt,
-                    0, notificationB.pendingIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT)
-            mBuilder.setContentIntent(resultPendingIntent)
-        }
-
-        if (notificationB.largeBmp != null) {
-            mBuilder.setLargeIcon(notificationB.largeBmp)
-        }
-
-        if (notificationB.bigBmp != null) {
-            mBuilder.setStyle(NotificationCompat.BigPictureStyle()
-                    .bigPicture(notificationB.bigBmp)
-                    .setBigContentTitle(notificationB.title)
-                    .setSummaryText(notificationB.desc))
-        }
-        //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        // mBuilder.setColor(ctxt.getResources().getColor(R.color.colorPrimary));
-        //    }
-
-        notificationManager.notify(notificationB.id, mBuilder.build())
+    fun showNotification(context: Context, notificationB: NotificationB) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.showNotification(context, notificationB)
     }
 
     fun cancelNotificaiton(context: Context, id: Int) {

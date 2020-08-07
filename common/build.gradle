@@ -6,7 +6,7 @@ apply from: home+'/googleService.gradle'
 
 // This is the library version used when deploying the artifact
 //artifact("$buildDir/outputs/aar/corekit-development-release.aar")
-version = "0.3.4-alpha"
+version = "1.0"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -47,7 +47,7 @@ dependencies {
 
     //3rd-Party SquareUP Libraries
     api 'com.squareup.okhttp:okhttp:2.7.5'
-    api 'com.squareup.okhttp3:okhttp:4.6.0'
+    api 'com.squareup.okhttp3:okhttp:4.7.2'
     api 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 
     api 'com.mcxiaoke.volley:library:1.0.19'
