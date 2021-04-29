@@ -7,7 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <application android:name="com.dastanapps.dastanlib.DastanAdsApp">
+    <application
+        android:name="com.dastanapps.dastanlib.DastanAdsApp"
+        android:hardwareAccelerated="true">
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"

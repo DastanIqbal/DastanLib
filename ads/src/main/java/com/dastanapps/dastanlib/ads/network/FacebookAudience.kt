@@ -48,7 +48,7 @@ class FacebookAudience : AdsBase() {
             // Add the ad view to container
             adContainer.addView(adView)
 
-            adView.setAdListener(object : AdListener {
+           /* adView.setAdListener(object : AdListener {
                 override fun onError(ad: Ad, adError: AdError) {
                     try {
                         Logger.onlyDebug("Error: " + adError.errorMessage)
@@ -75,7 +75,7 @@ class FacebookAudience : AdsBase() {
                     Logger.onlyDebug("Impression logged!")
                     DAnalytics.getInstance().sendLogs("Ads", "FBBannerAd:$tag", "clicked")
                 }
-            })
+            })*/
             if (!DastanAdsApp.INSTANCE.disableAds())
                 adView.loadAd()
         }, 500)
@@ -85,7 +85,7 @@ class FacebookAudience : AdsBase() {
         if (cahcedBannerAdMap[tag] != null) return
         // Instantiate an AdView view
         val adView = AdView(context, bannerId, AdSize.BANNER_HEIGHT_50)
-        adView.setAdListener(object : AdListener {
+        /*adView.setAdListener(object : AdListener {
             override fun onError(ad: Ad, adError: AdError) {
                 try {
                     Logger.onlyDebug("Error: " + adError.errorMessage)
@@ -113,7 +113,7 @@ class FacebookAudience : AdsBase() {
                 Logger.onlyDebug("Impression logged!")
                 DAnalytics.getInstance().sendLogs("Ads", "FBBannerAd:$tag", "clicked")
             }
-        })
+        })*/
         if (!DastanAdsApp.INSTANCE.disableAds())
             adView.loadAd()
     }
@@ -138,11 +138,11 @@ class FacebookAudience : AdsBase() {
             interstitialAd.loadAd()
 
         // Set listeners for the Interstitial Ad
-        interstitialAd.setAdListener(object : InterstitialAdListener {
+        /*interstitialAd.setAdListener(object : InterstitialAdListener {
             override fun onInterstitialDisplayed(ad: Ad) {
                 DAnalytics.getInstance().sendLogs("Ads", "FBInterstialAd:$tag", "onInterstitialDisplayed")
                 Logger.onlyDebug("Interstitial Ad displayed!")
-                listnerHashMap[tag]?.addDisplayed()
+                listnerHashMap[tag]?.adDisplayed()
                 //  notifyAdDiplayed() //Be cautious , will notify to all
             }
 
@@ -182,7 +182,7 @@ class FacebookAudience : AdsBase() {
                 Logger.onlyDebug("Impression logged!")
                 DAnalytics.getInstance().sendLogs("Ads", "FBInterstialAd:$tag", "impression")
             }
-        })
+        })*/
     }
 
     private fun notifyToAllisDisplayed() {
@@ -203,38 +203,38 @@ class FacebookAudience : AdsBase() {
     //**************************
     fun showNativeAd(tag: String) {
         val nativeAd = NativeAd(context, DastanAdsApp.INSTANCE.adsConfiguration.fbNativeAdId)
-        nativeAd.setAdListener(object : AdListener {
-
-            override fun onError(ad: Ad, error: AdError) {
-                try {
-                    // Ad error callback
-                    // callAdError(error.errorMessage)
-                    listnerHashMap[tag]?.adError(error.errorMessage)
-                    Logger.onlyDebug("Error: " + error.errorMessage)
-                    DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "onError:${error.errorMessage}")
-                } catch (e: Exception) {
-                }
-            }
-
-            override fun onAdLoaded(ad: Ad) {
-                Logger.onlyDebug("Ad Loaded!")
-                listnerHashMap[tag]?.adLoaded(nativeAd)
-                //callAdLoaded(nativeAd as NativeAd)
-                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "onAdLoaded")
-            }
-
-            override fun onAdClicked(ad: Ad) {
-                Logger.onlyDebug("Interstitial Ad clicked!")
-                // Ad clicked callback
-                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "clicked")
-            }
-
-            override fun onLoggingImpression(ad: Ad) {
-                Logger.onlyDebug("Impression logged!")
-                // On logging impression callback
-                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "impression")
-            }
-        })
+//        nativeAd.setAdListener(object : AdListener {
+//
+//            override fun onError(ad: Ad, error: AdError) {
+//                try {
+//                    // Ad error callback
+//                    // callAdError(error.errorMessage)
+//                    listnerHashMap[tag]?.adError(error.errorMessage)
+//                    Logger.onlyDebug("Error: " + error.errorMessage)
+//                    DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "onError:${error.errorMessage}")
+//                } catch (e: Exception) {
+//                }
+//            }
+//
+//            override fun onAdLoaded(ad: Ad) {
+//                Logger.onlyDebug("Ad Loaded!")
+//                listnerHashMap[tag]?.adLoaded(nativeAd)
+//                //callAdLoaded(nativeAd as NativeAd)
+//                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "onAdLoaded")
+//            }
+//
+//            override fun onAdClicked(ad: Ad) {
+//                Logger.onlyDebug("Interstitial Ad clicked!")
+//                // Ad clicked callback
+//                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "clicked")
+//            }
+//
+//            override fun onLoggingImpression(ad: Ad) {
+//                Logger.onlyDebug("Impression logged!")
+//                // On logging impression callback
+//                DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "impression")
+//            }
+//        })
 
         // Request an ad
         if (!DastanAdsApp.INSTANCE.disableAds())
@@ -243,7 +243,7 @@ class FacebookAudience : AdsBase() {
 
     fun showNativeAd(tag: String, adId: String) {
         val nativeAd = NativeAd(context, adId)
-        nativeAd.setAdListener(object : AdListener {
+       /* nativeAd.setAdListener(object : AdListener {
 
             override fun onError(ad: Ad, error: AdError) {
                 // Ad error callback
@@ -271,7 +271,7 @@ class FacebookAudience : AdsBase() {
                 // On logging impression callback
                 DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "impression")
             }
-        })
+        })*/
 
         // Request an ad
         if (!DastanAdsApp.INSTANCE.disableAds())
@@ -288,7 +288,7 @@ class FacebookAudience : AdsBase() {
             override fun run() {
                 val tag = tag + i
                 val nativeAd = if (i == 0) NativeAd(context, DastanAdsApp.INSTANCE.adsConfiguration.fbNativeAdId) else NativeAd(context, DastanAdsApp.INSTANCE.adsConfiguration.fbSaveVideo2Id)
-                nativeAd.setAdListener(object : AdListener {
+                /*nativeAd.setAdListener(object : AdListener {
 
                     override fun onError(ad: Ad, error: AdError) {
                         // Ad error callback
@@ -317,7 +317,7 @@ class FacebookAudience : AdsBase() {
                         // On logging impression callback
                         DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "impression")
                     }
-                })
+                })*/
 
                 // Request an ad
                 if (!DastanAdsApp.INSTANCE.disableAds())
@@ -341,7 +341,7 @@ class FacebookAudience : AdsBase() {
             override fun run() {
                 val tag = tag + i
                 val nativeAd = if (i == 0) NativeAd(context, fbNativeId) else NativeAd(context, DastanAdsApp.INSTANCE.adsConfiguration.fbSaveVideo2Id)
-                nativeAd.setAdListener(object : AdListener {
+               /* nativeAd.setAdListener(object : AdListener {
 
                     override fun onError(ad: Ad, error: AdError) {
                         // Ad error callback
@@ -370,7 +370,7 @@ class FacebookAudience : AdsBase() {
                         // On logging impression callback
                         DAnalytics.getInstance().sendLogs("Ads", "FBNativeAd:$tag", "impression")
                     }
-                })
+                })*/
 
                 // Request an ad
                 if (!DastanAdsApp.INSTANCE.disableAds())
@@ -393,26 +393,26 @@ class FacebookAudience : AdsBase() {
             throw RuntimeException("ImageView cannot be null")
         // Download and display the ad icon.
         val adIcon = nativeAd.adIcon
-        NativeAd.downloadAndDisplayImage(adIcon, showOnthis)
+//        NativeAd.downloadAndDisplayImage(adIcon, showOnthis)
     }
 
     fun setFBMedia(nativeAd: NativeAd, nativeAdMedia: MediaView) {
         // Download and display the cover image.
-        nativeAdMedia.setNativeAd(nativeAd)
+//        nativeAdMedia.setNativeAd(nativeAd)
     }
 
     fun enableAdChoiceIcon(nativeAd: NativeAd, adChoicesContainer: ViewGroup) {
-        val adChoicesView = AdChoicesView(context, nativeAd, true)
-        adChoicesContainer.addView(adChoicesView)
+//        val adChoicesView = AdChoicesView(context, nativeAd, true)
+//        adChoicesContainer.addView(adChoicesView)
     }
 
     // Register the Title and CTA button to listen for clicks.
     fun setCallToAction(nativeAd: NativeAd, clickableViews: List<View>, nativeAdContainer: ViewGroup) {
-        nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
+//        nativeAd.registerViewForInteraction(nativeAdContainer, clickableViews)
     }
 
     fun setCallToAction(nativeAd: NativeAd, nativeAdContainer: View) {
-        nativeAd.registerViewForInteraction(nativeAdContainer)
+//        nativeAd.registerViewForInteraction(nativeAdContainer)
     }
 
     fun showNativeAdInHScroll(num: Int, adContainer: ViewGroup) {
@@ -433,7 +433,7 @@ class FacebookAudience : AdsBase() {
                         .forEach { it.adError(adError.errorMessage) }
             }
         })
-        if (!DastanAdsApp.INSTANCE.disableAds())
-            manager.loadAds(NativeAd.MediaCacheFlag.ALL)
+//        if (!DastanAdsApp.INSTANCE.disableAds())
+//            manager.loadAds(NativeAd.MediaCacheFlag.ALL)
     }
 }

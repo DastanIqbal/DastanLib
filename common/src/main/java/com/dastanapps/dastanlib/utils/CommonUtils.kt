@@ -39,7 +39,6 @@ import androidx.core.content.ContextCompat
 import com.dastanapps.dastanlib.ChannelB
 import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.log.Logger
-import com.dastanapps.dastanlib.utils.NotificationUtils.showNotification
 import java.io.*
 import java.nio.charset.Charset
 import java.text.DecimalFormat
@@ -443,15 +442,6 @@ object CommonUtils {
 
         }
         return returnString.toString()
-    }
-
-    fun createNotificationChannel(nm: NotificationManager, channel: ChannelB): String {
-        return NotificationUtils.createChannel(nm, channel)
-    }
-
-    fun showNotification(context: Context, notificationB: NotificationB) {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.showNotification(context, notificationB)
     }
 
     fun cancelNotificaiton(context: Context, id: Int) {

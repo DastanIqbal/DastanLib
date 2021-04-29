@@ -1,3 +1,4 @@
+/*
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +27,9 @@ import com.google.android.gms.ads.formats.MediaView
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 
-/** Base class for a template view. *  */
+*/
+/** Base class for a template view. *  *//*
+
 class TemplateView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
@@ -228,11 +231,13 @@ class TemplateView @JvmOverloads constructor(
         nativeAdView!!.setNativeAd(nativeAd)
     }
 
-    /**
+    */
+/**
      * To prevent memory leaks, make sure to destroy your ad when you don't need it anymore. This
      * method does not destroy the template view.
      * https://developers.google.com/admob/android/native-unified#destroy_ad
-     */
+     *//*
+
     fun destroyNativeAd() {
         nativeAd!!.destroy()
     }
@@ -273,3 +278,4 @@ class TemplateView @JvmOverloads constructor(
         private val SMALL_TEMPLATE = "small_template"
     }
 }
+*/

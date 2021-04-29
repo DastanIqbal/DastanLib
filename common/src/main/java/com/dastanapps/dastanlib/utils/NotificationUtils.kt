@@ -15,7 +15,7 @@ import com.dastanapps.dastanlib.NotificationB
 
 object NotificationUtils {
 
-    fun createChannel(
+    private fun createChannel(
             nm: NotificationManager,
             channel: ChannelB
     ): String {
@@ -43,7 +43,7 @@ object NotificationUtils {
         return channel.channelId
     }
 
-    fun NotificationManager.showNotification(
+    private fun NotificationManager.showNotification(
             context: Context,
             notificationB: NotificationB
     ): Notification {
@@ -88,7 +88,7 @@ object NotificationUtils {
         return mBuilder.build()
     }
 
-    fun getService(context: Context): NotificationManager {
+    private fun getService(context: Context): NotificationManager {
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 

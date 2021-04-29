@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dastanapps.dastanapps.R.id.*
+import com.dastanapps.dastanlib.ChannelB
 import com.dastanapps.dastanlib.NotificationB
 import com.dastanapps.dastanlib.fragment.TimePickerFragment
 import com.dastanapps.dastanlib.utils.*
@@ -26,32 +27,31 @@ class CommonActivity : AppCompatActivity() {
         }
 
         btn_notification.setOnClickListener {
-            val notificationB = NotificationB()
-                    .id(1030)
-                    .channelId("id_testing")
-                    .channelName("Testing ")
-                    .title("This is title")
-                    .desc("This is description")
-            //.cancelable(false)
-            CommonUtils.openNotification2(this, notificationB)
+            val notificationB = NotificationB(
+                1030, "This is title", ChannelB(
+                    "id_testing", "Testing "
+                )
+            )
+            NotificationUtils.notifyNotification(this, notificationB)
         }
 
         btn_alarm.setOnClickListener {
             val timePickerFragment = TimePickerFragment()
-            timePickerFragment.setOnTimeSet(object : TimePickerFragment.ITimePickerResult {
-                override fun onTimeSet(time: String, calendar: Calendar) {
+            timePickerFragment.itimepickerresult = object : TimePickerFragment.ITimePickerResult {
+                override fun onTimeSet(time: String, calendar: Calendar, locale: Locale) {
                     val intent = Intent(this@CommonActivity, MainActivity::class.java)
                     val pendingIntent = PendingIntent.getActivity(
-                            this@CommonActivity,
-                            101,
-                            intent,
-                            PendingIntent.FLAG_UPDATE_CURRENT)
+                        this@CommonActivity,
+                        101,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
 
                     AlarmUtils.scheduleExactEvent(this@CommonActivity, calendar, pendingIntent)
                     //AlarmUtils.scheduleExactEvent(this@CommonActivity, 120, pendingIntent)
                     //AlarmUtils.scheduleExactRepeatingEvent(this@CommonActivity, calendar, pendingIntent)
                 }
-            })
+            }
             timePickerFragment.show(supportFragmentManager, "timePicker")
         }
     }

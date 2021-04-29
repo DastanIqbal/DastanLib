@@ -12,6 +12,8 @@ abstract class AdsBase {
     protected val context = DastanAdsApp.INSTANCE
     protected var listnerHashMap = HashMap<String, IMarvelAds>()
     protected val cahcedBannerAdMap = HashMap<String, Any>()
+    protected val cahcedInterstialAdMap = HashMap<String, Any?>()
+    protected val cahcedRewardedAdMap = HashMap<String, Any?>()
 
     fun setNativeAdsListener(fbNativeAds: IMarvelAds, tag: String) {
         listnerHashMap.put(tag, fbNativeAds)
@@ -20,31 +22,31 @@ abstract class AdsBase {
     protected fun notifyAdError(errorMessage: String) {
         val startAppKeys = listnerHashMap.keys
         startAppKeys
-                .map { listnerHashMap[it] as IMarvelAds }
-                .forEach { it.adError(errorMessage) }
+            .map { listnerHashMap[it] as IMarvelAds }
+            .forEach { it.adError(errorMessage) }
     }
 
     protected fun notifyAdLoaded(nativeAd: Any) {
         val startAppKeys = listnerHashMap.keys
         startAppKeys
-                .map { listnerHashMap[it] as IMarvelAds }
-                .forEach {
-                    it.adLoaded(nativeAd)
-                }
+            .map { listnerHashMap[it] as IMarvelAds }
+            .forEach {
+                it.adLoaded(nativeAd)
+            }
     }
 
     protected fun notifyAdDismissed(tag: String) {
         val startAppKeys = listnerHashMap.keys
         startAppKeys
-                .map { listnerHashMap[it] as IMarvelAds }
-                .forEach { it.adDismissed(tag) }
+            .map { listnerHashMap[it] as IMarvelAds }
+            .forEach { it.adDismissed(tag) }
     }
 
     protected fun notifyAdDiplayed() {
         val startAppKeys = listnerHashMap.keys
         startAppKeys
-                .map { listnerHashMap[it] as IMarvelAds }
-                .forEach { it.addDisplayed() }
+            .map { listnerHashMap[it] as IMarvelAds }
+            .forEach { it.adDisplayed() }
     }
 
     fun removeListener(tag: String) {
@@ -53,5 +55,13 @@ abstract class AdsBase {
 
     fun removeCachedBanner(tag: String) {
         cahcedBannerAdMap.remove(tag)
+    }
+
+    fun removeCachedInterstialAd(tag: String) {
+        cahcedInterstialAdMap.remove(tag)
+    }
+
+    fun removeCachedRewardedAd(tag: String) {
+        cahcedRewardedAdMap.remove(tag)
     }
 }

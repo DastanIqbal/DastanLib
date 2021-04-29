@@ -18,44 +18,43 @@ class AdmobAdsTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_banner_ads_test)
 
-        ViewUtils.showToast(this, "Rewarded Ads Requested")
-
         bannerAds()
-        interstialAds()
-        rewardAds()
+        tvInterstitial.setOnClickListener { interstialAds() }
+        tvReward.setOnClickListener { rewardAds() }
         nativeAds()
     }
 
     private fun nativeAds() {
-        admobads.loadNativeAds(nativead,"nativeads")
-        admobads.setAdsListener(object : IMarvelAds {
-
-            override fun adLoaded(adLoaded: Any) {
-                Logger.onlyDebug("adMob:NaitveAds:adLoaded")
-                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adLoaded")
-                admobads.showInterstialAd("NaitveAds", adLoaded)
-            }
-
-            override fun adError(error: String) {
-                Logger.onlyDebug("adMob:NaitveAds:adError")
-                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adError")
-            }
-
-            override fun adDismissed(tag: String) {
-                Logger.onlyDebug("adMob:NaitveAds:adDismissed")
-                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDismissed")
-            }
-
-            override fun addDisplayed() {
-                Logger.onlyDebug("adMob:NaitveAds:adDisplayed")
-                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDisplayed")
-            }
-
-        }, "nativeads")
+//        admobads.loadNativeAds(nativead,"nativeads")
+//        admobads.setAdsListener(object : IMarvelAds {
+//
+//            override fun adLoaded(adLoaded: Any) {
+//                Logger.onlyDebug("adMob:NaitveAds:adLoaded")
+//                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adLoaded")
+//                admobads.showInterstialAd("NaitveAds", adLoaded)
+//            }
+//
+//            override fun adError(error: String) {
+//                Logger.onlyDebug("adMob:NaitveAds:adError")
+//                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adError")
+//            }
+//
+//            override fun adDismissed(tag: String) {
+//                Logger.onlyDebug("adMob:NaitveAds:adDismissed")
+//                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDismissed")
+//            }
+//
+//            override fun adDisplayed() {
+//                Logger.onlyDebug("adMob:NaitveAds:adDisplayed")
+//                ViewUtils.showToast(this@AdmobAdsTestActivity, "NaitveAds Ads adDisplayed")
+//            }
+//
+//        }, "nativeads")
     }
 
     private fun bannerAds() {
-        admobads.loadBannerAds("banner", getString(R.string.admob_ads_banner))
+        val tag = "banner"
+        admobads.loadBannerAds(this, tag, getString(R.string.admob_ads_banner))
         admobads.setAdsListener(object : IMarvelAds {
             override fun adLoaded(adLoaded: Any) {
                 Logger.onlyDebug("adMob:banner:adLoaded")
@@ -75,22 +74,24 @@ class AdmobAdsTestActivity : AppCompatActivity() {
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Banner Ads adDismissed")
             }
 
-            override fun addDisplayed() {
+            override fun adDisplayed() {
                 Logger.onlyDebug("adMob:banner:adDisplayed")
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Banner Ads adDisplayed")
             }
 
-        }, "banner")
+        }, tag)
     }
 
     private fun interstialAds() {
-        admobads.loadInterstialAd("Interstitial")
+        val tag = "Interstitial"
+        admobads.loadInterstitialAd(tag)
         admobads.setAdsListener(object : IMarvelAds {
 
             override fun adLoaded(adLoaded: Any) {
                 Logger.onlyDebug("adMob:Interstitial:adLoaded")
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Interstitial Ads adLoaded")
-                admobads.showInterstialAd("Interstitial", adLoaded)
+
+                admobads.showInterstitialAd(this@AdmobAdsTestActivity, tag)
             }
 
             override fun adError(error: String) {
@@ -103,19 +104,20 @@ class AdmobAdsTestActivity : AppCompatActivity() {
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Interstitial Ads adDismissed")
             }
 
-            override fun addDisplayed() {
+            override fun adDisplayed() {
                 Logger.onlyDebug("adMob:Interstitial:adDisplayed")
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Interstitial Ads adDisplayed")
             }
 
-        }, "Interstitial")
+        }, tag)
     }
 
     /**
      * Rewarded Ads
      */
     private fun rewardAds() {
-        admobads.loadRewardedVideoAd("reward")
+        val tag = "reward"
+        admobads.loadRewardedVideoAd(tag)
         admobads.setAdsListener(object : IAdMobAds {
             override fun rewarded() {
                 Logger.onlyDebug("adMob:reward:rewarded")
@@ -134,7 +136,9 @@ class AdmobAdsTestActivity : AppCompatActivity() {
 
             override fun adLoaded(adLoaded: Any) {
                 Logger.onlyDebug("adMob:reward:adLoaded")
-                admobads.showRewardedVideo()
+
+                admobads.showRewardedVideo(this@AdmobAdsTestActivity, tag)
+
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Rewarded Ads adLoaded")
             }
 
@@ -148,12 +152,12 @@ class AdmobAdsTestActivity : AppCompatActivity() {
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Rewarded Ads adDismissed")
             }
 
-            override fun addDisplayed() {
+            override fun adDisplayed() {
                 Logger.onlyDebug("adMob:reward:adDisplayed")
                 ViewUtils.showToast(this@AdmobAdsTestActivity, "Rewarded Ads adDisplayed")
             }
 
-        }, "reward")
+        }, tag)
     }
 
     override fun onPause() {

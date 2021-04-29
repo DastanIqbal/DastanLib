@@ -1,7 +1,7 @@
 // All library version add in this file
 
 project.ext {
-    devMode = false
+    devMode = true
     artifact = "common"
 
     minSdkVersion = 16

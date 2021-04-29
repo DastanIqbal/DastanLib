@@ -37,7 +37,7 @@ class DastanAds {
     private var vungleAds: VungleAds? = null
     private var moPubInterstialAd: MoPubInterstialAd? = null
     private var moPubRewardVideoAd: MoPubRewardVideoAd? = null
-    private var isRelease:Boolean = DastanAdsApp.INSTANCE.isRelease()
+    private var isRelease: Boolean = DastanAdsApp.INSTANCE.isRelease()
     val startAppAds: StartAppAds
         get() {
             if (startAppAd == null) {
@@ -50,7 +50,7 @@ class DastanAds {
 
     init {
         getAdMobAds()
-        if(isRelease) {
+        if (isRelease) {
             startAppAds
         }
     }
@@ -97,7 +97,7 @@ class DastanAds {
     }
 
     fun showBannerAds(tag: String) {
-        if(isRelease) {
+        if (isRelease) {
             facebookAudience.showBanner(tag)
             adMobAds?.showBanner(tag)
         }
@@ -114,9 +114,9 @@ class DastanAds {
 //                // call before loadInterstialAds
 //                facebookAudience.loadInterstitial(tag)
 //        }
-        if(isRelease) {
+        if (isRelease) {
             facebookAudience.loadInterstitial(tag)
-            adMobAds?.loadInterstialAd(tag)
+            adMobAds?.loadInterstitialAd(tag)
         }
         return this
     }
@@ -124,7 +124,7 @@ class DastanAds {
     fun setInterstialFBListener(tag: String): DastanAds {
         setAdsListener(object : IFBNativeAds {
             var isFbDisplayed = false;
-            override fun addDisplayed() {
+            override fun adDisplayed() {
                 Logger.onlyDebug("marvelads:adDisplayed")
                 isFbDisplayed = true
             }
@@ -146,7 +146,7 @@ class DastanAds {
                         interstialAd = adLoaded
                         isFbDisplayed = true
                     }
-                    is com.google.android.gms.ads.InterstitialAd -> {
+                    is com.google.android.gms.ads.interstitial.InterstitialAd -> {
                         if (!isFbDisplayed) interstialAd = adLoaded
                     }
                     else -> Logger.onlyDebug("Unknown adLoaded")
@@ -156,24 +156,28 @@ class DastanAds {
         return this
     }
 
-    fun showInterstialAds(tag: String) {
+    fun showInterstialAds(tag: String, activity: Activity) {
 //        val adNetwork = SPUtils.readString("ads")
 //        if (adNetwork == "fb" && interstialAd != null) {
 //            interstialAd!!.show()
 //        }
-        if(isRelease) {
+        if (isRelease) {
             when (interstialAd) {
                 is InterstitialAd ->
                     facebookAudience.showInterstitial(interstialAd as InterstitialAd)
-                is com.google.android.gms.ads.InterstitialAd -> adMobAds?.showInterstialAd(tag, interstialAd as com.google.android.gms.ads.InterstitialAd)
+                is com.google.android.gms.ads.interstitial.InterstitialAd ->
+                    adMobAds?.showInterstitialAd(
+                        activity,
+                        tag
+                    )
                 else -> loadInterstialAds(DastanAdsApp.INSTANCE, tag)
             }
         }
     }
 
     fun showExitsAds(activity: Activity, tag: String) {
-        if(isRelease) {
-            val adNetwork = SPUtils.readSP("ads","")
+        if (isRelease) {
+            val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
                 "startapp" -> startAppAds.backPressed(StartAppAd(activity))
                 "applovin" -> getAppLovin().showInterstialAds(activity)
@@ -185,8 +189,8 @@ class DastanAds {
     }
 
     fun setNativeAds(tag: String) {
-        if(isRelease) {
-            val adNetwork = SPUtils.readSP("ads","")
+        if (isRelease) {
+            val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
                 "startapp" -> startAppAds.setupNativeAds()
                 "applovin" -> //getAppLovin().;
@@ -197,8 +201,8 @@ class DastanAds {
     }
 
     fun setNativeAds(tag: String, adId: String) {
-        if(isRelease) {
-            val adNetwork = SPUtils.readSP("ads","")
+        if (isRelease) {
+            val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
                 "startapp" -> startAppAds.setupNativeAds()
                 "applovin" -> //getAppLovin().;
@@ -209,7 +213,7 @@ class DastanAds {
     }
 
     fun setNativeAdsWithNetwork(tag: String, adNetwork: String) {
-        if(isRelease) {
+        if (isRelease) {
             when (adNetwork) {
                 STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
                 "applovin" -> //getAppLovin().;
@@ -220,7 +224,7 @@ class DastanAds {
     }
 
     fun setNativeAds(tag: String, adId: String, adNetwork: String) {
-        if(isRelease) {
+        if (isRelease) {
             when (adNetwork) {
                 STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
                 "applovin" -> //getAppLovin().;
@@ -231,8 +235,8 @@ class DastanAds {
     }
 
     fun setupNativeAds(tag: String, num: Int) {
-        if(isRelease) {
-            val adNetwork = SPUtils.readSP("ads","")
+        if (isRelease) {
+            val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
                 "startapp" -> startAppAds.setupNativeAds(tag, num)
                 "applovin" -> startAppAds.setupNativeAds(tag, num)
@@ -318,15 +322,15 @@ class DastanAds {
     }
 
     fun loadNativeAds(tag: String, howMany: Int) {
-        if(isRelease) {
+        if (isRelease) {
             facebookAudience.loadNativeAds(tag, howMany)
             startAppAds.setupNativeAds(tag, howMany)
         }
     }
 
-    fun loadNativeAds(adId:String,tag: String, howMany: Int) {
-        if(isRelease) {
-            facebookAudience.loadNativeAds(adId,tag, howMany)
+    fun loadNativeAds(adId: String, tag: String, howMany: Int) {
+        if (isRelease) {
+            facebookAudience.loadNativeAds(adId, tag, howMany)
             startAppAds.setupNativeAds(tag, howMany)
         }
     }
@@ -339,15 +343,15 @@ class DastanAds {
         return (startAppAds.mNativeAdsList as ArrayList<NativeAdDetails>)
     }
 
-    fun loadBanner(bannerTag: String) {
-        if(isRelease) {
+    fun loadBanner(activity: Activity,bannerTag: String) {
+        if (isRelease) {
             val fbId = MarvelAdsId.getFBId(bannerTag)
             if (fbId.isNotEmpty())
                 facebookAudience.loadBanner(bannerTag, fbId)
 
             val adMobId = MarvelAdsId.getAdmobId(bannerTag)
             if (adMobId.isNotEmpty())
-                adMobAds?.loadBannerAds(bannerTag, adMobId)
+                adMobAds?.loadBannerAds(activity,bannerTag, adMobId)
         }
     }
 

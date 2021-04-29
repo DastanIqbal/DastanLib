@@ -12,5 +12,5 @@ interface IMarvelAds{
 
     fun adDismissed(tag:String)
 
-    fun addDisplayed()
+    fun adDisplayed()
 }

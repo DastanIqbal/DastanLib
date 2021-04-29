@@ -1,14 +1,18 @@
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
+        google()
+        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
     }
+
 }
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 apply from: '../kotlin.gradle'
 
 repositories {
@@ -55,7 +59,7 @@ android {
             resValue 'string', 'admob_app_id', "ca-app-pub-3940256099942544~3347511713"
             resValue 'string', 'admob_reward_ad', "ca-app-pub-3940256099942544/5224354917"
             resValue 'string', 'admob_ads_banner', "ca-app-pub-3940256099942544/6300978111"
-            resValue 'string', 'admob_ads_interstial', "ca-app-pub-8334207332200892/1601691980"
+            resValue 'string', 'admob_ads_interstial', "ca-app-pub-3940256099942544/1033173712"
             resValue 'string', 'admob_ads_native', "ca-app-pub-3940256099942544/2247696110"
 
         }
@@ -67,6 +71,7 @@ configurations {
 }
 
 apply from: '../android-support.gradle'
+//apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

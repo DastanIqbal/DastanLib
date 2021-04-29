@@ -1,21 +1,21 @@
 package com.dastanapps.dastanlib.ads.network
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.view.View
+import android.app.Activity
+import android.util.DisplayMetrics
+import android.view.Display
 import com.dastanapps.dastanlib.DastanAdsApp
 import com.dastanapps.dastanlib.ads.AdsBase
-import com.dastanapps.dastanlib.ads.admob.nativeads.NativeTemplateStyle
-import com.dastanapps.dastanlib.ads.admob.nativeads.TemplateView
 import com.dastanapps.dastanlib.ads.interfaces.IAdMobAds
 import com.dastanapps.dastanlib.ads.interfaces.IAdsLifecycle
 import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
 import com.dastanapps.dastanlib.analytics.DAnalytics
 import com.dastanapps.dastanlib.log.Logger
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+
 
 /**
  * Created by dastaniqbal on 12/12/2017.
@@ -23,7 +23,10 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener
  * 12/12/2017 2:01
  */
 class AdMobAds : AdsBase(), IAdsLifecycle {
-    private var mRewardedVideoAd: RewardedVideoAd
+    private val adRequest by lazy {
+        AdRequest.Builder().build()
+    }
+
     fun setAdsListener(adsListener: IAdMobAds, tag: String) {
         listnerHashMap[tag] = adsListener
     }
@@ -33,86 +36,70 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     init {
-        MobileAds.initialize(context, DastanAdsApp.INSTANCE.adsConfiguration.adMobAppId)
-        // Use an activity context to get the rewarded video instance.
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context)
+        MobileAds.initialize(context) {
+            DastanAdsApp.INSTANCE.adsConfiguration.adMobAppId
+        }
     }
 
     fun loadRewardedVideoAd(tag: String) {
-        if (!DastanAdsApp.INSTANCE.disableAds())
-            mRewardedVideoAd.loadAd(DastanAdsApp.INSTANCE.adsConfiguration.adMobRewardId, AdRequest.Builder().build())
+        if (DastanAdsApp.INSTANCE.disableAds()) return
+        if (cahcedRewardedAdMap[tag] != null) {
+            listnerHashMap[tag]?.adLoaded(cahcedRewardedAdMap[tag]!!)
+            return
+        }
 
-        mRewardedVideoAd.rewardedVideoAdListener = object : RewardedVideoAdListener {
-            override fun onRewardedVideoCompleted() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoCompleted")
-                if (listnerHashMap[tag] != null)
-                    (listnerHashMap[tag] as IAdMobAds).completed()
-            }
+        RewardedAd.load(
+            DastanAdsApp.INSTANCE,
+            DastanAdsApp.INSTANCE.adsConfiguration.adMobRewardId!!,
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdLoaded(p0: RewardedAd) {
+                    cahcedRewardedAdMap[tag] = p0
 
-            override fun onRewardedVideoAdClosed() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoAdClosed")
-                if (listnerHashMap[tag] != null)
+                    listnerHashMap[tag]?.adLoaded(p0)
+
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    cahcedRewardedAdMap[tag] = null
+
+                    listnerHashMap[tag]?.adError(p0.message)
+                }
+
+            })
+    }
+
+    fun showRewardedVideo(activity: Activity, tag: String) {
+        val rewardedAd = cahcedRewardedAdMap[tag]
+        if (rewardedAd is RewardedAd) {
+            rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdShowedFullScreenContent() {
+                    cahcedRewardedAdMap[tag] = null
+
+                    listnerHashMap[tag]?.adDisplayed()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    listnerHashMap[tag]?.adError(p0.message)
+                }
+
+                override fun onAdDismissedFullScreenContent() {
                     listnerHashMap[tag]?.adDismissed(tag)
+                }
             }
-
-            override fun onRewardedVideoAdLeftApplication() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoAdLeftApplication")
-            }
-
-            override fun onRewardedVideoAdLoaded() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoAdLoaded")
-                if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.adLoaded("")
-            }
-
-            override fun onRewardedVideoAdOpened() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoAdOpened")
-                if (listnerHashMap[tag] != null)
-                    (listnerHashMap[tag] as IAdMobAds).clicked()
-            }
-
-            override fun onRewarded(p0: RewardItem?) {
-                Logger.onlyDebug("admob:rewardVideo:onRewarded")
+            rewardedAd.show(activity) {
                 if (listnerHashMap[tag] != null)
                     (listnerHashMap[tag] as IAdMobAds).rewarded()
             }
-
-            override fun onRewardedVideoStarted() {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoStarted")
-                if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.addDisplayed()
-            }
-
-            override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-                Logger.onlyDebug("admob:rewardVideo:onRewardedVideoAdFailedToLoad:$p0")
-                when (p0) {
-                    0 -> {
-                        listnerHashMap[tag]?.adError("Internal Error")
-                    }
-                    1 -> {
-                        if (listnerHashMap[tag] != null) listnerHashMap[tag]?.adError("Invalid Request")
-                    }
-                    2 -> {
-                        if (listnerHashMap[tag] != null) listnerHashMap[tag]?.adError("Network Error")
-                    }
-                    3 -> {
-                        if (listnerHashMap[tag] != null) listnerHashMap[tag]?.adError("No Fill")
-                    }
-                }
-            }
         }
     }
 
-    fun showRewardedVideo() {
-        if (mRewardedVideoAd.isLoaded) {
-            mRewardedVideoAd.show()
-        }
-    }
-
-    fun loadBannerAds(tag: String, bannerId: String) {
+    fun loadBannerAds(activity: Activity, tag: String, bannerId: String) {
+        if (DastanAdsApp.INSTANCE.disableAds()) return
         if (cahcedBannerAdMap[tag] != null) return
+
         val adView = AdView(DastanAdsApp.INSTANCE)
-        adView.adSize = AdSize.SMART_BANNER
+        adView.adSize = bannerAdSize(activity)
         adView.adUnitId = bannerId
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
@@ -122,7 +109,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
                 cahcedBannerAdMap[tag] = adView
             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
+            override fun onAdFailedToLoad(errorCode: LoadAdError) {
                 Logger.onlyDebug("admob:Banner:onAdFailedToLoad")
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adError(errorCode.toString())
@@ -131,19 +118,19 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             override fun onAdOpened() {
                 Logger.onlyDebug("admob:Banner:onAdOpened")
                 if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.addDisplayed()
-            }
-
-            override fun onAdLeftApplication() {
-                Logger.onlyDebug("admob:Banner:onAdLeftApplication")
-                if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.adDismissed(tag)
+                    listnerHashMap[tag]?.adDisplayed()
             }
 
             override fun onAdClosed() {
                 Logger.onlyDebug("admob:Banner:onAdClosed")
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adDismissed(tag)
+            }
+
+            override fun onAdImpression() {
+                Logger.onlyDebug("admob:Banner:onAdImpression")
+                if (listnerHashMap[tag] != null)
+                    listnerHashMap[tag]?.adDisplayed()
             }
         }
         if (!DastanAdsApp.INSTANCE.disableAds())
@@ -153,124 +140,135 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     fun showBanner(tag: String) {
         val adView = cahcedBannerAdMap[tag]
         if (adView != null) {
-            if (listnerHashMap[tag] != null)
-                listnerHashMap[tag]?.adLoaded(adView)
+            listnerHashMap[tag]?.adLoaded(adView)
         } else {
-            if (listnerHashMap[tag] != null)
-                listnerHashMap[tag]?.adError("No Ads Found")
+            listnerHashMap[tag]?.adError("No Ads Found")
         }
     }
 
-    fun loadInterstialAd(tag: String) {
-        val interstitialAd = InterstitialAd(DastanAdsApp.INSTANCE)
-        interstitialAd.adUnitId = DastanAdsApp.INSTANCE.adsConfiguration.adMobInterstialAd
+    fun loadInterstitialAd(tag: String) {
+        if (DastanAdsApp.INSTANCE.disableAds()) return
+        if (cahcedInterstialAdMap[tag] != null) {
+            listnerHashMap[tag]?.adLoaded(cahcedInterstialAdMap[tag]!!)
+            return
+        }
 
-        if (!DastanAdsApp.INSTANCE.disableAds())
-            interstitialAd.loadAd(AdRequest.Builder().build())
+        InterstitialAd.load(
+            DastanAdsApp.INSTANCE,
+            DastanAdsApp.INSTANCE.adsConfiguration.adMobInterstialAd!!,
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(p0: InterstitialAd) {
+                    cahcedInterstialAdMap[tag] = p0
 
-        interstitialAd.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                Logger.onlyDebug("admob:Interstial:onAdLoaded")
-                if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.adLoaded(interstitialAd)
+                    listnerHashMap[tag]?.adLoaded(p0)
+
+                    Logger.onlyDebug("admob:Interstitial:onAdLoaded")
+                }
+
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    cahcedInterstialAdMap[tag] = null
+
+                    listnerHashMap[tag]?.adError(p0.message)
+
+                    Logger.onlyDebug("admob:Interstitial:onAdFailedToLoad")
+                }
+            }
+        )
+    }
+
+    fun showInterstitialAd(activity: Activity, tag: String) {
+        val interstitialAd = cahcedInterstialAdMap[tag]
+        if (interstitialAd is InterstitialAd) {
+            interstitialAd.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdShowedFullScreenContent() {
+                    cahcedInterstialAdMap[tag] = null
+
+                    listnerHashMap[tag]?.adDisplayed()
+
+                    Logger.onlyDebug("admob:Interstitial:onAdShowedFullScreenContent")
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    listnerHashMap[tag]?.adError(p0.message)
+
+                    Logger.onlyDebug("admob:Interstitial:onAdFailedToShowFullScreenContent")
+                }
+
+                override fun onAdDismissedFullScreenContent() {
+                    listnerHashMap[tag]?.adDismissed(tag)
+
+                    Logger.onlyDebug("admob:Interstitial:onAdDismissedFullScreenContent")
+                }
+
+
             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                Logger.onlyDebug("admob:Interstial:onAdFailedToLoad")
+            interstitialAd.show(activity)
+            DAnalytics.getInstance().sendLogs("Ads", "show", "AdMob InterstialAds")
+        }
+    }
+
+    /*fun loadNativeAds(template: TemplateView, tag: String) {
+        template.visibility = View.GONE
+        val adLoader = AdLoader.Builder(
+            DastanAdsApp.INSTANCE,
+            DastanAdsApp.INSTANCE.adsConfiguration.adMobNativeAd!!
+        ).withAdListener(object : AdListener() {
+            override fun onAdLoaded() {
+                Logger.onlyDebug("admob:NaitveAds:onAdLoaded")
                 if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.adError(errorCode.toString())
+                    listnerHashMap[tag]?.adLoaded("")
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                Logger.onlyDebug("admob:NaitveAds:onAdFailedToLoad")
+                if (listnerHashMap[tag] != null)
+                    listnerHashMap[tag]?.adError(p0.toString())
             }
 
             override fun onAdOpened() {
-                Logger.onlyDebug("admob:Interstial:onAdOpened")
+                Logger.onlyDebug("admob:NaitveAds:onAdOpened")
                 if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.addDisplayed()
-            }
-
-            override fun onAdLeftApplication() {
-                Logger.onlyDebug("admob:Interstial:onAdLeftApplication")
-                if (listnerHashMap[tag] != null)
-                    listnerHashMap[tag]?.adDismissed(tag)
+                    listnerHashMap[tag]?.adDisplayed()
             }
 
             override fun onAdClosed() {
-                Logger.onlyDebug("admob:Interstial:onAdClosed")
+                Logger.onlyDebug("admob:NaitveAds:onAdClosed")
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adDismissed(tag)
             }
-        }
-    }
+        }).forUnifiedNativeAd {
+            val styles = NativeTemplateStyle.Builder()
+                .withMainBackgroundColor(ColorDrawable(Color.WHITE)).build()
 
-    fun showInterstialAd(tag: String, inetrstialAd: Any) {
-        if (inetrstialAd is InterstitialAd && inetrstialAd.isLoaded) {
-            inetrstialAd.show()
-            DAnalytics.getInstance().sendLogs("Ads", "onSaveClicked", "AdMob InterstialAds")
-        } else Logger.onlyDebug("admob:InterstitialAdNotLoaded")
-    }
-
-    fun loadNativeAds(template: TemplateView, tag: String) {
-        template.visibility = View.GONE
-        val adLoader = AdLoader.Builder(DastanAdsApp.INSTANCE, DastanAdsApp.INSTANCE.adsConfiguration.adMobNativeAd)
-                .withAdListener(object : AdListener() {
-                    override fun onAdLoaded() {
-                        Logger.onlyDebug("admob:NaitveAds:onAdLoaded")
-                        if (listnerHashMap[tag] != null)
-                            listnerHashMap[tag]?.adLoaded("")
-                    }
-
-                    override fun onAdFailedToLoad(errorCode: Int) {
-                        Logger.onlyDebug("admob:NaitveAds:onAdFailedToLoad")
-                        if (listnerHashMap[tag] != null)
-                            listnerHashMap[tag]?.adError(errorCode.toString())
-                    }
-
-                    override fun onAdOpened() {
-                        Logger.onlyDebug("admob:NaitveAds:onAdOpened")
-                        if (listnerHashMap[tag] != null)
-                            listnerHashMap[tag]?.addDisplayed()
-                    }
-
-                    override fun onAdLeftApplication() {
-                        Logger.onlyDebug("admob:NaitveAds:onAdLeftApplication")
-                        if (listnerHashMap[tag] != null)
-                            listnerHashMap[tag]?.adDismissed(tag)
-                    }
-
-                    override fun onAdClosed() {
-                        Logger.onlyDebug("admob:NaitveAds:onAdClosed")
-                        if (listnerHashMap[tag] != null)
-                            listnerHashMap[tag]?.adDismissed(tag)
-                    }
-                })
-                .forUnifiedNativeAd {
-                    val styles = NativeTemplateStyle.Builder().withMainBackgroundColor(ColorDrawable(Color.WHITE)).build()
-
-                    template.visibility = View.VISIBLE
-                    template.setStyles(styles)
-                    template.setNativeAd(it)
-                }.build()
+            template.visibility = View.VISIBLE
+            template.setStyles(styles)
+            template.setNativeAd(it)
+        }.build()
         if (!DastanAdsApp.INSTANCE.disableAds())
             adLoader.loadAd(AdRequest.Builder().build())
-    }
-
-    fun isAdAvailable(): Boolean {
-        return mRewardedVideoAd.isLoaded
-    }
+    }*/
 
     override fun onStart() {}
 
-    override fun onResume() {
-        mRewardedVideoAd.resume(context)
-    }
+    override fun onResume() {}
 
-    override fun onPause() {
-        mRewardedVideoAd.pause(context)
-    }
+    override fun onPause() {}
 
     override fun onStop() {}
 
     override fun onDestroy(tag: String) {
         super.removeListener(tag)
-        mRewardedVideoAd.destroy(context)
+    }
+
+    private fun bannerAdSize(activity: Activity): AdSize? {
+        val display: Display = activity.windowManager.defaultDisplay
+        val outMetrics = DisplayMetrics()
+        display.getMetrics(outMetrics)
+        val widthPixels = outMetrics.widthPixels.toFloat()
+        val density = outMetrics.density
+        val adWidth = (widthPixels / density).toInt()
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
     }
 }

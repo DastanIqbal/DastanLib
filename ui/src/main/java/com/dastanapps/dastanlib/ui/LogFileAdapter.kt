@@ -9,7 +9,8 @@ import com.dastanapps.dastanlib.utils.CommonUtils
 import com.dastanapps.dastanlib.utils.DeviceUtils
 import com.dastanapps.dastanlib.utils.ViewUtils
 
-class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) : RecyclerView.Adapter<LogFileAdapter.LogVH>() {
+class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) :
+    RecyclerView.Adapter<LogFileAdapter.LogVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogVH {
         return LogVH(LogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -27,7 +28,10 @@ class LogFileAdapter(private val fileItemList: ArrayList<FileItemB>) : RecyclerV
             binding.root.setOnClickListener {
                 //TODO: Implement LogViewer
                 DastanLibApp.INSTANCE.supportEmail?.run {
-                    CommonUtils.sendEmailAttachment(binding.root.context, DeviceUtils.getMinimalDeviceInfo(), fileItemB.path, this)
+                    CommonUtils.sendEmailAttachment(
+                        binding.root.context, DeviceUtils
+                            .getMinimalDeviceInfo(), fileItemB.path, "", this
+                    )
                 } ?: ViewUtils.showToast(it.context, "No support email founds")
             }
         }

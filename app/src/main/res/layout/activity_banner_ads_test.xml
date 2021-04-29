@@ -8,22 +8,48 @@
 
     <FrameLayout
         android:id="@+id/fl_banner"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--  This is your template view -->
-    <com.dastanapps.dastanlib.ads.admob.nativeads.TemplateView
-        android:id="@+id/nativead"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvInterstitial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        app:gnt_template_type="@layout/gnt_small_template_view"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="Interstitial Ads"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fl_banner" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvReward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="Rewarded Ads"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInterstitial" />
+
+    <!--  This is your template view -->
+    <!--  <com.dastanapps.dastanlib.ads.admob.nativeads.TemplateView
+          android:id="@+id/nativead"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="16dp"
+          android:layout_marginTop="16dp"
+          app:gnt_template_type="@layout/gnt_small_template_view"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/fl_banner" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
