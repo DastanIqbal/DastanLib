@@ -82,7 +82,7 @@ class FacebookAudience : AdsBase() {
     }
 
     fun loadBanner(tag: String, bannerId: String) {
-        if (cahcedBannerAdMap[tag] != null) return
+        if (cachedBannerAdMap[tag] != null) return
         // Instantiate an AdView view
         val adView = AdView(context, bannerId, AdSize.BANNER_HEIGHT_50)
         /*adView.setAdListener(object : AdListener {
@@ -119,7 +119,7 @@ class FacebookAudience : AdsBase() {
     }
 
     fun showBanner(tag: String) {
-        val adView = cahcedBannerAdMap[tag]
+        val adView = cachedBannerAdMap[tag]
         if (adView != null) {
             listnerHashMap[tag]?.adLoaded(adView)
         } else {

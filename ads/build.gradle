@@ -56,7 +56,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-measurement-base:18.0.3'
     implementation 'com.google.android.gms:play-services-measurement-api:18.0.3'
 
-    implementation 'com.startapp:inapp-sdk:3.7.1'
+    api 'com.startapp:inapp-sdk:3.7.1'
     // For banners
     implementation('com.mopub:mopub-sdk-banner:5.0.0@aar') {
         transitive = true
@@ -79,4 +79,6 @@ dependencies {
     } else {
         implementation project(":common")
     }
+
+    implementation project(path: ':unityads')
 }

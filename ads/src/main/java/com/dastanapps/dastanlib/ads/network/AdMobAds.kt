@@ -43,8 +43,8 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
 
     fun loadRewardedVideoAd(tag: String) {
         if (DastanAdsApp.INSTANCE.disableAds()) return
-        if (cahcedRewardedAdMap[tag] != null) {
-            listnerHashMap[tag]?.adLoaded(cahcedRewardedAdMap[tag]!!)
+        if (cachedRewardedAdMap[tag] != null) {
+            listnerHashMap[tag]?.adLoaded(cachedRewardedAdMap[tag]!!)
             return
         }
 
@@ -54,14 +54,14 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             adRequest,
             object : RewardedAdLoadCallback() {
                 override fun onAdLoaded(p0: RewardedAd) {
-                    cahcedRewardedAdMap[tag] = p0
+                    cachedRewardedAdMap[tag] = p0
 
                     listnerHashMap[tag]?.adLoaded(p0)
 
                 }
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
-                    cahcedRewardedAdMap[tag] = null
+                    cachedRewardedAdMap[tag] = null
 
                     listnerHashMap[tag]?.adError(p0.message)
                 }
@@ -70,11 +70,11 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     fun showRewardedVideo(activity: Activity, tag: String) {
-        val rewardedAd = cahcedRewardedAdMap[tag]
+        val rewardedAd = cachedRewardedAdMap[tag]
         if (rewardedAd is RewardedAd) {
             rewardedAd.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdShowedFullScreenContent() {
-                    cahcedRewardedAdMap[tag] = null
+                    cachedRewardedAdMap[tag] = null
 
                     listnerHashMap[tag]?.adDisplayed()
                 }
@@ -96,7 +96,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
 
     fun loadBannerAds(activity: Activity, tag: String, bannerId: String) {
         if (DastanAdsApp.INSTANCE.disableAds()) return
-        if (cahcedBannerAdMap[tag] != null) return
+        if (cachedBannerAdMap[tag] != null) return
 
         val adView = AdView(DastanAdsApp.INSTANCE)
         adView.adSize = bannerAdSize(activity)
@@ -106,7 +106,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
                 Logger.onlyDebug("admob:Banner:onAdLoaded")
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adLoaded(adView)
-                cahcedBannerAdMap[tag] = adView
+                cachedBannerAdMap[tag] = adView
             }
 
             override fun onAdFailedToLoad(errorCode: LoadAdError) {
@@ -138,7 +138,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     fun showBanner(tag: String) {
-        val adView = cahcedBannerAdMap[tag]
+        val adView = cachedBannerAdMap[tag]
         if (adView != null) {
             listnerHashMap[tag]?.adLoaded(adView)
         } else {
@@ -148,8 +148,8 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
 
     fun loadInterstitialAd(tag: String) {
         if (DastanAdsApp.INSTANCE.disableAds()) return
-        if (cahcedInterstialAdMap[tag] != null) {
-            listnerHashMap[tag]?.adLoaded(cahcedInterstialAdMap[tag]!!)
+        if (cachedInterstialAdMap[tag] != null) {
+            listnerHashMap[tag]?.adLoaded(cachedInterstialAdMap[tag]!!)
             return
         }
 
@@ -159,7 +159,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(p0: InterstitialAd) {
-                    cahcedInterstialAdMap[tag] = p0
+                    cachedInterstialAdMap[tag] = p0
 
                     listnerHashMap[tag]?.adLoaded(p0)
 
@@ -167,7 +167,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
                 }
 
                 override fun onAdFailedToLoad(p0: LoadAdError) {
-                    cahcedInterstialAdMap[tag] = null
+                    cachedInterstialAdMap[tag] = null
 
                     listnerHashMap[tag]?.adError(p0.message)
 
@@ -178,11 +178,11 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
     }
 
     fun showInterstitialAd(activity: Activity, tag: String) {
-        val interstitialAd = cahcedInterstialAdMap[tag]
+        val interstitialAd = cachedInterstialAdMap[tag]
         if (interstitialAd is InterstitialAd) {
             interstitialAd.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdShowedFullScreenContent() {
-                    cahcedInterstialAdMap[tag] = null
+                    cachedInterstialAdMap[tag] = null
 
                     listnerHashMap[tag]?.adDisplayed()
 

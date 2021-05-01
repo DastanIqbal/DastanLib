@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.dastanapps.dastanlib.ads">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +11,7 @@
         android:hardwareAccelerated="true">
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            tools:replace="android:theme" />
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
     </application>
 </manifest>

@@ -2,3 +2,5 @@
 include ':common', ':chat', ':ads',':ui'
 include ':app'
 
+include ':mylibrary'
+include ':unityads'

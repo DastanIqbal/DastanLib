@@ -11,9 +11,9 @@ import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
 abstract class AdsBase {
     protected val context = DastanAdsApp.INSTANCE
     protected var listnerHashMap = HashMap<String, IMarvelAds>()
-    protected val cahcedBannerAdMap = HashMap<String, Any>()
-    protected val cahcedInterstialAdMap = HashMap<String, Any?>()
-    protected val cahcedRewardedAdMap = HashMap<String, Any?>()
+    protected val cachedBannerAdMap = HashMap<String, Any>()
+    protected val cachedInterstialAdMap = HashMap<String, Any?>()
+    protected val cachedRewardedAdMap = HashMap<String, Any?>()
 
     fun setNativeAdsListener(fbNativeAds: IMarvelAds, tag: String) {
         listnerHashMap.put(tag, fbNativeAds)
@@ -54,14 +54,26 @@ abstract class AdsBase {
     }
 
     fun removeCachedBanner(tag: String) {
-        cahcedBannerAdMap.remove(tag)
+        cachedBannerAdMap.remove(tag)
     }
 
     fun removeCachedInterstialAd(tag: String) {
-        cahcedInterstialAdMap.remove(tag)
+        cachedInterstialAdMap.remove(tag)
     }
 
     fun removeCachedRewardedAd(tag: String) {
-        cahcedRewardedAdMap.remove(tag)
+        cachedRewardedAdMap.remove(tag)
+    }
+
+    fun isRewardedAvailable(tag: String): Boolean {
+        return cachedRewardedAdMap[tag] != null
+    }
+
+    fun isInterstitialAvailable(tag: String): Boolean {
+        return cachedInterstialAdMap[tag] != null
+    }
+
+    fun isBannerAvailable(tag: String): Boolean {
+        return cachedBannerAdMap[tag] != null
     }
 }
