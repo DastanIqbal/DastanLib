@@ -104,13 +104,18 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 Logger.onlyDebug("admob:Banner:onAdLoaded")
+
+                cachedBannerAdMap[tag] = adView
+
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adLoaded(adView)
-                cachedBannerAdMap[tag] = adView
             }
 
             override fun onAdFailedToLoad(errorCode: LoadAdError) {
                 Logger.onlyDebug("admob:Banner:onAdFailedToLoad")
+
+                cachedBannerAdMap[tag] = null
+
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adError(errorCode.toString())
             }
@@ -123,6 +128,9 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
 
             override fun onAdClosed() {
                 Logger.onlyDebug("admob:Banner:onAdClosed")
+
+                cachedBannerAdMap[tag] = null
+
                 if (listnerHashMap[tag] != null)
                     listnerHashMap[tag]?.adDismissed(tag)
             }
@@ -134,7 +142,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             }
         }
         if (!DastanAdsApp.INSTANCE.disableAds())
-            adView.loadAd(AdRequest.Builder().build())
+            adView.loadAd(adRequest)
     }
 
     fun showBanner(tag: String) {

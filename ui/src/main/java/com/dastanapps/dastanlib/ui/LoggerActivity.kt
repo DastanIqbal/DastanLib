@@ -27,7 +27,7 @@ class LoggerActivity : AppCompatActivity() {
 
     private fun getLogFiles(): ArrayList<FileItemB> {
         pb.visibility = View.VISIBLE
-        val logFolder = DastanLibApp.INSTANCE.externalCacheDir.absolutePath + "/logs/"
+        val logFolder = DastanLibApp.INSTANCE.externalCacheDir?.absolutePath + "/logs/"
         val file = File(logFolder)
         if (!file.exists()) file.mkdirs()
         val fileList = ArrayList<FileItemB>()

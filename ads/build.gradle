@@ -8,7 +8,7 @@ repositories {
 }
 
 // This is the library version used when deploying the artifact
-version = "0.1.4-alpha"
+version = "0.2.2"
 
 ext {
     PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
@@ -32,8 +32,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 if (!rootProject.ext.devMode) {
@@ -52,7 +56,7 @@ dependencies {
     implementation('com.github.vungle:vungle-android-sdk:5.3.0') {
         transitive = true
     }
-    implementation 'com.google.android.gms:play-services-ads:20.0.0'
+    implementation 'com.google.android.gms:play-services-ads:20.1.0'
     implementation 'com.google.android.gms:play-services-measurement-base:18.0.3'
     implementation 'com.google.android.gms:play-services-measurement-api:18.0.3'
 
@@ -75,10 +79,11 @@ dependencies {
 
     //Crashlytics
     if (!rootProject.ext.devMode) {
-        implementation 'com.dastanapps.dastanlib:common:0.3.2-alpha'
+        implementation 'com.dastanapps.dastanlib:common:1.1'
     } else {
         implementation project(":common")
     }
 
-    implementation project(path: ':unityads')
+    //Unity Ads
+    implementation 'com.unity3d.ads:unity-ads:3.7.1'
 }

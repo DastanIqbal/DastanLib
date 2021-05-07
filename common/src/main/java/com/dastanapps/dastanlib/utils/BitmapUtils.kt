@@ -249,7 +249,7 @@ object BitmapUtils {
         scaleMatrix.setScale(scaleX, scaleY, pivotX, pivotY)
 
         val cvas = Canvas(scaledBitmap)
-        cvas.matrix = scaleMatrix
+        cvas.setMatrix(scaleMatrix)
         cvas.drawBitmap(bmpToScale, 0f, 0f, paint)
 
         val file = File(resizePath)

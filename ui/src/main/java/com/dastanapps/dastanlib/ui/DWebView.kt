@@ -29,10 +29,10 @@ class DWebView : AppCompatActivity() {
             val loadUrl = intent.getStringExtra(DWEBVIEW_URL)
             webview.settings.javaScriptEnabled = true
             webview.settings.setSupportZoom(true)
-            webview.loadUrl(loadUrl)
+            webview.loadUrl(loadUrl!!)
             webview.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    view?.loadUrl(url)
+                    view?.loadUrl(url!!)
                     return true;
                 }
 
@@ -75,8 +75,8 @@ class DWebView : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)

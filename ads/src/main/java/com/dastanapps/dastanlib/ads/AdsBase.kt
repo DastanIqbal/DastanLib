@@ -11,7 +11,7 @@ import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
 abstract class AdsBase {
     protected val context = DastanAdsApp.INSTANCE
     protected var listnerHashMap = HashMap<String, IMarvelAds>()
-    protected val cachedBannerAdMap = HashMap<String, Any>()
+    protected val cachedBannerAdMap = HashMap<String, Any?>()
     protected val cachedInterstialAdMap = HashMap<String, Any?>()
     protected val cachedRewardedAdMap = HashMap<String, Any?>()
 

@@ -28,7 +28,7 @@ import java.util.*
  */
 
 class DastanAds {
-    private var appLovin: AppLovin? = null
+//    private var appLovin: AppLovin? = null
     private var startAppAd: StartAppAds? = null
     private val facebookAudience = FacebookAudience()
     private var hscrollContatiner: ViewGroup? = null
@@ -84,12 +84,12 @@ class DastanAds {
     }
 
 
-    private fun getAppLovin(): AppLovin {
-        if (appLovin == null)
-            appLovin = AppLovin()
-        appLovin!!.init()
-        return appLovin as AppLovin
-    }
+//    private fun getAppLovin(): AppLovin {
+//        if (appLovin == null)
+//            appLovin = AppLovin()
+//        appLovin!!.init()
+//        return appLovin as AppLovin
+//    }
 
     fun showBannerAds(bannerContainer: ViewGroup, tag: String): DastanAds {
         facebookAudience.showBanner(bannerContainer, tag)
@@ -180,7 +180,7 @@ class DastanAds {
             val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
                 "startapp" -> startAppAds.backPressed(StartAppAd(activity))
-                "applovin" -> getAppLovin().showInterstialAds(activity)
+//                "applovin" -> getAppLovin().showInterstialAds(activity)
                 "fb" -> //Don't forget to setInterstialFBListener to call showInterstialAds method later
                     // call before loadInterstialAds
                     facebookAudience.loadInterstitial(tag)
@@ -253,8 +253,8 @@ class DastanAds {
         when (marvelAdsListener) {
             is IStartApp ->
                 startAppAds.setIStartApp(marvelAdsListener, tag)
-            is IAppLovin ->
-                getAppLovin().setIAppLovin(marvelAdsListener, tag)
+//            is IAppLovin ->
+//                getAppLovin().setIAppLovin(marvelAdsListener, tag)
             is IFBNativeAds -> {
                 facebookAudience.setNativeAdsListener(marvelAdsListener, tag)
                 adMobAds?.setAdsListener(marvelAdsListener, tag)

@@ -73,7 +73,9 @@ project.afterEvaluate {
                 }
             }
         }
-        repositories {
+
+        //Gitlab
+        /*repositories {
             maven {
                 url "https://gitlab.com/api/v4/projects/1481194/packages/maven"
                 //name "Mobile-Native-Apps"
@@ -85,30 +87,30 @@ project.afterEvaluate {
                     header(HttpHeaderAuthentication)
                 }
             }
-        }
+        }*/
     }
 
 
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-//    bintray {
-//        print "Artificat Name ${rootProject.ext.artifact}"
-//        if (rootProject.ext.artifact == "undefined") {
-//            throw new GradleException('Artificat name not Defined')
-//        } else {
-//            user = properties.getProperty("bintray.user")
-//            key = properties.getProperty("bintray.apikey")
-//            configurations = ['archives']
-//            pkg {
-//                repo = "maven"
-//                name = rootProject.ext.artifact
-//                websiteUrl = siteUrl
-//                vcsUrl = gitUrl
-//                licenses = ["Apache-2.0"]
-//                publish = true
-//            }
-//            publications = ['Production']
-//        }
-//    }
+    bintray {
+        print "Artificat Name ${rootProject.ext.artifact}"
+        if (rootProject.ext.artifact == "undefined") {
+            throw new GradleException('Artificat name not Defined')
+        } else {
+            user = properties.getProperty("bintray.user")
+            key = properties.getProperty("bintray.apikey")
+            configurations = ['archives']
+            pkg {
+                repo = "maven"
+                name = rootProject.ext.artifact
+                websiteUrl = siteUrl
+                vcsUrl = gitUrl
+                licenses = ["Apache-2.0"]
+                publish = true
+            }
+            publications = ['Production']
+        }
+    }
 }

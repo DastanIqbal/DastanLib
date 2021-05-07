@@ -2,10 +2,10 @@
 
 project.ext {
     devMode = true
-    artifact = "common"
+    artifact = "ads"
 
-    minSdkVersion = 16
-    compileSdkVersion = 28
+    minSdkVersion = 19
+    compileSdkVersion = 30
     supportVersion = "28.0.0"
     smackVersion = "4.1.8"
     sl4j = "1.7.7"
