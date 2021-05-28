@@ -1,12 +1,8 @@
 apply plugin: 'com.android.library'
-apply from: home+'/test-dependencies.gradle'
-apply from: home+'/kotlin.gradle'
-apply from: home+'/android-support.gradle'
-apply from: home+'/googleService.gradle'
-
-// This is the library version used when deploying the artifact
-//artifact("$buildDir/outputs/aar/corekit-development-release.aar")
-version = "1.1"
+apply from: home + '/test-dependencies.gradle'
+apply from: home + '/kotlin.gradle'
+apply from: home + '/android-support.gradle'
+apply from: home + '/googleService.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -14,6 +10,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
+        versionName "1.0"
         multiDexEnabled true
     }
 
@@ -24,11 +21,21 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 }
+
+version = android.defaultConfig.versionName
 
 if (!rootProject.ext.devMode) {
     rootProject.ext.artifact = project.name
-    apply from: '../deploy.gradle'
+    apply from: '../maven-publish.gradle'
 }
 
 dependencies {

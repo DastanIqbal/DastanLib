@@ -1,8 +1,10 @@
 // All library version add in this file
 
 project.ext {
-    devMode = true
-    artifact = "ads"
+    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
+    PUBLISH_ARTIFACT_ID = 'dastanlib'
+
+    devMode = false
 
     minSdkVersion = 19
     compileSdkVersion = 30

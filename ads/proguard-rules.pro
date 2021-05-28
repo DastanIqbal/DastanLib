@@ -213,3 +213,6 @@
 -dontwarn org.apache.**
 -dontwarn org.w3c.dom.**
 -keep class com.google.firebase.provider.FirebaseInitProvider
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}

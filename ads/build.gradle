@@ -2,25 +2,13 @@ apply plugin: 'com.android.library'
 apply from: home + "/kotlin.gradle"
 apply from: home + '/test-dependencies.gradle'
 
-repositories {
-    mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
-}
-
-// This is the library version used when deploying the artifact
-version = "0.2.2"
-
-ext {
-    PUBLISH_GROUP_ID = 'com.dastanapps.dastanlib'
-    PUBLISH_ARTIFACT_ID = 'dastanlib'
-    PUBLISH_VERSION = "$version"
-}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
+        versionName "1.1"
         multiDexEnabled true
     }
 
@@ -37,12 +25,15 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
+
+version = android.defaultConfig.versionName
+
 if (!rootProject.ext.devMode) {
     rootProject.ext.artifact = project.name
-    apply from: '../deploy.gradle'
+    apply from: '../maven-publish.gradle'
 }
 
 dependencies {
@@ -79,7 +70,7 @@ dependencies {
 
     //Crashlytics
     if (!rootProject.ext.devMode) {
-        implementation 'com.dastanapps.dastanlib:common:1.1'
+        implementation 'com.dastanapps.dastanlib:common:1.0'
     } else {
         implementation project(":common")
     }

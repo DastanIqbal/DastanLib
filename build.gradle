@@ -8,6 +8,7 @@ buildscript {
         jcenter()
         mavenCentral()
         google()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
@@ -16,6 +17,8 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.0"
     }
 }
 
@@ -27,12 +30,10 @@ allprojects {
         maven {
             url 'https://jitpack.io'
         }
-        maven {
-            url 'https://dl.bintray.com/ask2iqbal/maven'
-        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+apply plugin: 'io.codearte.nexus-staging'

@@ -23,8 +23,8 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
  * 12/12/2017 2:01
  */
 class AdMobAds : AdsBase(), IAdsLifecycle {
-    private val adRequest by lazy {
-        AdRequest.Builder().build()
+    val adRequest by lazy {
+        AdRequest.Builder()
     }
 
     fun setAdsListener(adsListener: IAdMobAds, tag: String) {
@@ -51,7 +51,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         RewardedAd.load(
             DastanAdsApp.INSTANCE,
             DastanAdsApp.INSTANCE.adsConfiguration.adMobRewardId!!,
-            adRequest,
+            adRequest.build(),
             object : RewardedAdLoadCallback() {
                 override fun onAdLoaded(p0: RewardedAd) {
                     cachedRewardedAdMap[tag] = p0
@@ -80,6 +80,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    cachedRewardedAdMap[tag] = null
                     listnerHashMap[tag]?.adError(p0.message)
                 }
 
@@ -90,6 +91,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             rewardedAd.show(activity) {
                 if (listnerHashMap[tag] != null)
                     (listnerHashMap[tag] as IAdMobAds).rewarded()
+                cachedRewardedAdMap[tag] = null
             }
         }
     }
@@ -142,7 +144,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
             }
         }
         if (!DastanAdsApp.INSTANCE.disableAds())
-            adView.loadAd(adRequest)
+            adView.loadAd(adRequest.build())
     }
 
     fun showBanner(tag: String) {
@@ -164,7 +166,7 @@ class AdMobAds : AdsBase(), IAdsLifecycle {
         InterstitialAd.load(
             DastanAdsApp.INSTANCE,
             DastanAdsApp.INSTANCE.adsConfiguration.adMobInterstialAd!!,
-            AdRequest.Builder().build(),
+            adRequest.build(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(p0: InterstitialAd) {
                     cachedInterstialAdMap[tag] = p0
