@@ -16,11 +16,6 @@ task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
     from androidJavadocs.destinationDir
 }
 
-task prepareAar(type: Exec) {
-    def cmd = ['gradle', ":ads:assemble"]
-    commandLine cmd
-}
-
 artifacts {
     archives androidSourcesJar
 }

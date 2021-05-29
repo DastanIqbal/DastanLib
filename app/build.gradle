@@ -83,10 +83,10 @@ dependencies {
     if (!rootProject.ext.devMode) {
         implementation 'com.dastanapps.dastanlib:ui:1.0'
         implementation 'com.dastanapps.dastanlib:common:1.0'
-        implementation 'com.dastanapps.dastanlib:ads:1.0'
+        implementation 'com.dastanapps.dastanlib:dAds:1.0'
     } else {
         print "Dev Mode"
-        implementation(project(path: ':ads'))
+        implementation(project(path: ':dAds'))
         implementation(project(path: ':common'))
         implementation(project(path: ':ui'))
     }
