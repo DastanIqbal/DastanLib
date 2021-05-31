@@ -6,7 +6,7 @@ import com.dastanapps.dastanlib.DastanAdsApp;
 import com.dastanapps.dastanlib.utils.SPUtils;
 import com.flurry.android.FlurryAgent;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.vungle.publisher.log.Logger;
+//import com.vungle.publisher.log.Logger;
 
 /**
  * Created by dastaniqbal on 28/12/2016.
@@ -26,7 +26,7 @@ public class DAnalytics {
         if (DastanAdsApp.INSTANCE.isRelease()) {
             new FlurryAgent.Builder()
                     .withLogEnabled(false)
-                    .withListener(() -> Logger.d(TAG, "Flurry Session Started"))
+//                    .withListener(() -> Logger.d(TAG, "Flurry Session Started"))
                     .build(DastanAdsApp.INSTANCE, apiKey);
         }
     }

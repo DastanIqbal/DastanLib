@@ -8,17 +8,17 @@ import android.widget.ImageView
 import com.dastanapps.dastanlib.DastanAdsApp
 import com.dastanapps.dastanlib.ads.DastanAds.MarvelAdsId.FB_ADNETWORK
 import com.dastanapps.dastanlib.ads.DastanAds.MarvelAdsId.STARTAPP_ADNETWORK
-import com.dastanapps.dastanlib.ads.interfaces.*
-import com.dastanapps.dastanlib.ads.network.*
-import com.dastanapps.dastanlib.ads.network.mopub.MoPubInterstialAd
-import com.dastanapps.dastanlib.ads.network.mopub.MoPubRewardVideoAd
+import com.dastanapps.dastanlib.ads.interfaces.IAdMobAds
+import com.dastanapps.dastanlib.ads.interfaces.IFBNativeAds
+import com.dastanapps.dastanlib.ads.interfaces.IMarvelAds
+import com.dastanapps.dastanlib.ads.interfaces.IStartApp
+import com.dastanapps.dastanlib.ads.network.AdMobAds
+import com.dastanapps.dastanlib.ads.network.FacebookAudience
 import com.dastanapps.dastanlib.log.Logger
 import com.dastanapps.dastanlib.utils.SPUtils
 import com.facebook.ads.InterstitialAd
 import com.facebook.ads.MediaView
 import com.facebook.ads.NativeAd
-import com.startapp.android.publish.ads.nativead.NativeAdDetails
-import com.startapp.android.publish.adsCommon.StartAppAd
 import java.util.*
 
 /**
@@ -28,30 +28,31 @@ import java.util.*
  */
 
 class DastanAds {
-//    private var appLovin: AppLovin? = null
-    private var startAppAd: StartAppAds? = null
+    //    private var appLovin: AppLovin? = null
+//    private var startAppAd: StartAppAds? = null
     private val facebookAudience = FacebookAudience()
     private var hscrollContatiner: ViewGroup? = null
     private var interstialAd: Any? = null
     private var adMobAds: AdMobAds? = null
-    private var vungleAds: VungleAds? = null
-    private var moPubInterstialAd: MoPubInterstialAd? = null
-    private var moPubRewardVideoAd: MoPubRewardVideoAd? = null
+//    private var vungleAds: VungleAds? = null
+
+    //    private var moPubInterstialAd: MoPubInterstialAd? = null
+//    private var moPubRewardVideoAd: MoPubRewardVideoAd? = null
     private var isRelease: Boolean = DastanAdsApp.INSTANCE.isRelease()
-    val startAppAds: StartAppAds
-        get() {
-            if (startAppAd == null) {
-                startAppAd = StartAppAds()
-            }
-            if (isRelease)
-                startAppAd!!.init()
-            return startAppAd as StartAppAds
-        }
+//    val startAppAds: StartAppAds
+//        get() {
+//            if (startAppAd == null) {
+//                startAppAd = StartAppAds()
+//            }
+//            if (isRelease)
+//                startAppAd!!.init()
+//            return startAppAd as StartAppAds
+//        }
 
     init {
         getAdMobAds()
         if (isRelease) {
-            startAppAds
+//            startAppAds
         }
     }
 
@@ -62,26 +63,26 @@ class DastanAds {
         return adMobAds as AdMobAds
     }
 
-    fun getMoPubInterstialAds(activity: Activity): MoPubInterstialAd {
-        if (moPubInterstialAd == null) {
-            moPubInterstialAd = MoPubInterstialAd(activity)
-        }
-        return moPubInterstialAd as MoPubInterstialAd
-    }
+//    fun getMoPubInterstialAds(activity: Activity): MoPubInterstialAd {
+//        if (moPubInterstialAd == null) {
+//            moPubInterstialAd = MoPubInterstialAd(activity)
+//        }
+//        return moPubInterstialAd as MoPubInterstialAd
+//    }
+//
+//    fun getMoPubRewardVideoAd(activity: Activity): MoPubRewardVideoAd {
+//        if (moPubRewardVideoAd == null) {
+//            moPubRewardVideoAd = MoPubRewardVideoAd(activity)
+//        }
+//        return moPubRewardVideoAd as MoPubRewardVideoAd
+//    }
 
-    fun getMoPubRewardVideoAd(activity: Activity): MoPubRewardVideoAd {
-        if (moPubRewardVideoAd == null) {
-            moPubRewardVideoAd = MoPubRewardVideoAd(activity)
-        }
-        return moPubRewardVideoAd as MoPubRewardVideoAd
-    }
-
-    fun getVungleAds(): VungleAds {
-        if (vungleAds == null) {
-            vungleAds = VungleAds()
-        }
-        return vungleAds as VungleAds
-    }
+//    fun getVungleAds(): VungleAds {
+//        if (vungleAds == null) {
+//            vungleAds = VungleAds()
+//        }
+//        return vungleAds as VungleAds
+//    }
 
 
 //    private fun getAppLovin(): AppLovin {
@@ -179,7 +180,7 @@ class DastanAds {
         if (isRelease) {
             val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
-                "startapp" -> startAppAds.backPressed(StartAppAd(activity))
+//                "startapp" -> startAppAds.backPressed(StartAppAd(activity))
 //                "applovin" -> getAppLovin().showInterstialAds(activity)
                 "fb" -> //Don't forget to setInterstialFBListener to call showInterstialAds method later
                     // call before loadInterstialAds
@@ -192,9 +193,9 @@ class DastanAds {
         if (isRelease) {
             val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
-                "startapp" -> startAppAds.setupNativeAds()
-                "applovin" -> //getAppLovin().;
-                    startAppAds.setupNativeAds()
+//                "startapp" -> startAppAds.setupNativeAds()
+//                "applovin" -> //getAppLovin().;
+//                    startAppAds.setupNativeAds()
                 "fb" -> facebookAudience.showNativeAd(tag)
             }
         }
@@ -204,9 +205,9 @@ class DastanAds {
         if (isRelease) {
             val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
-                "startapp" -> startAppAds.setupNativeAds()
-                "applovin" -> //getAppLovin().;
-                    startAppAds.setupNativeAds()
+//                "startapp" -> startAppAds.setupNativeAds()
+//                "applovin" -> //getAppLovin().;
+//                    startAppAds.setupNativeAds()
                 "fb" -> facebookAudience.showNativeAd(tag, adId)
             }
         }
@@ -215,9 +216,9 @@ class DastanAds {
     fun setNativeAdsWithNetwork(tag: String, adNetwork: String) {
         if (isRelease) {
             when (adNetwork) {
-                STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
-                "applovin" -> //getAppLovin().;
-                    startAppAds.setupNativeAds()
+//                STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
+//                "applovin" -> //getAppLovin().;
+//                    startAppAds.setupNativeAds()
                 FB_ADNETWORK -> facebookAudience.showNativeAd(tag)
             }
         }
@@ -226,9 +227,9 @@ class DastanAds {
     fun setNativeAds(tag: String, adId: String, adNetwork: String) {
         if (isRelease) {
             when (adNetwork) {
-                STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
-                "applovin" -> //getAppLovin().;
-                    startAppAds.setupNativeAds()
+//                STARTAPP_ADNETWORK -> startAppAds.setupSingleNativeAds(tag)
+//                "applovin" -> //getAppLovin().;
+//                    startAppAds.setupNativeAds()
                 FB_ADNETWORK -> facebookAudience.showNativeAd(tag, adId)
             }
         }
@@ -238,8 +239,8 @@ class DastanAds {
         if (isRelease) {
             val adNetwork = SPUtils.readSP("ads", "")
             when (adNetwork) {
-                "startapp" -> startAppAds.setupNativeAds(tag, num)
-                "applovin" -> startAppAds.setupNativeAds(tag, num)
+//                "startapp" -> startAppAds.setupNativeAds(tag, num)
+//                "applovin" -> startAppAds.setupNativeAds(tag, num)
                 "fb" -> {
                     if (hscrollContatiner == null)
                         throw RuntimeException("You have to set hScrollContainer")
@@ -251,8 +252,8 @@ class DastanAds {
 
     fun setAdsListener(marvelAdsListener: IMarvelAds, tag: String) {
         when (marvelAdsListener) {
-            is IStartApp ->
-                startAppAds.setIStartApp(marvelAdsListener, tag)
+//            is IStartApp ->
+//                startAppAds.setIStartApp(marvelAdsListener, tag)
 //            is IAppLovin ->
 //                getAppLovin().setIAppLovin(marvelAdsListener, tag)
             is IFBNativeAds -> {
@@ -265,7 +266,7 @@ class DastanAds {
     }
 
     fun setNativeAdsListener(marvelAdsListener: IMarvelAds, tag: String) {
-        startAppAds.setIStartApp(marvelAdsListener, tag)
+//        startAppAds.setIStartApp(marvelAdsListener, tag)
         facebookAudience.setNativeAdsListener(marvelAdsListener, tag)
     }
 
@@ -316,22 +317,22 @@ class DastanAds {
         facebookAudience.setCallToAction(nativeAd, clickContainer)
     }
 
-    fun destroyMoPub() {
-        if (moPubInterstialAd != null) moPubInterstialAd!!.destroy()
-        moPubInterstialAd = null
-    }
+//    fun destroyMoPub() {
+//        if (moPubInterstialAd != null) moPubInterstialAd!!.destroy()
+//        moPubInterstialAd = null
+//    }
 
     fun loadNativeAds(tag: String, howMany: Int) {
         if (isRelease) {
             facebookAudience.loadNativeAds(tag, howMany)
-            startAppAds.setupNativeAds(tag, howMany)
+//            startAppAds.setupNativeAds(tag, howMany)
         }
     }
 
     fun loadNativeAds(adId: String, tag: String, howMany: Int) {
         if (isRelease) {
             facebookAudience.loadNativeAds(adId, tag, howMany)
-            startAppAds.setupNativeAds(tag, howMany)
+//            startAppAds.setupNativeAds(tag, howMany)
         }
     }
 
@@ -339,11 +340,11 @@ class DastanAds {
         return facebookAudience.showAllNativeAds()
     }
 
-    fun showAllStartAppNativeAds(): ArrayList<NativeAdDetails> {
-        return (startAppAds.mNativeAdsList as ArrayList<NativeAdDetails>)
-    }
+//    fun showAllStartAppNativeAds(): ArrayList<NativeAdDetails> {
+//        return (startAppAds.mNativeAdsList as ArrayList<NativeAdDetails>)
+//    }
 
-    fun loadBanner(activity: Activity,bannerTag: String) {
+    fun loadBanner(activity: Activity, bannerTag: String) {
         if (isRelease) {
             val fbId = MarvelAdsId.getFBId(bannerTag)
             if (fbId.isNotEmpty())
@@ -351,7 +352,7 @@ class DastanAds {
 
             val adMobId = MarvelAdsId.getAdmobId(bannerTag)
             if (adMobId.isNotEmpty())
-                adMobAds?.loadBannerAds(activity,bannerTag, adMobId)
+                adMobAds?.loadBannerAds(activity, bannerTag, adMobId)
         }
     }
 

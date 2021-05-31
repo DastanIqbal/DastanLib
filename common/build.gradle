@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
-apply from: home + '/test-dependencies.gradle'
-apply from: home + '/kotlin.gradle'
-apply from: home + '/android-support.gradle'
-apply from: home + '/googleService.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -10,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
-        versionName "1.0"
+        versionName "1.0.1"
         multiDexEnabled true
     }
 
@@ -35,31 +34,32 @@ version = android.defaultConfig.versionName
 
 if (!rootProject.ext.devMode) {
     rootProject.ext.artifact = project.name
-    apply from: '../maven-publish.gradle'
+    apply from: './../scripts/maven-publish.gradle'
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Logger
-    api "org.slf4j:slf4j-android:$sl4j"
+    implementation "org.slf4j:slf4j-android:$sl4j"
 
     //Glide
-    api("com.github.bumptech.glide:glide:$glide") {
+    implementation("com.github.bumptech.glide:glide:$glide") {
         exclude group: "com.android.support"
     }
     kapt "com.github.bumptech.glide:compiler:$glide"
 
-    api 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //3rd-Party SquareUP Libraries
-    api 'com.squareup.okhttp:okhttp:2.7.5'
-    api 'com.squareup.okhttp3:okhttp:4.7.2'
-    api 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 
-    api 'com.mcxiaoke.volley:library:1.0.19'
-    //Koin
-    //api "org.koin:koin-android:$koin"
-    //api 'org.koin:koin-android-scope:' + koin
-    //api 'org.koin:koin-android-viewmodel:' + koin
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation "com.google.firebase:firebase-messaging:22.0.0"
 }

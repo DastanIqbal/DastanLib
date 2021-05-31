@@ -22,7 +22,7 @@ package com.dastanapps.dastanlib.push
 
 import com.dastanapps.dastanlib.log.Logger
 import com.dastanapps.dastanlib.receiver.SendBroadcast
-import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -46,8 +46,8 @@ class MyFCMListenerService : FirebaseMessagingService() {
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
         Logger.d(TAG, "New Token")
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
-            it?.token?.run {
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            it?.run {
                 val refreshedToken = this
                 Logger.d(TAG, "Firebase Token is $refreshedToken")
                 SendBroadcast.PushToken(this)
