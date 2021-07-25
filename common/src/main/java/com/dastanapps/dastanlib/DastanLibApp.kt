@@ -6,7 +6,6 @@ import androidx.multidex.MultiDex
 import com.dastanapps.dastanlib.log.Logger
 
 
-
 /**
  * Created by dastaniqbal on 27/10/2018.
  * 27/10/2018 3:08
@@ -18,11 +17,8 @@ open class DastanLibApp : Application() {
 
     companion object {
         lateinit var INSTANCE: DastanLibApp
+        val isIntsanceInstialized get() = ::INSTANCE.isInitialized
     }
-
-//    val appModule = module {
-//
-//    }
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
@@ -33,7 +29,6 @@ open class DastanLibApp : Application() {
         super.onCreate()
         INSTANCE = this
         Logger.onlyDebug("Lib Initialized")
-     //   startKoin(this, listOf(appModule))
     }
 
     fun isRelease(): Boolean {
